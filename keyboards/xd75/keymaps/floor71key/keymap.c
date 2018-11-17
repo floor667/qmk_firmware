@@ -50,7 +50,7 @@ enum tap_dance {
 };
 
 // tapdance..
-void td_numsym (qk_tap_dance_state_t *state, void *user_data) {
+void td_numsym_finished (qk_tap_dance_state_t *state, void *user_data) {
   if (state->count == 1) {
     if (state->pressed) {
       layer_on(_NUM);
@@ -79,7 +79,7 @@ void td_numsym_reset (qk_tap_dance_state_t *state, void *user_data) {
   }
 }
 
-void td_guiedit (qk_tap_dance_state_t *state, void *user_data) {
+void td_guiedit_finished (qk_tap_dance_state_t *state, void *user_data) {
   if (state->count == 1) {
     if (state->pressed) {
       layer_on(_EDIT);
@@ -103,11 +103,37 @@ void td_guiedit_reset (qk_tap_dance_state_t *state, void *user_data) {
   }
 }
 
+void td_upho_finished (qk_tap_dance_state_t *state, void *user_data) {
+  if(state->pressed) {
+    register_code(KC_HOME);
+  } else {
+    register_code(KC_PGUP);
+  }
+}
+
+void td_upho_reset (qk_tap_dance_state_t *state, void *user_data) {
+    unregister_code(KC_HOME);
+    unregister_code(KC_PGUP);
+  }
+
+void td_dnen_finished (qk_tap_dance_state_t *state, void *user_data) {
+  if(state->pressed) {
+    register_code(KC_END);
+  } else {
+    register_code(KC_PGDOWN);
+  }
+}
+
+void td_dnen_reset (qk_tap_dance_state_t *state, void *user_data) {
+    unregister_code(KC_END);
+    unregister_code(KC_PGDOWN);
+  }
+
 qk_tap_dance_action_t tap_dance_actions[] = {
- [TD_NUMSYM] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, td_numsym, td_numsym_reset),
- [TD_GUIEDIT] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, td_guiedit, td_guiedit_reset),
- [TD_UPHO]  = ACTION_TAP_DANCE_DOUBLE(KC_PGUP, KC_HOME),
- [TD_DNEN]  = ACTION_TAP_DANCE_DOUBLE(KC_PGDOWN, KC_END)
+ [TD_NUMSYM] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, td_numsym_finished, td_numsym_reset),
+ [TD_GUIEDIT] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, td_guiedit_finished, td_guiedit_reset),
+ [TD_UPHO]  = ACTION_TAP_DANCE_FN_ADVANCED (NULL, td_upho_finished, td_upho_reset),
+ [TD_DNEN]  = ACTION_TAP_DANCE_FN_ADVANCED (NULL, td_dnen_finished, td_dnen_reset)
 };
 
 #define EDIT TG(_EDIT)
