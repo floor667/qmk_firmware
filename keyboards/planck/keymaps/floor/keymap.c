@@ -12,7 +12,7 @@
  *
  */
 
-#include "planck.h"
+#include QMK_KEYBOARD_H
 #include "muse.h"
 #include "mousekey.h"
 
@@ -73,31 +73,31 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 [_NUM] = LAYOUT_planck_grid(
-    KC_CLCK, _______,  KC_PSCR, KC_SLCK,  KC_PAUS, KC_INS, DBL_PAR, KC_7, KC_8,  KC_9, KC_0, KC_GRV,
-    LCTL_T(KC_ESC), LALT_T(PHY_DEG), CUR_BPN, CUR_BIT, CUR_EUR, KC_DEL, DBL_BRC, KC_4, KC_5, KC_6, RALT_T(KC_MINS), RCTL_T(KC_EQUAL),
+    _______, _______,  KC_PSCR, KC_SLCK,  KC_PAUS, KC_INS, DBL_PAR, KC_7, KC_8,  KC_9, KC_0, KC_GRV,
+    _______, PHY_DEG, CUR_BPN, CUR_BIT, CUR_EUR, KC_DEL, DBL_BRC, KC_4, KC_5, KC_6, RALT_T(KC_MINS), RCTL_T(KC_EQUAL),
     _______, SC_SCTAB, SC_SCQ, _______, SC_VIW, SC_VIQ,  DBL_SQR,  KC_1, KC_2,  KC_3, KC_LBRC,  KC_RBRC,
     _______, _______, _______, _______, _______, _______, _______, _______, KC_HOME, KC_PGUP, KC_PGDN, KC_END
 ),
 
 [_SYM] = LAYOUT_planck_grid(
-    KC_CLCK, CHA_OM, _______, _______, _______, _______, DBL_QUO, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_TILD,
-    LCTL_T(KC_F1), LALT_T(KC_F2), KC_F3, KC_F4, KC_F5, KC_F6, DBL_DQT, KC_DLR, KC_PERC, KC_CIRC, TD(TD_ALTUND), TD(TD_CTLPLUS),
-    KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12,  DBL_ANG,  KC_EXLM,  KC_AT, KC_HASH, KC_LCBR,  KC_RCBR,
+    _______, KC_F9, KC_F10, KC_F11, KC_F12, CHA_OM, DBL_QUO, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_TILD,
+    _______, KC_F5, KC_F6, KC_F7, KC_F8, _______, DBL_DQT, KC_DLR, KC_PERC, KC_CIRC, TD(TD_ALTUND), TD(TD_CTLPLUS),
+    _______, KC_F1, KC_F2, KC_F3, KC_F4, _______,  DBL_ANG,  KC_EXLM,  KC_AT, KC_HASH, KC_LCBR,  KC_RCBR,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 ),
 
 [_EDIT] = LAYOUT_planck_grid(
     RESET, _______, KC_MS_U, KC_VOLD, KC_VOLU, _______, _______, MO_UL, MO_UR, KC_WH_L, KC_WH_U, KC_WH_R,
     _______, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_WH_D, TD(TD_UPHO),
-     AU_TOG, CK_TOGG, CK_DOWN, CK_UP, _______, _______, _______, MO_DL, MO_DR, KC_BTN2, KC_BTN3, TD(TD_DNEN), 
-    _______, _______, _______, _______,  _______, _______, KC_BTN1, KC_BTN1, _______, _______, _______, _______
+    _______, AU_TOG, CK_TOGG, CK_DOWN, CK_UP, _______, _______, MO_DL, MO_DR, KC_BTN2, KC_BTN3, TD(TD_DNEN), 
+    _______, _______, _______, _______,  KC_BTN1, KC_BTN1, KC_BTN1, KC_BTN1, _______, _______, _______, _______
 ),
 
 [_MIDI] = LAYOUT_planck_grid(
     MI_ALLOFF, MI_As,  MI_B,  MI_C_1,  MI_Cs_1, MI_D_1, MI_Ds_1, MI_E_1, MI_F_1,  MI_Fs_1, MI_G_1,  MIDI,
-    MI_OCTU,   MI_F,   MI_Fs, MI_G,    MI_Gs,   MI_A,   MI_As,   MI_B,   MI_C_1,  MI_Cs_1, MI_D_1,  MI_TRNSU,
-    MI_OCTD,   MI_C,   MI_Cs, MI_D,    MI_Ds,   MI_E,   MI_F,    MI_Fs,  MI_G,    MI_Gs,   MI_A,    MI_TRNSD,
-    KC_NO, KC_NO, MI_CHD, MI_CHU,  MI_SOFT, MI_SOFT, MI_SUS,  MI_SUS, KC_NO,   MI_VELD, MI_VELU, MI_TRNS_0
+    KC_NO,   MI_F,   MI_Fs, MI_G,    MI_Gs,   MI_A,   MI_As,   MI_B,   MI_C_1,  MI_Cs_1, MI_D_1,  MI_TRNSU,
+    MI_SUS,   MI_C,   MI_Cs, MI_D,    MI_Ds,   MI_E,   MI_F,    MI_Fs,  MI_G,    MI_Gs,   MI_A,    MI_TRNSD,
+    MI_OCTD, MI_OCTU, MI_CHD, MI_CHU,  MI_SOFT, MI_SOFT, MI_SUS,  MI_SUS, KC_NO,   MI_VELD, MI_VELU, MI_TRNS_0
 )
   
 };
@@ -107,7 +107,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    float mi_on[][2]     = SONG(ZELDA_STORMS);
    float mi_off[][2]    = SONG(ZELDA_STREV);
    float beep[][2]    = SONG(TERM_SOUND);
-
 #endif
 
 // tapdance..
@@ -119,6 +118,7 @@ void td_numsym_finished (qk_tap_dance_state_t *state, void *user_data) {
       layer_off(_NUM);
       layer_off(_SYM);
       layer_off(_EDIT);
+      register_code(KC_ESC);
     }
   } else if (state->count == 2) {
     if (state->pressed) {
@@ -138,6 +138,7 @@ void td_numsym_finished (qk_tap_dance_state_t *state, void *user_data) {
 void td_numsym_reset (qk_tap_dance_state_t *state, void *user_data) {
   if (state->count == 1) {
     layer_off(_NUM);
+    unregister_code(KC_ESC);
   } else if (state->count == 2) {
     layer_off(_SYM);
   } else {
@@ -150,7 +151,7 @@ void td_guiedit_finished (qk_tap_dance_state_t *state, void *user_data) {
       layer_on(_EDIT);
     } else {
       register_code (KC_LGUI);
-//      wait_ms(130);
+      wait_ms(130);
       unregister_code (KC_LGUI);
     }  
   } else if (state->count == 2) {
@@ -403,6 +404,10 @@ void encoder_update(bool clockwise) {
       register_code(KC_PGUP);
       unregister_code(KC_PGUP);
     }
+}
+
+void matrix_scan_user(void) {
+
 }
 
 //set_unicode_input_mode(UC_LNX); //needed ?

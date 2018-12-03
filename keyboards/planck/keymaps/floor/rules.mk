@@ -1,3 +1,5 @@
+SRC += muse.c
+
 # Build Options
 #   comment out to disable the options.
 #
@@ -5,7 +7,7 @@ BACKLIGHT_ENABLE = no
 BOOTMAGIC_ENABLE = no	# Virtual DIP switch configuration
 ## (Note that for BOOTMAGIC on Teensy LC you have to use a custom .ld script.)
 MOUSEKEY_ENABLE = yes	# Mouse keys
-EXTRAKEY_ENABLE = no 	# Audio control and System control
+EXTRAKEY_ENABLE = yes 	# Audio control and System control
 CONSOLE_ENABLE = no	# Console for debug
 COMMAND_ENABLE = no    # Commands for debug and configuration (changed) conflict with spcenter
 #SLEEP_LED_ENABLE = no  # Breathing sleep LED during USB suspend
@@ -20,4 +22,4 @@ TAP_DANCE_ENABLE = yes
 # (added by floor)
 MIDI_ENABLE = yes
 #VIBRATO_ENABLE = yes # possible error
-#FAUXCLICKY_ENABLE = no # should be enabled automatically as part of audio
+FAUXCLICKY_ENABLE = yes # should be enabled automatically as part of audio? no

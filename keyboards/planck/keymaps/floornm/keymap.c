@@ -66,7 +66,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,  KC_Q,  KC_W,  KC_F,  KC_P,  KC_G,  KC_J,  KC_L,  KC_U,  KC_Y, KC_SCOLON, KC_BSLS,
     KC_ESC,  KC_A,  KC_R,  KC_S,  KC_T,  KC_D,  KC_H,  KC_N,  KC_E,  KC_I, RALT_T(KC_O), RCTL_T(KC_QUOT),
     KC_LCAP, KC_Z,  KC_X,  KC_C,  KC_V,  KC_B,  KC_K,  KC_M,  KC_COMM, KC_DOT, LCA_T(KC_SLSH), KC_SFTENT,
-    KC_NO, KC_NO, TD(TD_GUIEDIT), TD(TD_NUMSYM), LSFT_T(KC_SPACE), LSFT_T(KC_SPACE), KC_BSPC, KC_BSPC,   KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT
+    KC_LCTL, KC_LALT, TD(TD_GUIEDIT), TD(TD_NUMSYM), LSFT_T(KC_SPACE), LSFT_T(KC_SPACE), KC_BSPC, KC_BSPC,   KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT
 ),
 
 [_NUM] = LAYOUT_planck_grid(
@@ -138,7 +138,7 @@ void td_guiedit_finished (qk_tap_dance_state_t *state, void *user_data) {
       layer_on(_EDIT);
     } else {
       register_code (KC_LGUI);
-//      wait_ms(130);
+      wait_ms(30);
       unregister_code (KC_LGUI);
     }  
   } else {
