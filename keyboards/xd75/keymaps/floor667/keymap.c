@@ -173,7 +173,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_EDIT] = { /* MOUSE */
   { _______, _______, _______, _______, _______, _______, KC_PSCR,  KC_SLCK,  KC_PAUS,  _______, _______, _______, _______, _______, RESET },
-  { _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_BTN1, MO_UL, MO_UR,   KC_BTN2, KC_WH_U, KC_HOME  },
+  { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, MO_UL, MO_UR, _______, KC_WH_U, KC_HOME  },
   { RGB_TOG, RGB_RMOD, RGB_MOD, RGB_SAD, RGB_SAI, _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_WH_D, KC_PGUP  },
   { _______, RGB_HUD, RGB_HUI, RGB_VAD, RGB_VAI, _______, _______, _______, _______, _______, MO_DL,  MO_DR,  KC_BTN2, KC_BTN3, KC_PGDN  },
   { _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_BTN1, KC_BTN1, _______, _______, _______, _______  },
