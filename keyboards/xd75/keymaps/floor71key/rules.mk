@@ -3,6 +3,8 @@ ifndef QUANTUM_DIR
 	include ../../../../Makefile
 endif
 
+#include "floor667.c"
+
 # Build options
 BACKLIGHT_ENABLE = no		# Switch LEDs
 MOUSEKEY_ENABLE = yes		# Emulates mouse key using keypresses
