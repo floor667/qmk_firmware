@@ -23,4 +23,4 @@ TAP_DANCE_ENABLE = yes
 # (added by floor)
 MIDI_ENABLE = yes
 #VIBRATO_ENABLE = yes # possible error
-FAUXCLICKY_ENABLE = yes # should be enabled automatically as part of audio? no
+#FAUXCLICKY_ENABLE = yes # should be enabled automatically as part of audio? no

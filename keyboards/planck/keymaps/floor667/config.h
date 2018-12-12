@@ -1,8 +1,5 @@
 #pragma once 
 
-/* Debounce reduces chatter (unintended double-presses) - set 0 if debouncing is not needed */
-#define DEBOUNCE 20
-
 /* Prevent modifiers from being stuck on after layer changes. */
 #define PREVENT_STUCK_MODIFIERS
 
@@ -15,12 +12,6 @@
  * Feature disable options
  *  These options are also useful to firmware size reduction.
  */
-
-/* disable debug print */
-#define NO_DEBUG
-
-/* disable print */
-#define NO_PRINT
 
 /* disable action features */
 //#define NO_ACTION_LAYER
@@ -70,4 +61,3 @@
   #define STARTUP_SONG SONG(ZELDA_PUZZLE)
 #endif
 
-#endif

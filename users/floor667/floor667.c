@@ -3,6 +3,13 @@
 #include "action.h"
 #include "process_keycode/process_tap_dance.h"
 
+
+#ifdef AUDIO_ENABLE
+   float mi_on[][2]     = SONG(ZELDA_STORMS);
+   float mi_off[][2]    = SONG(ZELDA_STREV);
+   float beep[][2]    = SONG(TERM_SOUND);
+#endif
+
 /* Return an integer that corresponds to what kind of tap dance should be executed.
  *
  * How to figure out tap dance state: interrupted and pressed.
@@ -187,4 +194,5 @@ qk_tap_dance_action_t tap_dance_actions[] = {
  [TD_UPHO]  = ACTION_TAP_DANCE_FN_ADVANCED (NULL, td_upho_finished, td_upho_reset),
  [TD_DNEN]  = ACTION_TAP_DANCE_FN_ADVANCED (NULL, td_dnen_finished, td_dnen_reset)
 };
+
 

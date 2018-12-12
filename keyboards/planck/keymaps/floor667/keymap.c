@@ -107,14 +107,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   
 };
 
-/*
-#ifdef AUDIO_ENABLE
-   float mi_on[][2]     = SONG(ZELDA_STORMS);
-   float mi_off[][2]    = SONG(ZELDA_STREV);
-   float beep[][2]    = SONG(TERM_SOUND);
-#endif
 
-// tapdance..
+/* tapdance..
 void td_numsym_finished (qk_tap_dance_state_t *state, void *user_data) {
   if (state->count == 1) {
     if (state->pressed) {
@@ -250,7 +244,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case MIDI:
       if (record->event.pressed) {
 	stop_all_notes();
-	PLAY_SONG(mi_off);
+//	PLAY_SONG(mi_off);
       }
       return true;
       break;

@@ -13,15 +13,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "xd75.h"
+#include QMK_KEYBOARD_H
 #include "mousekey.h"
+#include "floor667.h"
 
+/*
 // Layer shorthand
 #define _COLE 0
 #define _NUM 1
 #define _SYM 2
 #define _EDIT 3
 #define _MIDI 4
+*/
 
 enum planck_keycodes {
   SYM = SAFE_RANGE,
@@ -42,6 +45,7 @@ enum planck_keycodes {
   SC_SCQ
 };
 
+/*
 enum tap_dance {
   TD_GUIEDIT = 0, 
   TD_NUMSYM,
@@ -135,6 +139,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
  [TD_UPHO]  = ACTION_TAP_DANCE_FN_ADVANCED (NULL, td_upho_finished, td_upho_reset),
  [TD_DNEN]  = ACTION_TAP_DANCE_FN_ADVANCED (NULL, td_dnen_finished, td_dnen_reset)
 };
+*/
 
 #define EDIT TG(_EDIT)
 #define MIDI TG(_MIDI)
@@ -173,9 +178,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_EDIT] = { /* MOUSE */
   { _______, _______, _______, _______, _______, _______, KC_PSCR,  KC_SLCK,  KC_PAUS,  _______, _______, _______, _______, _______, RESET },
-  { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, MO_UL, MO_UR, _______, KC_WH_U, KC_HOME  },
-  { RGB_TOG, RGB_RMOD, RGB_MOD, RGB_SAD, RGB_SAI, _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_WH_D, KC_PGUP  },
-  { _______, RGB_HUD, RGB_HUI, RGB_VAD, RGB_VAI, _______, _______, _______, _______, _______, MO_DL,  MO_DR,  KC_BTN2, KC_BTN3, KC_PGDN  },
+  { _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_BTN1, MO_UL, MO_UR,   KC_BTN2, KC_WH_U, KC_HOME  },
+  { RGB_TOG, RGB_RMOD, RGB_MOD, RGB_SAD, RGB_SAI, _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_WH_D, TD(TD_UPHO)  },
+  { _______, RGB_HUD, RGB_HUI, RGB_VAD, RGB_VAI, _______, _______, _______, _______, _______, MO_DL,  MO_DR,  KC_BTN2, KC_BTN3, TD(TD_DNEN)  },
   { _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_BTN1, KC_BTN1, _______, _______, _______, _______  },
  },
 
@@ -308,6 +313,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 		unregister_code(KC_LSHIFT);
 		register_code(KC_Q);
 		unregister_code(KC_Q);
+		register_code(KC_A);
+		unregister_code(KC_A);
 		register_code(KC_ENTER);
 		unregister_code(KC_ENTER);
 	    }
@@ -340,3 +347,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 
+void matrix_scan_user(void) {
+
+}
