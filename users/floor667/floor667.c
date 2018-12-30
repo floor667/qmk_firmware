@@ -1,8 +1,9 @@
 #include "floor667.h"
 #include "quantum.h"
 #include "action.h"
+#ifdef TAP_DANCE_ENABLE
 #include "process_keycode/process_tap_dance.h"
-
+#endif
 
 #ifdef AUDIO_ENABLE
    float mi_on[][2]     = SONG(ZELDA_STORMS);
@@ -10,6 +11,166 @@
    float beep[][2]    = SONG(TERM_SOUND);
 #endif
 
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+// MIDI layer on/off sounds
+#ifdef AUDIO_ENABLE
+    case MIDI:
+      if (record->event.pressed) {
+	stop_all_notes();
+	PLAY_SONG(mi_off);
+      }
+      return true;
+      break;
+#endif
+//----DIAGONAL MOUSEKEYS thanks to bbaserdem
+#ifdef MOUSEKEY_ENABLE
+        case MO_UR:
+            if( record->event.pressed ) {
+                mousekey_on(KC_MS_U);
+                mousekey_on(KC_MS_R);
+                mousekey_send();
+              } else {
+                mousekey_off(KC_MS_U);
+                mousekey_off(KC_MS_R);
+                mousekey_send();
+            }
+            return false;
+            break;
+        case MO_UL:
+            if( record->event.pressed ) {
+                mousekey_on(KC_MS_U);
+                mousekey_on(KC_MS_L);
+                mousekey_send();
+              } else {
+                mousekey_off(KC_MS_U);
+                mousekey_off(KC_MS_L);
+                mousekey_send();
+            }
+            return false;
+            break;
+        case MO_DR:
+            if( record->event.pressed ) {
+                mousekey_on(KC_MS_D);
+                mousekey_on(KC_MS_R);
+                mousekey_send();
+              } else {
+                mousekey_off(KC_MS_D);
+                mousekey_off(KC_MS_R);
+                mousekey_send();
+	            }
+            return false;
+            break;
+        case MO_DL:
+            if( record->event.pressed ) {
+                mousekey_on(KC_MS_D);
+                mousekey_on(KC_MS_L);
+                mousekey_send();
+              } else {
+                mousekey_off(KC_MS_D);
+                mousekey_off(KC_MS_L);
+                mousekey_send();
+	            }
+            return false;
+	    break;
+#endif			
+//------DOUBLE PRESS, with added left navigation, thanks to bbaserdem again.
+        case DBL_ANG:
+            if( record->event.pressed ) {
+                SEND_STRING("<>"SS_TAP(X_LEFT));
+            }
+            return false;
+            break;
+        case DBL_PAR:
+            if( record->event.pressed ) {
+                SEND_STRING("()"SS_TAP(X_LEFT));
+            }
+            return false;
+            break;
+        case DBL_SQR:
+            if( record->event.pressed ) {
+                SEND_STRING("[]"SS_TAP(X_LEFT));
+            }
+            return false;
+            break;
+        case DBL_BRC:
+            if( record->event.pressed ) {
+                SEND_STRING("{}"SS_TAP(X_LEFT));
+            }
+            return false;
+            break;
+        case DBL_QUO:
+            if( record->event.pressed ) {
+                SEND_STRING("\'\'"SS_TAP(X_LEFT));
+            }
+            return false;
+            break;
+        case DBL_DQT:
+            if( record->event.pressed ) {
+                SEND_STRING("\"\""SS_TAP(X_LEFT));
+            }
+            return false;
+            break;
+// floor custom
+	case SC_VIW:
+	    if( record->event.pressed ) {
+		register_code(KC_ESCAPE);
+		unregister_code(KC_ESCAPE);
+		register_code(KC_LSHIFT);
+		register_code(KC_SCOLON);
+		unregister_code(KC_SCOLON);
+		unregister_code(KC_LSHIFT);
+		register_code(KC_W);
+		unregister_code(KC_W);
+		register_code(KC_ENTER);
+		unregister_code(KC_ENTER);
+	    }
+	    return false;
+	    break;
+	case SC_VIQ:
+	    if( record->event.pressed ) {
+		register_code(KC_ESCAPE);
+		unregister_code(KC_ESCAPE);
+		register_code(KC_LSHIFT);
+		register_code(KC_SCOLON);
+		unregister_code(KC_SCOLON);
+		unregister_code(KC_LSHIFT);
+		register_code(KC_Q);
+		unregister_code(KC_Q);
+		register_code(KC_A);
+		unregister_code(KC_A);
+		register_code(KC_ENTER);
+		unregister_code(KC_ENTER);
+	    }
+	    return false;
+	    break;
+	 case SC_SCTAB:
+	    if( record->event.pressed ) {
+		register_code(KC_LCTRL);
+		register_code(KC_A);
+		unregister_code(KC_A);
+		unregister_code(KC_LCTRL);
+		register_code(KC_TAB);
+		unregister_code(KC_TAB);
+	    }
+	    return false;
+	    break;              
+	 case SC_SCQ:
+	    if( record->event.pressed ) {
+		register_code(KC_LCTRL);
+		register_code(KC_A);
+		unregister_code(KC_A);
+		unregister_code(KC_LCTRL);
+		register_code(KC_BSLASH);
+		unregister_code(KC_BSLASH);
+	    }
+	    return false;
+	    break;              
+	}
+  return true;
+}
+
+#ifdef TAP_DANCE_ENABLE
 /* Return an integer that corresponds to what kind of tap dance should be executed.
  *
  * How to figure out tap dance state: interrupted and pressed.
@@ -194,5 +355,5 @@ qk_tap_dance_action_t tap_dance_actions[] = {
  [TD_UPHO]  = ACTION_TAP_DANCE_FN_ADVANCED (NULL, td_upho_finished, td_upho_reset),
  [TD_DNEN]  = ACTION_TAP_DANCE_FN_ADVANCED (NULL, td_dnen_finished, td_dnen_reset)
 };
-
+#endif
 

@@ -29,8 +29,9 @@ enum planck_layers {
 };
 */
 
+/*
 enum planck_keycodes {
-  SYM = SAFE_RANGE,
+  EDIT = SAFE_RANGE,
   MIDI,
   MO_UL,
   MO_UR,
@@ -47,6 +48,7 @@ enum planck_keycodes {
   SC_SCTAB,
   SC_SCQ
 };
+*/
 
 /*
 enum tap_dance {
@@ -238,6 +240,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 };
 */
 
+/*
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
 // MIDI layer on/off sounds
@@ -394,6 +397,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 	}
   return true;
 }
+*/
 
 void encoder_update(bool clockwise) {
     if (clockwise) {

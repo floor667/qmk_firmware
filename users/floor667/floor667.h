@@ -1,8 +1,38 @@
 #pragma once
 
 #include "quantum.h"
+#ifdef TAP_DANCE_ENABLE
 #include "process_keycode/process_tap_dance.h"
+#endif
 
+enum planck_keycodes {
+  EDIT = SAFE_RANGE,
+  MIDI,
+  MO_UL,
+  MO_UR,
+  MO_DL,
+  MO_DR,
+  DBL_ANG,
+  DBL_PAR,
+  DBL_SQR,
+  DBL_BRC,
+  DBL_QUO,
+  DBL_DQT,
+  SC_VIW,
+  SC_VIQ,
+  SC_SCTAB,
+  SC_SCQ
+};
+
+enum planck_layers {
+  _COLE,
+  _NUM,
+  _SYM,
+  _EDIT,
+  _MIDI
+};
+
+#ifdef TAP_DANCE_ENABLE
 typedef struct {
   bool is_press_action;
   int state;
@@ -16,14 +46,6 @@ enum {
   DOUBLE_SINGLE_TAP = 5, //send two single taps
   TRIPLE_TAP = 6,
   TRIPLE_HOLD = 7
-};
-
-enum planck_layers {
-  _COLE,
-  _NUM,
-  _SYM,
-  _EDIT,
-  _MIDI
 };
 
 //Tap dance enums
@@ -53,4 +75,4 @@ void td_upho_finished (qk_tap_dance_state_t *state, void *user_data);
 void td_upho_reset (qk_tap_dance_state_t *state, void *user_data);
 void td_dnen_finished (qk_tap_dance_state_t *state, void *user_data);
 void td_dnen_reset (qk_tap_dance_state_t *state, void *user_data);
-
+#endif
