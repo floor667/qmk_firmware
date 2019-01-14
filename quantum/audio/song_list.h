@@ -200,6 +200,22 @@
     E__NOTE(_D4 ),           \
     E__NOTE(_CS4),
 
+#define CAPS_LOCK_ON_TWO \
+    E__NOTE(_CS4),           \
+    E__NOTE(_C4 ),          \
+    ED_NOTE(_DS4),	   \
+    ED_NOTE(_F4 ),	   \
+    E__NOTE(_G4 ),          \
+    E__NOTE(_AS4), 
+
+#define CAPS_LOCK_OFF_TWO \
+    E__NOTE(_AS4),	     \
+    E__NOTE(_GS4),           \
+    ED_NOTE(_G4 ),           \
+    E__NOTE(_GS4),           \
+    ED_NOTE(_F4),	     \
+    E__NOTE(_CS4),           
+
 #define SCROLL_LOCK_ON_SOUND \
     E__NOTE(_D4),            \
     E__NOTE(_E4),
@@ -262,13 +278,13 @@
     HD_NOTE(_C5),
 
 #define ZELDA_TREASURE \
-    Q__NOTE(_A4 ), \
-    Q__NOTE(_AS4), \
-    Q__NOTE(_B4 ), \
-    HD_NOTE(_C5 ), \
+    E__NOTE(_A4 ), \
+    E__NOTE(_AS4), \
+    E__NOTE(_B4 ), \
+    E__NOTE(_C5 ), \
 
 #define TERM_SOUND \
-    E__NOTE(_CS4)
+    Q__NOTE(_CS4)
 
 #define OVERWATCH_THEME \
     HD_NOTE(_A4 ), \
