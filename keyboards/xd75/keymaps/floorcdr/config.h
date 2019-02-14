@@ -4,30 +4,20 @@
 #define PREVENT_STUCK_MODIFIERS
 
 /* Mechanical locking support. Use KC_LCAP, KC_LNUM or KC_LSCR instead in keymap */
-#define LOCKING_SUPPORT_ENABLE
+//#define LOCKING_SUPPORT_ENABLE
 /* Locking resynchronize hack */
-#define LOCKING_RESYNC_ENABLE
-
-#define MIDI_ADVANCED
+//#define LOCKING_RESYNC_ENABLE
+#include "../../config.h"
 
 #define MOUSEKEY_DELAY             100
 #define MOUSEKEY_INTERVAL          40
 #define MOUSEKEY_MAX_SPEED         8
-#define MOUSEKEY_TIME_TO_MAX       18
-#define MOUSEKEY_WHEEL_MAX_SPEED   8
-#define MOUSEKEY_WHEEL_TIME_TO_MAX 18
+#define MOUSEKEY_TIME_TO_MAX       15
+#define MOUSEKEY_WHEEL_MAX_SPEED   9
+#define MOUSEKEY_WHEEL_TIME_TO_MAX 14
 
 #define TAPPING_TERM 432
 #define TAP_CODE_DELAY 100
 #define PERMISSIVE_HOLD
-//#define TAPPING_TOGGLE 1
 
-#define AUDIO_CLICKY
-#define AUDIO_CLICKY_FREQ_DEFAULT 216.0f
-
-#define PITCH_STANDARD_A 216.0f
-
-#ifdef AUDIO_ENABLE
-  #define STARTUP_SONG SONG(EOCENE)
-#endif
 

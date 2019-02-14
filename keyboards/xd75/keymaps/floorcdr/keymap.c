@@ -12,20 +12,16 @@
  *
  */
 
-#include QMK_KEYBOARD_H
-#include "muse.h"
+//#include QMK_KEYBOARD_H
+#include "xd75.h"
 #include "mousekey.h"
-#include "qmk_midi.h"
-
-extern keymap_config_t keymap_config;
 
 enum planck_layers {
   _COLE,
   _QWER,
   _NUM,
   _SYM,
-  _EDIT,
-  _MIDI
+  _EDIT
 };
 
 enum planck_keycodes {
@@ -49,12 +45,7 @@ enum planck_keycodes {
   KC_DNEN,
   KC_GUCA,
   KC_LYEN,
-  KC_ALLK,
-  MAJ_B,
-  MAJ_Fs, 
-  MAJ_Cs, 
-  MAJ_Gs, 
-  MAJ_Ds
+//  KC_ALLK
 };
 
 #define PHY_DEG UC(0x00b0)
@@ -65,61 +56,51 @@ enum planck_keycodes {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   
-[_COLE] = LAYOUT_planck_grid(
-    KC_Q,  KC_W,  KC_F,  KC_P,  KC_G, LT(_MIDI,KC_GRV), KC_UPHO,  KC_J,  KC_L,  KC_U,  KC_Y, KC_SCOLON,
-    KC_A,  KC_R,  KC_S,  KC_T,  KC_D, TG(_EDIT), KC_DNEN,  KC_H,  KC_N,  KC_E,  KC_I, KC_O, 
-    KC_Z,  KC_X,  KC_C,  KC_V,  KC_B, KC_ALLK, KC_GUCA, KC_K,  KC_M,  KC_COMM, KC_DOT, KC_SLSH,
-    XXXXXXX, XXXXXXX, LCTL_T(KC_TAB), LALT_T(KC_ESC), LSFT_T(KC_SPACE), KC_LYEN, KC_LYEN, RSFT_T(KC_BSPC), RCTL_T(KC_QUOTE), RALT_T(KC_BSLS), XXXXXXX, XXXXXXX
-),
+[_COLE] = {
+	{ KC_F1,  KC_F2,  KC_F3,  KC_F4,  KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, KC_PSLS, KC_PAST, KC_PMNS },
+	{ KC_Q,  KC_W,  KC_F,  KC_P,  KC_G, KC_GRV, KC_UPHO,  KC_J,  KC_L,  KC_U,  KC_Y, KC_SCOLON, KC_P7, KC_P8, KC_P9 },
+	{ KC_A,  KC_R,  KC_S,  KC_T,  KC_D, LT(_EDIT, KC_TAB), KC_DNEN,  KC_H,  KC_N,  KC_E,  KC_I, KC_O, KC_P4, KC_P5, KC_P6 },
+        { KC_Z,  KC_X,  KC_C,  KC_V,  KC_B, KC_CLCK, KC_GUCA, KC_K,  KC_M,  KC_COMM, KC_DOT, KC_SLSH, KC_P1, KC_P2, KC_P3 },
+        { XXXXXXX, XXXXXXX, LALT_T(KC_ESC), LALT_T(KC_ESC), LSFT_T(KC_SPACE), KC_LYEN, KC_LYEN, RSFT_T(KC_BSPC), RCTL_T(KC_QUOTE), RCTL_T(KC_QUOTE), XXXXXXX, KC_NLCK, KC_P0, KC_PDOT, KC_PPLS },
+},
 
-[_QWER] = LAYOUT_planck_grid(
-    KC_Q,  KC_W,  KC_E,  KC_R,  KC_T, _______, _______, KC_Y, KC_U, KC_I,  KC_O, KC_P,
-    KC_A,  KC_S,  KC_D,  KC_F,  KC_G, _______, _______, KC_H, KC_J, KC_K, KC_L, KC_SCOLON,
-    KC_Z,  KC_X,  KC_C,  KC_V,  KC_B, _______, _______,  KC_N,  KC_M, KC_COMM, KC_DOT, KC_SLSH,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
-),
+[_QWER] = {
+	{ _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______}, 
+	{ KC_Q,  KC_W,  KC_E,  KC_R,  KC_T, _______, _______, KC_Y, KC_U, KC_I,  KC_O, KC_P, _______, _______, _______},
+	{ KC_A,  KC_S,  KC_D,  KC_F,  KC_G, _______, _______, KC_H, KC_J, KC_K, KC_L, KC_SCOLON, _______, _______, _______},
+	{ KC_Z,  KC_X,  KC_C,  KC_V,  KC_B, _______, _______,  KC_N,  KC_M, KC_COMM, KC_DOT, KC_SLSH, _______, _______, _______},
+	{ _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______ },
+	},
 
-[_NUM] = LAYOUT_planck_grid(
-    PHY_DEG, CUR_BPN, CUR_BIT, CUR_EUR, CHA_OM, _______, DBL_BRC, DBL_PAR, KC_7, KC_8,  KC_9, KC_0,
-     SC_SCTAB, SC_SCQ, SC_SCN, SC_VIW, SC_VIQ, SC_VIS, DBL_QUO, KC_EQUAL, KC_4, KC_5, KC_6, KC_MINS,
-    _______, _______, KC_VOLD, KC_VOLU, _______, _______,  DBL_SQR,  KC_LBRC,  KC_1, KC_2,  KC_3, KC_RBRC,
-    _______, _______, KC_LCTL, _______, _______, _______, _______, _______, _______, KC_RALT, _______, _______
-),
+[_NUM] = {
+	{ _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______}, 
+	{ PHY_DEG, CUR_BPN, CUR_BIT, CUR_EUR, CHA_OM, _______, DBL_BRC, DBL_PAR, KC_7, KC_8,  KC_9, KC_0, _______, _______, _______},
+	{ SC_SCTAB, SC_SCQ, SC_SCN, SC_VIW, SC_VIQ, SC_VIS, DBL_QUO, KC_EQUAL, KC_4, KC_5, KC_6, KC_MINS, _______, _______, _______},
+	{ _______, _______, KC_VOLD, KC_VOLU, _______, _______,  DBL_SQR,  KC_LBRC,  KC_1, KC_2,  KC_3, KC_RBRC, _______, _______, _______},
+	{ _______, _______, KC_LCTL, _______, _______, _______, _______, _______, _______, KC_RALT, _______, _______, _______, _______, _______},
+},
 
-[_SYM] = LAYOUT_planck_grid(
-    KC_F9, KC_F10, KC_F11, KC_F12, KC_PSCR, KC_INSERT, DBL_ANG, DBL_PAR, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,
-    KC_F5, KC_F6, KC_F7, KC_F8, KC_SLCK, KC_DELETE, DBL_DQT, KC_PLUS, KC_DLR, KC_PERC, KC_CIRC, KC_UNDS,
-    KC_F1, KC_F2, KC_F3, KC_F4, KC_PAUS, _______,  DBL_BRC, KC_LCBR,  KC_EXLM,  KC_AT, KC_HASH,  KC_RCBR,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
-),
+[_SYM] = {
+	{ _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______}, 
+	{ KC_F9, KC_F10, KC_F11, KC_F12, KC_PSCR, KC_INSERT, DBL_ANG, DBL_PAR, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______, _______, _______},
+	{ KC_F5, KC_F6, KC_F7, KC_F8, KC_SLCK, KC_DELETE, DBL_DQT, KC_PLUS, KC_DLR, KC_PERC, KC_CIRC, KC_UNDS, _______, _______, _______},
+	{ KC_F1, KC_F2, KC_F3, KC_F4, KC_PAUS, _______,  DBL_BRC, KC_LCBR,  KC_EXLM,  KC_AT, KC_HASH,  KC_RCBR, _______, _______, _______},
+	{ _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______},
+},
 
-[_EDIT] = LAYOUT_planck_grid(
-    RESET, KC_MS_U, KC_VOLD, KC_VOLU, _______, _______, _______, KC_WH_L, MO_UL, MO_UR, KC_WH_R, KC_WH_U,
-    KC_MS_L, KC_MS_D, KC_MS_R, _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_WH_D,
-    AU_TOG, CK_TOGG, CK_DOWN, CK_UP, _______, _______, TG(_QWER), _______, MO_DL, MO_DR, KC_BTN2, KC_BTN3, 
-    _______, _______, _______, _______, _______, _______, _______, KC_BTN1, _______, _______, _______, _______
-),
-  
-[_MIDI] = LAYOUT_planck_grid(
-      MI_B, MI_Fs, MI_Cs, MI_Gs, MI_Ds, MI_ALLOFF, MI_TRNSU, MI_As_2,  MI_B_2,  MI_C_3,  MI_Cs_3, MI_D_3,
-      MI_B_1,   MI_Fs_1, MI_Cs_1, MI_Gs_1, MI_Ds_1, MI_TRNS_0, MI_TRNSD,   MI_F_2,   MI_Fs_2, MI_G_2,    MI_Gs_2,   MI_A_2,
-      MAJ_B,   MAJ_Fs, MAJ_Cs, MAJ_Gs, MAJ_Ds, _______, TG(_MIDI),   MI_C_2,   MI_Cs_2, MI_D_2,    MI_Ds_2,   MI_E_2,  
-    _______, _______, XXXXXXX, MI_VELD, MI_VELU, MI_SUS, MI_SUS, MI_OCTD, MI_OCTU, XXXXXXX, _______, _______
-)
+[_EDIT] = {
+	{ _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______}, 
+	{ RESET, KC_MS_U, _______, _______, _______, EEP_RST, _______, KC_WH_L, MO_UL, MO_UR, KC_WH_R, KC_WH_U, _______, RGB_VAD, RGB_VAI},
+	{ KC_MS_L, KC_MS_D, KC_MS_R, _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_WH_D, _______, RGB_HUD, RGB_HUI},
+	{ AU_TOG, CK_TOGG, CK_DOWN, CK_UP, _______, _______, TG(_QWER), _______, MO_DL, MO_DR, KC_BTN2, KC_BTN3,  _______, RGB_SAD, RGB_SAI},
+	{ _______, _______, _______, _______, _______, _______, _______, KC_BTN1, _______, _______, _______, _______, RGB_TOG, RGB_RMOD, RGB_MOD},
+}
   
 };
 
-#ifdef AUDIO_ENABLE
-   float beep[][2]    = SONG(TERM_SOUND);
-   float enter[][2]    = SONG(TERM_SOUND);
-   float homeb[][2]    = SONG(ZELDA_STORMS);
-   float endb[][2]    = SONG(ZELDA_STREV);
-   float capson[][2]    = SONG(CAPS_LOCK_ON_TWO);
-   float capsoff[][2]    = SONG(CAPS_LOCK_OFF_TWO);
-   float lockon[][2]    = SONG(CAPS_LOCK_ON_SOUND);
-   float lockoff[][2]    = SONG(CAPS_LOCK_OFF_SOUND);
-   float midlay[][2]    = SONG(ZELDA_PUZZLE);
-#endif
+const uint16_t PROGMEM fn_actions[] = {
+
+};
 
 // odd mods - defines in macros - by canatella
 #define maybe_add_weak_mods(keycode, mod)                               \
@@ -180,50 +161,17 @@ static bool alternate_modifier(uint16_t modifier, uint16_t keycode, keyrecord_t 
   return true;
 }
 
-void chordon(uint16_t keycode, bool maj)
-{
-    uint8_t note = midi_compute_note(keycode);
-    uint8_t velocity = (midi_config.velocity + 1) * (128 / (MIDI_VELOCITY_MAX - MIDI_VELOCITY_MIN + 1));
-    midi_send_noteon(&midi_device, 0, note, velocity);
-    midi_send_noteon(&midi_device, 0, note + 4 + maj, velocity);
-    midi_send_noteon(&midi_device, 0, note - 5, velocity);
-}
-
-void chordoff(uint16_t keycode, bool maj)
-{
-    uint8_t note = midi_compute_note(keycode);
-    midi_send_noteoff(&midi_device, 0, note, 0);
-    midi_send_noteoff(&midi_device, 0, note + 4 + maj, 0);
-    midi_send_noteoff(&midi_device, 0, note - 5, 0);
-}
-
-void basson(uint16_t keycode)
-{
-    uint8_t note = midi_compute_note(keycode);
-    uint8_t velocity = (midi_config.velocity + 1) * (128 / (MIDI_VELOCITY_MAX - MIDI_VELOCITY_MIN + 1));
-    midi_send_noteon(&midi_device, 0, note, velocity);
-    midi_send_noteon(&midi_device, 0, note + 12, velocity);
-}
-
-void bassoff(uint16_t keycode)
-{
-    uint8_t note = midi_compute_note(keycode);
-    midi_send_noteoff(&midi_device, 0, note, 0);
-    midi_send_noteoff(&midi_device, 0, note + 12, 0);
-}
-
 // mouse lock indicator	
 static bool ms_lock = false;
-static bool false_def = false;
+//static bool false_def = false;
 static bool shifted_l = false;
-static bool alt_lock = false;
-static bool maj = false;
+//static bool alt_lock = false;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
       //timer
 static uint16_t key_timer;
-static uint8_t layer_lock;
+//static uint8_t layer_lock;
 
   switch(keycode) {
 // Irregular mod effects
@@ -235,18 +183,14 @@ static uint8_t layer_lock;
       return alternate_modifier(KC_LALT, KC_UP, record);
     case KC_I:
       return alternate_modifier(KC_LALT, KC_RIGHT, record);
-    case KC_O:
-      return alternate_modifier(KC_LALT, KC_QUOT, record);
     case KC_PGUP:
       return alternate_modifier(KC_LALT, KC_INSERT, record);
     case KC_PGDN:
       return alternate_modifier(KC_LALT, KC_DELETE, record);
     case KC_SLSH:
       return alternate_modifier(KC_LALT, KC_BSLS, record);
-    case KC_BSLS:
-      return alternate_modifier(KC_LALT, KC_TILDA, record);
-//    case KC_BSPC:
-//      return alternate_modifier(KC_LALT, KC_DELETE, record);
+    case KC_BSPC:
+      return alternate_modifier(KC_LALT, KC_DELETE, record);
     case KC_GRV:
       return alternate_modifier(KC_RCTL, KC_PIPE, record);
 //    case KC_LCAP: // shifts lalt into lockable position
@@ -325,75 +269,37 @@ static uint8_t layer_lock;
 	unregister_code(KC_RALT);
         if (timer_elapsed(key_timer) < TAPPING_TERM) {   
           tap_code(KC_LGUI);
-/*#ifdef AUDIO_ENABLE
-        stop_all_notes();
-	PLAY_SONG(beep);
-#endif*/
 	}
       }
       break;
 // caps sounds and layer locking
-    case KC_ALLK:
+/*    case KC_ALLK:
       if(record->event.pressed) {
+	     if (alt_lock || false_def ) {
+        if (alt_lock) {
+	  unregister_code(KC_LALT);
+	  alt_lock = false;
+	} else {
+	    false_def = false;
+	    layer_off(layer_lock);
+	}
+	     } else {
         if (keyboard_report->mods & MOD_BIT(KC_RCTL)) {
 	  alt_lock = true;
-    register_code(KC_LALT);
-#ifdef AUDIO_ENABLE
-	  stop_all_notes();
-	  PLAY_SONG(lockon);
-#endif   
 	} else {
 	  if ( layer_state != _COLE ) {
 	    layer_lock = biton32(layer_state);
 	    layer_clear();
 	    false_def = true;
-    layer_on(layer_lock);
-            if(layer_lock == _MIDI) {
-#ifdef AUDIO_ENABLE
-	  stop_all_notes();
-	  PLAY_SONG(midlay);
-#endif   
-	    } else {
-#ifdef AUDIO_ENABLE
-	  stop_all_notes();
-	  PLAY_SONG(lockon);
-#endif   
-	    }
 	  } else {
-	    register_code(KC_LCAP);
-#ifdef AUDIO_ENABLE
-	  stop_all_notes();
-	  PLAY_SONG(capson);
-#endif   
+	    tap_code(KC_CLCK);
 	  }
 	}
-      } else {
-        if (alt_lock) {
-	  unregister_code(KC_LALT);
-	  alt_lock = false;
-#ifdef AUDIO_ENABLE
-	  stop_all_notes();
-	  PLAY_SONG(lockoff);
-#endif   
-	} else {
-	  if ( layer_state != _COLE ) {
-	    false_def = false;
-	    layer_off(layer_lock);
-#ifdef AUDIO_ENABLE
-	  stop_all_notes();
-	  PLAY_SONG(lockoff);
-#endif   
-	  } else {
-	    unregister_code(KC_LCAP);
-#ifdef AUDIO_ENABLE
-	  stop_all_notes();
-	  PLAY_SONG(capsoff);
-#endif   
-	  }
-	}
+      } 
       }
+	  
       return false;
-      break;
+      break;*/
 // layer ent - shift hold for shifted layer (_SYM)
     case KC_LYEN:
       if(record->event.pressed) {
@@ -594,93 +500,13 @@ static uint8_t layer_lock;
 	    }
 	    return false;
 	    break;              
-// midi chords - use octave 1 for chords, 0 (blank) for bass notes ( octaves )
-    case MI_C_1 ... MI_B_1:  //minor, majors use individual codes
-	    if( record->event.pressed ) {
-		/*if( row == 2 ) {
-		  maj = true;
-		} else {
-		  maj = false;
-		}*/
-	        chordon(keycode,maj);
-	    } else {
-	        chordoff(keycode,maj);
-	    }
-      return false;
-      break;
-    case MI_C ... MI_B:
-	    if( record->event.pressed ) {
-	        basson(keycode);
-	    } else {
-	        bassoff(keycode);
-	    }
-      return false;
-      break;
-    case MAJ_B:
-	    if( record->event.pressed ) {
-	        chordon(MI_B_1,true);
-	    } else {
-	        chordoff(MI_B_1,true);
-	    }
-      return false;
-      break;
-    case MAJ_Fs: 
-	    if( record->event.pressed ) {
-	        chordon(MI_Fs_1,true);
-	    } else {
-	        chordoff(MI_Fs_1,true);
-	    }
-      return false;
-      break;
-    case MAJ_Cs:
-	    if( record->event.pressed ) {
-	        chordon(MI_Cs_1,true);
-	    } else {
-	        chordoff(MI_Cs_1,true);
-	    }
-      return false;
-      break;
-    case MAJ_Gs: 
-	    if( record->event.pressed ) {
-	        chordon(MI_Gs_1,true);
-	    } else {
-	        chordoff(MI_Gs_1,true);
-	    }
-      return false;
-      break;
-    case MAJ_Ds:
-	    if( record->event.pressed ) {
-	        chordon(MI_Ds_1,true);
-	    } else {
-	        chordoff(MI_Ds_1,true);
-	    }
-      return false;
-      break;
-  }
-  if(false_def && biton32(layer_state) != layer_lock) {
+	}
+/*  if(false_def) {
     layer_on(layer_lock);
   }
-  if(alt_lock && !(keyboard_report->mods & MOD_BIT(KC_LALT)) ) {
+  if(alt_lock) {
     register_code(KC_LALT);
-  }
+    }*/
   return true;
-}
-
-void encoder_update(bool clockwise) {
-    if (clockwise) {
-      register_code(KC_PGDN);
-      unregister_code(KC_PGDN);
-    } else {
-      register_code(KC_PGUP);
-      unregister_code(KC_PGUP);
-    }
-}
-
-void matrix_init_user(void) {
-    set_unicode_input_mode(UC_LNX);
-}
-
-void matrix_scan_user(void) {
-
 }
 

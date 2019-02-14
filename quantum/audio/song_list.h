@@ -204,17 +204,13 @@
     E__NOTE(_CS4),           \
     E__NOTE(_C4 ),          \
     ED_NOTE(_DS4),	   \
-    ED_NOTE(_F4 ),	   \
-    E__NOTE(_G4 ),          \
-    E__NOTE(_AS4), 
+    Q__NOTE(_F4 ),
 
 #define CAPS_LOCK_OFF_TWO \
     E__NOTE(_AS4),	     \
     E__NOTE(_GS4),           \
     ED_NOTE(_G4 ),           \
-    E__NOTE(_GS4),           \
-    ED_NOTE(_F4),	     \
-    E__NOTE(_CS4),           
+    Q__NOTE(_F4 ),
 
 #define SCROLL_LOCK_ON_SOUND \
     E__NOTE(_D4),            \
@@ -284,7 +280,7 @@
     E__NOTE(_C5 ), \
 
 #define TERM_SOUND \
-    Q__NOTE(_CS4)
+    Q__NOTE(_CS5)
 
 #define OVERWATCH_THEME \
     HD_NOTE(_A4 ), \
@@ -382,5 +378,13 @@
     E__NOTE(_D5 ), \
     E__NOTE(_F4 ), \
     Q__NOTE(_D4 ), \
+
+#define EOCENE \
+    E__NOTE(_G4 ), \
+    H__NOTE(_BF4), \
+    QD_NOTE(_CS5), \
+    Q__NOTE(_E5 ), \
+    ED_NOTE(_G5 ), \
+    E__NOTE(_BF5), 
 
 #endif
