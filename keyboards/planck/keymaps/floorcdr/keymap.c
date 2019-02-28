@@ -67,9 +67,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   
 [_COLE] = LAYOUT_planck_grid(
     KC_Q,  KC_W,  KC_F,  KC_P,  KC_G, LT(_MIDI,KC_GRV), KC_UPHO,  KC_J,  KC_L,  KC_U,  KC_Y, KC_SCOLON,
-    KC_A,  KC_R,  KC_S,  KC_T,  KC_D, TG(_EDIT), KC_DNEN,  KC_H,  KC_N,  KC_E,  KC_I, KC_O, 
+    KC_A,  KC_R,  KC_S,  KC_T,  KC_D, KC_LCTL, KC_DNEN,  KC_H,  KC_N,  KC_E,  KC_I, KC_O, 
     KC_Z,  KC_X,  KC_C,  KC_V,  KC_B, KC_ALLK, KC_GUCA, KC_K,  KC_M,  KC_COMM, KC_DOT, KC_SLSH,
-    XXXXXXX, XXXXXXX, LCTL_T(KC_TAB), LALT_T(KC_ESC), LSFT_T(KC_SPACE), KC_LYEN, KC_LYEN, RSFT_T(KC_BSPC), RCTL_T(KC_QUOTE), RALT_T(KC_BSLS), XXXXXXX, XXXXXXX
+    XXXXXXX, XXXXXXX, LT(_EDIT,KC_TAB), LALT_T(KC_ESC), LSFT_T(KC_SPACE), KC_LYEN, KC_LYEN, RSFT_T(KC_BSPC), RCTL_T(KC_QUOTE), RALT_T(KC_BSLS), XXXXXXX, XXXXXXX
 ),
 
 [_QWER] = LAYOUT_planck_grid(
@@ -83,7 +83,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     PHY_DEG, CUR_BPN, CUR_BIT, CUR_EUR, CHA_OM, _______, DBL_BRC, DBL_PAR, KC_7, KC_8,  KC_9, KC_0,
      SC_SCTAB, SC_SCQ, SC_SCN, SC_VIW, SC_VIQ, SC_VIS, DBL_QUO, KC_EQUAL, KC_4, KC_5, KC_6, KC_MINS,
     _______, _______, KC_VOLD, KC_VOLU, _______, _______,  DBL_SQR,  KC_LBRC,  KC_1, KC_2,  KC_3, KC_RBRC,
-    _______, _______, KC_LCTL, _______, _______, _______, _______, _______, _______, KC_RALT, _______, _______
+    _______, _______, KC_LCTL, _______, _______, _______, _______, _______, KC_0, KC_DOT, _______, _______
 ),
 
 [_SYM] = LAYOUT_planck_grid(
@@ -94,8 +94,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 [_EDIT] = LAYOUT_planck_grid(
-    RESET, KC_MS_U, KC_VOLD, KC_VOLU, _______, _______, _______, KC_WH_L, MO_UL, MO_UR, KC_WH_R, KC_WH_U,
-    KC_MS_L, KC_MS_D, KC_MS_R, _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_WH_D,
+    _______, _______, _______, _______, _______, RESET, _______, KC_WH_L, MO_UL, MO_UR, KC_WH_R, KC_WH_U,
+    _______, _______, _______, _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_WH_D,
     AU_TOG, CK_TOGG, CK_DOWN, CK_UP, _______, _______, TG(_QWER), _______, MO_DL, MO_DR, KC_BTN2, KC_BTN3, 
     _______, _______, _______, _______, _______, _______, _______, KC_BTN1, _______, _______, _______, _______
 ),
@@ -184,32 +184,34 @@ void chordon(uint16_t keycode, bool maj)
 {
     uint8_t note = midi_compute_note(keycode);
     uint8_t velocity = (midi_config.velocity + 1) * (128 / (MIDI_VELOCITY_MAX - MIDI_VELOCITY_MIN + 1));
-    midi_send_noteon(&midi_device, 0, note, velocity);
-    midi_send_noteon(&midi_device, 0, note + 4 + maj, velocity);
-    midi_send_noteon(&midi_device, 0, note - 5, velocity);
+    midi_send_noteon(&midi_device, 0, note, velocity - 14);
+    midi_send_noteon(&midi_device, 0, note + 4 + maj, velocity - 14);
+    midi_send_noteon(&midi_device, 0, note - 5, velocity - 14);
 }
 
 void chordoff(uint16_t keycode, bool maj)
 {
     uint8_t note = midi_compute_note(keycode);
-    midi_send_noteoff(&midi_device, 0, note, 0);
-    midi_send_noteoff(&midi_device, 0, note + 4 + maj, 0);
-    midi_send_noteoff(&midi_device, 0, note - 5, 0);
+    uint8_t velocity = (midi_config.velocity + 1) * (128 / (MIDI_VELOCITY_MAX - MIDI_VELOCITY_MIN + 1));
+    midi_send_noteoff(&midi_device, 0, note, velocity - 14);
+    midi_send_noteoff(&midi_device, 0, note + 4 + maj, velocity - 14);
+    midi_send_noteoff(&midi_device, 0, note - 5, velocity - 14);
 }
 
 void basson(uint16_t keycode)
 {
     uint8_t note = midi_compute_note(keycode);
     uint8_t velocity = (midi_config.velocity + 1) * (128 / (MIDI_VELOCITY_MAX - MIDI_VELOCITY_MIN + 1));
-    midi_send_noteon(&midi_device, 0, note, velocity);
-    midi_send_noteon(&midi_device, 0, note + 12, velocity);
+    midi_send_noteon(&midi_device, 0, note, velocity - 14);
+    midi_send_noteon(&midi_device, 0, note + 12, velocity - 14);
 }
 
 void bassoff(uint16_t keycode)
 {
     uint8_t note = midi_compute_note(keycode);
-    midi_send_noteoff(&midi_device, 0, note, 0);
-    midi_send_noteoff(&midi_device, 0, note + 12, 0);
+    uint8_t velocity = (midi_config.velocity + 1) * (128 / (MIDI_VELOCITY_MAX - MIDI_VELOCITY_MIN + 1));
+    midi_send_noteoff(&midi_device, 0, note, velocity - 14);
+    midi_send_noteoff(&midi_device, 0, note + 12, velocity - 14);
 }
 
 // mouse lock indicator	
@@ -244,7 +246,7 @@ static uint8_t layer_lock;
     case KC_SLSH:
       return alternate_modifier(KC_LALT, KC_BSLS, record);
     case KC_BSLS:
-      return alternate_modifier(KC_LALT, KC_TILDA, record);
+      return alternate_modifier(KC_LALT, KC_GRAVE, record);
 //    case KC_BSPC:
 //      return alternate_modifier(KC_LALT, KC_DELETE, record);
     case KC_GRV:
@@ -414,8 +416,8 @@ static uint8_t layer_lock;
         if (timer_elapsed(key_timer) < TAPPING_TERM) {   
           tap_code(KC_ENTER);
 #ifdef AUDIO_ENABLE
-        stop_all_notes();
-	PLAY_SONG(enter);
+//        stop_all_notes();
+//	PLAY_SONG(enter);
 #endif
 	}
       }
@@ -535,8 +537,6 @@ static uint8_t layer_lock;
 	    break;
 	case SC_VIS:
 	    if( record->event.pressed ) {
-		register_code(KC_ESCAPE);
-		unregister_code(KC_ESCAPE);
 		register_code(KC_LCTRL);
 		register_code(KC_W);
 		unregister_code(KC_W);

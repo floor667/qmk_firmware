@@ -59,9 +59,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_COLE] = {
 	{ KC_F1,  KC_F2,  KC_F3,  KC_F4,  KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, KC_PSLS, KC_PAST, KC_PMNS },
 	{ KC_Q,  KC_W,  KC_F,  KC_P,  KC_G, KC_GRV, KC_UPHO,  KC_J,  KC_L,  KC_U,  KC_Y, KC_SCOLON, KC_P7, KC_P8, KC_P9 },
-	{ KC_A,  KC_R,  KC_S,  KC_T,  KC_D, LT(_EDIT, KC_TAB), KC_DNEN,  KC_H,  KC_N,  KC_E,  KC_I, KC_O, KC_P4, KC_P5, KC_P6 },
+	{ KC_A,  KC_R,  KC_S,  KC_T,  KC_D, KC_LCTL, KC_DNEN,  KC_H,  KC_N,  KC_E,  KC_I, KC_O, KC_P4, KC_P5, KC_P6 },
         { KC_Z,  KC_X,  KC_C,  KC_V,  KC_B, KC_CLCK, KC_GUCA, KC_K,  KC_M,  KC_COMM, KC_DOT, KC_SLSH, KC_P1, KC_P2, KC_P3 },
-        { XXXXXXX, XXXXXXX, LALT_T(KC_ESC), LALT_T(KC_ESC), LSFT_T(KC_SPACE), KC_LYEN, KC_LYEN, RSFT_T(KC_BSPC), RCTL_T(KC_QUOTE), RCTL_T(KC_QUOTE), XXXXXXX, KC_NLCK, KC_P0, KC_PDOT, KC_PPLS },
+        { XXXXXXX, XXXXXXX, LT(_EDIT,KC_TAB), LALT_T(KC_ESC), LSFT_T(KC_SPACE), KC_LYEN, KC_LYEN, RSFT_T(KC_BSPC), RCTL_T(KC_QUOTE), RALT_T(KC_BSLS), XXXXXXX, KC_NLCK, KC_P0, KC_PDOT, KC_PPLS },
 },
 
 [_QWER] = {
@@ -189,8 +189,8 @@ static uint16_t key_timer;
       return alternate_modifier(KC_LALT, KC_DELETE, record);
     case KC_SLSH:
       return alternate_modifier(KC_LALT, KC_BSLS, record);
-    case KC_BSPC:
-      return alternate_modifier(KC_LALT, KC_DELETE, record);
+//    case KC_BSPC:
+//      return alternate_modifier(KC_LALT, KC_DELETE, record);
     case KC_GRV:
       return alternate_modifier(KC_RCTL, KC_PIPE, record);
 //    case KC_LCAP: // shifts lalt into lockable position
@@ -441,8 +441,6 @@ static uint16_t key_timer;
 	    break;
 	case SC_VIS:
 	    if( record->event.pressed ) {
-		register_code(KC_ESCAPE);
-		unregister_code(KC_ESCAPE);
 		register_code(KC_LCTRL);
 		register_code(KC_W);
 		unregister_code(KC_W);
