@@ -180,38 +180,39 @@ static bool alternate_modifier(uint16_t modifier, uint16_t keycode, keyrecord_t 
   return true;
 }
 
+//midi chords
 void chordon(uint16_t keycode, bool maj)
 {
     uint8_t note = midi_compute_note(keycode);
     uint8_t velocity = (midi_config.velocity + 1) * (128 / (MIDI_VELOCITY_MAX - MIDI_VELOCITY_MIN + 1));
-    midi_send_noteon(&midi_device, 0, note, velocity - 14);
-    midi_send_noteon(&midi_device, 0, note + 4 + maj, velocity - 14);
-    midi_send_noteon(&midi_device, 0, note - 5, velocity - 14);
+    midi_send_noteon(&midi_device, 0, note, velocity - 20);
+    midi_send_noteon(&midi_device, 0, note + 3 + maj, velocity - 20);
+    midi_send_noteon(&midi_device, 0, note - 5, velocity - 20);
 }
 
 void chordoff(uint16_t keycode, bool maj)
 {
     uint8_t note = midi_compute_note(keycode);
     uint8_t velocity = (midi_config.velocity + 1) * (128 / (MIDI_VELOCITY_MAX - MIDI_VELOCITY_MIN + 1));
-    midi_send_noteoff(&midi_device, 0, note, velocity - 14);
-    midi_send_noteoff(&midi_device, 0, note + 4 + maj, velocity - 14);
-    midi_send_noteoff(&midi_device, 0, note - 5, velocity - 14);
+    midi_send_noteoff(&midi_device, 0, note, velocity);
+    midi_send_noteoff(&midi_device, 0, note + 3 + maj, velocity);
+    midi_send_noteoff(&midi_device, 0, note - 5, velocity);
 }
 
 void basson(uint16_t keycode)
 {
     uint8_t note = midi_compute_note(keycode);
     uint8_t velocity = (midi_config.velocity + 1) * (128 / (MIDI_VELOCITY_MAX - MIDI_VELOCITY_MIN + 1));
-    midi_send_noteon(&midi_device, 0, note, velocity - 14);
-    midi_send_noteon(&midi_device, 0, note + 12, velocity - 14);
+    midi_send_noteon(&midi_device, 0, note, velocity - 20);
+    midi_send_noteon(&midi_device, 0, note + 12, velocity - 20);
 }
 
 void bassoff(uint16_t keycode)
 {
     uint8_t note = midi_compute_note(keycode);
     uint8_t velocity = (midi_config.velocity + 1) * (128 / (MIDI_VELOCITY_MAX - MIDI_VELOCITY_MIN + 1));
-    midi_send_noteoff(&midi_device, 0, note, velocity - 14);
-    midi_send_noteoff(&midi_device, 0, note + 12, velocity - 14);
+    midi_send_noteoff(&midi_device, 0, note, velocity);
+    midi_send_noteoff(&midi_device, 0, note + 12, velocity);
 }
 
 // mouse lock indicator	
@@ -345,11 +346,10 @@ static uint8_t layer_lock;
 	  PLAY_SONG(lockon);
 #endif   
 	} else {
-	  if ( layer_state != _COLE ) {
+	  if ( layer_state != _COLE && layer_state != _QWER) {
 	    layer_lock = biton32(layer_state);
 	    layer_clear();
 	    false_def = true;
-    layer_on(layer_lock);
             if(layer_lock == _MIDI) {
 #ifdef AUDIO_ENABLE
 	  stop_all_notes();
@@ -361,6 +361,7 @@ static uint8_t layer_lock;
 	  PLAY_SONG(lockon);
 #endif   
 	    }
+    layer_on(layer_lock);
 	  } else {
 	    register_code(KC_LCAP);
 #ifdef AUDIO_ENABLE
@@ -422,15 +423,6 @@ static uint8_t layer_lock;
 	}
       }
       break;
-  /*  case KC_LGUI: //?? doesn't work cos in layer tap?	
-      if(record->event.pressed) {
-#ifdef AUDIO_ENABLE
-	  stop_all_notes();
-	  PLAY_SONG(beep);
-#endif   
-       }
-      return true;
-      break;*/
 //----DIAGONAL MOUSEKEYS thanks to bbaserdem
 #ifdef MOUSEKEY_ENABLE
         case MO_UR:
