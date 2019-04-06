@@ -26,6 +26,48 @@
     Q__NOTE(_C4), Q__NOTE(_C4), Q__NOTE(_D4), Q__NOTE(_E4), \
     QD_NOTE(_E4), E__NOTE(_D4), H__NOTE(_D4),
 
+#define ROCK_A_BYE_BABY                            \
+    QD_NOTE(_B4), E__NOTE(_D4), Q__NOTE(_B5),      \
+    H__NOTE(_A5), Q__NOTE(_G5),                    \
+    QD_NOTE(_B4), E__NOTE(_D5), Q__NOTE(_G5),      \
+    H__NOTE(_FS5),
+
+#define CLOSE_ENCOUNTERS_5_NOTE  \
+	Q__NOTE(_D5),                \
+	Q__NOTE(_E5),                \
+	Q__NOTE(_C5),                \
+	Q__NOTE(_C4),                \
+	Q__NOTE(_G4),
+
+#define DOE_A_DEER              \
+	QD_NOTE(_C4), E__NOTE(_D4), \
+	QD_NOTE(_E4), E__NOTE(_C4), \
+	Q__NOTE(_E4), Q__NOTE(_C4), \
+	Q__NOTE(_E4),
+
+#define IMPERIAL_MARCH \
+  HD_NOTE(_A4), HD_NOTE(_A4), HD_NOTE(_A4), QD_NOTE(_F4), QD_NOTE(_C5), \
+  HD_NOTE(_A4), QD_NOTE(_F4),  QD_NOTE(_C5), WD_NOTE(_A4), \
+  HD_NOTE(_E5), HD_NOTE(_E5), HD_NOTE(_E5), QD_NOTE(_F5), QD_NOTE(_C5), \
+  HD_NOTE(_A4), QD_NOTE(_F4),  QD_NOTE(_C5), WD_NOTE(_A4)
+
+#define CLUEBOARD_SOUND \
+    HD_NOTE(_C3), HD_NOTE(_D3), HD_NOTE(_E3), HD_NOTE(_F3), HD_NOTE(_G3), HD_NOTE(_A4), HD_NOTE(_B4), HD_NOTE(_C4)
+/*
+    HD_NOTE(_G3), HD_NOTE(_E3), HD_NOTE(_C3), \
+    Q__NOTE(_E3), Q__NOTE(_C3), Q__NOTE(_G3), \
+    Q__NOTE(_E3)
+*/
+/*
+    HD_NOTE(_C3), HD_NOTE(_G3), HD_NOTE(_E3), \
+    Q__NOTE(_G3), Q__NOTE(_E3), Q__NOTE(_G3), \
+    Q__NOTE(_F3)
+*/
+
+#define STARTUP_SOUND  \
+    E__NOTE(_E6),     \
+    E__NOTE(_A6),     \
+    ED_NOTE(_E7),
 
 #define GOODBYE_SOUND \
     Q__NOTE(_A4 ), \
@@ -33,6 +75,65 @@
     Q__NOTE(_B4 ), \
     HD_NOTE(_C5 ), 
 
+#define PLANCK_SOUND  \
+    ED_NOTE(_E7 ),     \
+    E__NOTE(_CS7),     \
+    E__NOTE(_E6 ),     \
+    E__NOTE(_A6 ),     \
+    M__NOTE(_CS7, 20),
+
+#define PREONIC_SOUND \
+    M__NOTE(_B5, 20),  \
+    E__NOTE(_B6),      \
+    M__NOTE(_DS6, 20), \
+    E__NOTE(_B6),
+
+#define QWERTY_SOUND \
+    E__NOTE(_GS6 ),  \
+    E__NOTE(_A6  ),  \
+    S__NOTE(_REST),  \
+    Q__NOTE(_E7  ),
+
+#define COLEMAK_SOUND \
+    E__NOTE(_GS6 ),   \
+    E__NOTE(_A6  ),   \
+    S__NOTE(_REST),   \
+    ED_NOTE(_E7  ),   \
+    S__NOTE(_REST),   \
+    ED_NOTE(_GS7 ),
+
+#define DVORAK_SOUND \
+    E__NOTE(_GS6 ),  \
+    E__NOTE(_A6  ),  \
+    S__NOTE(_REST),  \
+    E__NOTE(_E7  ),  \
+    S__NOTE(_REST),  \
+    E__NOTE(_FS7 ),  \
+    S__NOTE(_REST),  \
+    E__NOTE(_E7  ),
+
+#define PLOVER_SOUND \
+    E__NOTE(_GS6 ),  \
+    E__NOTE(_A6  ),  \
+    S__NOTE(_REST),  \
+    ED_NOTE(_E7  ),  \
+    S__NOTE(_REST),  \
+    ED_NOTE(_A7  ),
+
+#define PLOVER_GOODBYE_SOUND \
+    E__NOTE(_GS6 ),  \
+    E__NOTE(_A6  ),  \
+    S__NOTE(_REST),  \
+    ED_NOTE(_A7  ),  \
+    S__NOTE(_REST),  \
+    ED_NOTE(_E7  ),
+
+#define MUSIC_ON_SOUND \
+    E__NOTE(_A5 ),        \
+    E__NOTE(_AS5),        \
+    E__NOTE(_CS6),        \
+    E__NOTE(_D6 ),        \
+    E__NOTE(_E6 ), 
 
 #define AUDIO_ON_SOUND \
     E__NOTE(_A4 ),        \
@@ -42,6 +143,52 @@
     E__NOTE(_ES5),        \
     E__NOTE(_A4 ),
 
+#define MUSIC_SCALE_SOUND MUSIC_ON_SOUND
+
+#define MUSIC_OFF_SOUND \
+    E__NOTE(_A6 ),        \
+    E__NOTE(_GS6),        \
+    E__NOTE(_F6 ),        \
+    E__NOTE(_E6 ),        \
+
+#define VOICE_CHANGE_SOUND \
+    Q__NOTE(_A5 ),        \
+    Q__NOTE(_CS6),        \
+    Q__NOTE(_E6 ),        \
+    Q__NOTE(_A6 ),
+
+#define CHROMATIC_SOUND \
+    Q__NOTE(_A5 ),        \
+    Q__NOTE(_AS5 ),        \
+    Q__NOTE(_B5),        \
+    Q__NOTE(_C6 ),        \
+    Q__NOTE(_CS6 ),
+
+#define MAJOR_SOUND \
+    Q__NOTE(_A5 ),        \
+    Q__NOTE(_B5 ),        \
+    Q__NOTE(_CS6),        \
+    Q__NOTE(_D6 ),        \
+    Q__NOTE(_E6 ),
+
+#define MINOR_SOUND \
+    Q__NOTE(_A5 ),        \
+    Q__NOTE(_B5 ),        \
+    Q__NOTE(_C6 ),        \
+    Q__NOTE(_D6 ),        \
+    Q__NOTE(_E6 ),
+
+#define GUITAR_SOUND \
+    Q__NOTE(_E5 ),        \
+    Q__NOTE(_A5),        \
+    Q__NOTE(_D6 ),        \
+    Q__NOTE(_G6 ),
+
+#define VIOLIN_SOUND \
+    Q__NOTE(_G5 ),        \
+    Q__NOTE(_D6),        \
+    Q__NOTE(_A6 ),        \
+    Q__NOTE(_E7 ),
 
 #define CAPS_LOCK_ON_SOUND \
     Q__NOTE(_CS4),          \
