@@ -33,6 +33,7 @@ enum planck_keycodes {
   MO_UR,
   MO_DL,
   MO_DR,
+  MO_DC,
   DBL_ANG,
   DBL_PAR,
   DBL_SQR,
@@ -73,9 +74,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   
 [_COLE] = LAYOUT_planck_grid(
     KC_Q,  KC_W,  KC_F,  KC_P,  KC_G, LT(_MIDI,KC_GRV), KC_UPHO,  KC_J,  KC_L,  KC_U,  KC_Y, KC_SCOLON,
-    KC_A,  KC_R,  KC_S,  KC_T,  KC_D, KC_LCTL, KC_DNEN,  KC_H,  KC_N,  KC_E,  KC_I, KC_O, 
-    KC_Z,  KC_X,  KC_C,  KC_V,  KC_B, KC_ALLK, KC_GUCA, KC_K,  KC_M,  KC_COMM, KC_DOT, KC_SLSH,
-    XXXXXXX, XXXXXXX, LT(_EDIT,KC_TAB), LALT_T(KC_ESC), KC_LSS, KC_LSS, KC_LBS, KC_LBS, RCTL_T(KC_ENTER), RALT_T(KC_BSLS), XXXXXXX, XXXXXXX
+    KC_A,  KC_R,  KC_S,  KC_T,  KC_D, LCTL_T(KC_ESC), KC_DNEN,  KC_H,  KC_N,  KC_E,  KC_I, KC_O, 
+    KC_Z,  KC_X,  LSFT_T(KC_C),  LT(_NUM,KC_V),  LT(_SYM,KC_B), KC_ALLK, KC_GUCA, LT(_SYM,KC_K), LT(_NUM,KC_M),  RSFT_T(KC_COMM), KC_DOT, KC_SLSH,
+    XXXXXXX, XXXXXXX, LT(_EDIT,KC_TAB), KC_LALT, KC_SPACE, KC_ENTER, KC_BSPC, KC_BSPC, KC_RCTL, KC_RALT, XXXXXXX, XXXXXXX
 ),
 
 [_QWER] = LAYOUT_planck_grid(
@@ -89,20 +90,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     PHY_DEG, CUR_BPN, CUR_BIT, CUR_EUR, CHA_OM, _______, DBL_BRC, DBL_PAR, KC_P7, KC_P8,  KC_P9, KC_NLCK,
      SC_SCTAB, SC_SCQ, SC_SCN, SC_VIW, SC_VIQ, SC_VIS, DBL_QUO, KC_EQUAL, KC_P4, KC_P5, KC_P6, KC_MINS,
     SC_GCL, _______, SC_GON, SC_GTB, SC_GNX, _______, DBL_SQR,  KC_LBRC,  KC_P1, KC_P2,  KC_P3, KC_RBRC,
-    _______, _______, OSM(MOD_LCTL), OSM(MOD_LALT), _______, _______, _______, _______,  KC_P0, KC_DOT, _______, _______
+    _______, _______, KC_LCTL, KC_LALT, _______, _______, _______, _______,  KC_P0, KC_DOT, _______, _______
 ),
 
 [_SYM] = LAYOUT_planck_grid(
     KC_F9, KC_F10, KC_F11, KC_F12, KC_PSCR, KC_INSERT, DBL_ANG, DBL_PAR, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,
     KC_F5, KC_F6, KC_F7, KC_F8, KC_SLCK, KC_DELETE, DBL_DQT, KC_PLUS, KC_DLR, KC_PERC, KC_CIRC, KC_UNDS,
-    KC_F1, KC_F2, KC_F3, KC_F4, KC_PAUS, _______,  DBL_BRC, KC_LCBR,  KC_EXLM,  KC_AT, KC_HASH,  KC_RCBR,
-    _______, _______, _______, OSM(MOD_LALT), _______, _______, _______, _______, _______, _______, _______, _______
+    KC_F1, KC_F2, KC_F3, KC_F4, KC_PAUS, _______,  KC_LALT, KC_LCBR,  KC_EXLM,  KC_AT, KC_HASH,  KC_RCBR,
+    _______, _______, _______, KC_LALT, _______, _______, _______, _______, _______, _______, _______, _______
 ),
 
 [_EDIT] = LAYOUT_planck_grid(
     _______, _______, _______, _______, _______, RESET, DF(_QWER), KC_WH_L, MO_UL, MO_UR, KC_WH_R, KC_WH_U,
     _______, _______, _______, _______, _______, _______, DF(_COLE), KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_WH_D,
-    AU_TOG, CK_TOGG, CK_DOWN, CK_UP, _______, _______, _______, _______, MO_DL, MO_DR, KC_BTN2, KC_BTN3, 
+    AU_TOG, CK_TOGG, CK_DOWN, CK_UP, _______, _______, _______, MO_DC, MO_DL, MO_DR, KC_BTN2, KC_BTN3, 
     _______, _______, _______, _______, _______, _______, _______, KC_BTN1, KC_BTN2, _______, _______, _______
 ),
   
@@ -225,7 +226,7 @@ void bassoff(uint16_t keycode)
 // mouse lock indicator	
 static bool ms_lock = false;
 static bool false_def = false;
-//static bool shifted_l = false;
+static bool shifted_l = false;
 static bool alt_lock = false;
 static bool maj = false;
 static bool lsfton = false;
@@ -260,7 +261,9 @@ static uint8_t layer_lock;
 #endif
       } else {                               
         if (keyboard_report->mods & MOD_BIT(KC_LALT)) {
+	  clear_mods();
 	  tap_code(KC_INSERT);
+	  register_code(KC_LALT);
 	} else {
 	  tap_code(KC_PGUP);
 	}
@@ -280,7 +283,9 @@ static uint8_t layer_lock;
 #endif
       } else {                               
         if (keyboard_report->mods & MOD_BIT(KC_LALT)) {
+	  clear_mods();
 	  tap_code(KC_DELETE);
+	  register_code(KC_LALT);
 	} else {
 	  tap_code(KC_PGDN);
 	}
@@ -397,9 +402,9 @@ static uint8_t layer_lock;
 // caps sounds and layer locking
     case KC_ALLK:
       if(record->event.pressed) {
-        if (keyboard_report->mods & MOD_BIT(KC_RCTL)) {
+        if (keyboard_report->mods & MOD_BIT(KC_LALT)) {
 	  alt_lock = true;
-    register_code(KC_LALT);
+//    register_code(KC_LALT);
 #ifdef AUDIO_ENABLE
 	  stop_all_notes();
 	  PLAY_SONG(lockon);
@@ -473,7 +478,7 @@ static uint8_t layer_lock;
       return true;
       break;
 // layer ent - shift hold for shifted layer (_SYM) - not used any longer..
-/*    case KC_LYEN:
+    case KC_LYEN:
       if(record->event.pressed) {
 	key_timer = timer_read();
 	if(keyboard_report->mods & MOD_BIT(KC_LSHIFT) || keyboard_report->mods & MOD_BIT(KC_RSHIFT)) {
@@ -497,7 +502,16 @@ static uint8_t layer_lock;
 #endif
 	}
       }
-      break;*/
+      break;
+//mouse doubleclick
+	case MO_DC:
+      	    if( record->event.pressed ) {
+	        tap_code(KC_BTN1);
+	    } else {
+	        tap_code(KC_BTN1);
+	    }
+	    return false;
+	    break;
 //----DIAGONAL MOUSEKEYS thanks to bbaserdem
 #ifdef MOUSEKEY_ENABLE
         case MO_UR:
@@ -764,10 +778,10 @@ static uint8_t layer_lock;
       return alternate_modifier(KC_LALT, KC_RIGHT, record);
     case KC_O:
       return alternate_modifier(KC_LALT, KC_QUOT, record);
-    case KC_PGUP:
-      return alternate_modifier(KC_LALT, KC_INSERT, record);
-    case KC_PGDN:
-      return alternate_modifier(KC_LALT, KC_DELETE, record);
+//    case KC_PGUP:
+//      return alternate_modifier(KC_LALT, KC_INSERT, record);
+//    case KC_PGDN:
+//      return alternate_modifier(KC_LALT, KC_DELETE, record);
     case KC_SLSH:
       return alternate_modifier(KC_LALT, KC_BSLS, record);
     case KC_BSLS:
@@ -793,7 +807,7 @@ void encoder_update(bool clockwise) {
 }
 
 void matrix_init_user (void) {
-  if (!(host_keyboard_leds() & (1<<USB_LED_NUM_LOCK))) {
+  if ((host_keyboard_leds() & (1<<USB_LED_NUM_LOCK))) {
       register_code(KC_NUMLOCK);
       unregister_code(KC_NUMLOCK);
   }
