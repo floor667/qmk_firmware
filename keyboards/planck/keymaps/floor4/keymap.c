@@ -736,9 +736,9 @@ enum combos {
   FP_TAB
 };
 
-const uint16_t PROGMEM ab_combo[] = {KC_M, KC_COMMA, COMBO_END};
-const uint16_t PROGMEM jk_combo[] = {KC_U, KC_L, COMBO_END};
-const uint16_t PROGMEM fp_combo[] = {KC_C, KC_V, COMBO_END};
+const uint16_t PROGMEM ab_combo[] = {KC_L, KC_U, COMBO_END};
+const uint16_t PROGMEM jk_combo[] = {KC_J, KC_L, COMBO_END};
+const uint16_t PROGMEM fp_combo[] = {KC_F, KC_P, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
   [LU_ENT] = COMBO(ab_combo, KC_ENTER),
