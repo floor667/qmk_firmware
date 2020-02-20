@@ -16,13 +16,14 @@
 #include "muse.h"
 #include "mousekey.h"
 #include "qmk_midi.h"
+#include "midch.h"
 
 extern keymap_config_t keymap_config;
 
 enum planck_layers {
   _COLE,
   _NUM,
-  _SYM,
+  _MOV,
   _EDIT,
   _MIDI
 };
@@ -64,23 +65,23 @@ enum planck_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   
 [_COLE] = LAYOUT_planck_grid(
-    KC_Q,  KC_W,  LT(_SYM,KC_F),  LT(_NUM,KC_P), KC_G, KC_UPHO,  KC_J,  LT(_NUM,KC_L),  LT(_SYM,KC_U),  KC_Y, KC_SCOLON, KC_ESC,
-    KC_A,  KC_R,  KC_S,  KC_T,  KC_D, KC_DNEN,  KC_H,  KC_N,  KC_E,  KC_I, KC_O, KC_NO,
-    KC_Z,  LT(_MIDI,KC_X), LSFT_T(KC_C), KC_V,  KC_B, KC_ALLK, KC_K, KC_M,  RSFT_T(KC_COMM), KC_DOT, KC_SLSH, KC_ENTER,
+    KC_Q,  KC_W,  LT(_MOV,KC_F),  LT(_NUM,KC_P), KC_G, KC_UPHO,  KC_J,  LT(_NUM,KC_L),  LT(_MOV,KC_U),  KC_Y, KC_SCOLON, KC_ESC,
+    LSFT_T(KC_A),  KC_R,  KC_S,  KC_T,  KC_D, KC_DNEN,  KC_H,  KC_N,  KC_E,  KC_I, RSFT_T(KC_O), KC_NO,
+    KC_Z,  LT(_MIDI,KC_X), KC_C, KC_V,  KC_B, KC_ALLK, KC_K, KC_M,  KC_COMM, KC_DOT, KC_SLSH, KC_ENTER,
     XXXXXXX, XXXXXXX, LT(_EDIT,KC_TAB), KC_LALT, KC_SPACE, KC_BSPC, KC_NO, KC_RCTL, KC_RALT, XXXXXXX, XXXXXXX, XXXXXXX
 ),
 
 [_NUM] = LAYOUT_planck_grid(
-    _______, _______, _______, _______, _______, DBL_BRC, DBL_PAR, KC_7, KC_8,  KC_9, KC_0, _______,
+    _______, _______, _______, _______, _______, DBL_ANG, DBL_PAR, KC_7, KC_8,  KC_9, KC_0, _______,
      SC_SCTAB, SC_SCQ, SC_VIS, SC_VIW, SC_VIQ, DBL_QUO, KC_EQUAL, KC_4, KC_5, KC_6, KC_MINS, _______,
     SC_GCL, SC_GRE, SC_GON, SC_GTB, SC_GNX, DBL_SQR,  KC_LBRC,  KC_1, KC_2,  KC_3, KC_RBRC, _______,
     _______, _______, KC_LCTL, _______, _______, _______, _______,  KC_0, KC_DOT, _______, _______, _______
 ),
 
-[_SYM] = LAYOUT_planck_grid(
-    KC_F9, KC_F10, KC_F11, KC_F12, KC_PSCR, DBL_ANG, DBL_PAR, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
-    KC_F5, KC_F6, KC_F7, KC_F8, KC_SLCK, DBL_DQT, KC_PLUS, KC_DLR, KC_PERC, KC_CIRC, KC_UNDS, _______,
-    KC_F1, KC_F2, KC_F3, KC_F4, KC_PAUS,  DBL_BRC, KC_LCBR,  KC_EXLM,  KC_AT, KC_HASH,  KC_RCBR, _______,
+[_MOV] = LAYOUT_planck_grid(
+    KC_F9, KC_F10, KC_F11, KC_F12, KC_PSCR, _______, _______, KC_TAB, _______, _______, _______, KC_GRV,
+    KC_F5, KC_F6, KC_F7, KC_F8, KC_SLCK, _______, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_QUOT, _______,
+    KC_F1, KC_F2, KC_F3, KC_F4, KC_PAUS,  _______, _______, _______,  _______, _______,  KC_BSLS, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 ),
 
@@ -114,104 +115,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    float midlay[][2]    = SONG(EOCENE);
 #endif
 
-// odd mods - defines in macros - by canatella
-#define maybe_add_weak_mods(keycode, mod)                               \
-  if (keycode < QK_MODS_MAX &&                                          \
-      (keycode & 0xff00) == QK_ ## mod)                                 \
-    add_weak_mods(MOD_BIT(KC_ ## mod))
 
-static bool alternate_modifier(uint16_t modifier, uint16_t keycode, keyrecord_t *record) {
-  static bool in_alternate_modifier;
-
-  /* when it's a key press and modifier state is pressed */
-  if (record->event.pressed && (get_mods() & MOD_BIT(modifier))) {
-    in_alternate_modifier = true;
-
-    /* will send modifier up so that the os won't shift the keycode we will send */
-    del_mods(MOD_BIT(modifier));
-
-    /* send mods if keycode needs it */
-    maybe_add_weak_mods(keycode, LCTL);
-    maybe_add_weak_mods(keycode, LSFT);
-    maybe_add_weak_mods(keycode, LALT);
-    maybe_add_weak_mods(keycode, LGUI);
-    maybe_add_weak_mods(keycode, RCTL);
-    maybe_add_weak_mods(keycode, RSFT);
-    maybe_add_weak_mods(keycode, RALT);
-    maybe_add_weak_mods(keycode, RGUI);
-
-    /* send mods modifications */
-    send_keyboard_report();
-
-    /* send alternate key code */
-    register_code(keycode);
-
-    /* we changed the internal state by releasing the modifier key, marked against
-       as pressed so that we are back in the real state */
-    add_mods(MOD_BIT(modifier));
-
-    return false;
-  }
-
-  /* when releasing the key and we activated alternate modifier */
-  if (!record->event.pressed && in_alternate_modifier) {
-    in_alternate_modifier = false;
-
-    /* release the alternate key */
-    unregister_code(keycode);
-
-    /* make sure all mods we sat up earlier are released */
-    clear_weak_mods();
-
-    /* send mods modification */
-    send_keyboard_report();
-
-    return false;
-  }
-
-
-  return true;
-}
-
-void chordon(uint16_t keycode, bool maj)
-{
-    uint8_t note = midi_compute_note(keycode);
-    uint8_t velocity = (midi_config.velocity + 1) * (128 / (MIDI_VELOCITY_MAX - MIDI_VELOCITY_MIN + 1));
-    midi_send_noteon(&midi_device, 0, note, velocity - 14);
-    midi_send_noteon(&midi_device, 0, note + 3 + maj, velocity - 14);
-    midi_send_noteon(&midi_device, 0, note - 5, velocity - 14);
-}
-
-void chordoff(uint16_t keycode, bool maj)
-{
-    uint8_t note = midi_compute_note(keycode);
-    uint8_t velocity = (midi_config.velocity + 1) * (128 / (MIDI_VELOCITY_MAX - MIDI_VELOCITY_MIN + 1));
-    midi_send_noteoff(&midi_device, 0, note, velocity - 14);
-    midi_send_noteoff(&midi_device, 0, note + 3 + maj, velocity - 14);
-    midi_send_noteoff(&midi_device, 0, note - 5, velocity - 14);
-}
-
-void basson(uint16_t keycode)
-{
-    uint8_t note = midi_compute_note(keycode);
-    uint8_t velocity = (midi_config.velocity + 1) * (128 / (MIDI_VELOCITY_MAX - MIDI_VELOCITY_MIN + 1));
-    midi_send_noteon(&midi_device, 0, note, velocity - 14);
-    midi_send_noteon(&midi_device, 0, note + 12, velocity - 14);
-}
-
-void bassoff(uint16_t keycode)
-{
-    uint8_t note = midi_compute_note(keycode);
-    uint8_t velocity = (midi_config.velocity + 1) * (128 / (MIDI_VELOCITY_MAX - MIDI_VELOCITY_MIN + 1));
-    midi_send_noteoff(&midi_device, 0, note, velocity - 14);
-    midi_send_noteoff(&midi_device, 0, note + 12, velocity - 14);
-}
 
 // mouse lock indicator	
 static bool ms_lock = false;
 static bool false_def = false;
 //static bool shifted_l = false;
-static bool alt_lock = false;
 static bool maj = false;
 static bool allkon = false;
 
@@ -223,9 +132,6 @@ static uint8_t layer_lock;
 
   if(false_def && biton32(layer_state) != layer_lock) {
     layer_on(layer_lock);
-  }
-  if(alt_lock && !(keyboard_report->mods & MOD_BIT(KC_LALT)) ) {
-    register_code(KC_LALT);
   }
 
   switch(keycode) {
@@ -355,15 +261,6 @@ if (keyboard_report->mods & MOD_BIT(KC_RCTL)) {
 	  stop_all_notes();
 	  PLAY_SONG(capsoff);
 #endif   
-	  } else if(allkon) {
-	       allkon = false;
-        if (alt_lock) {
-	  unregister_code(KC_LALT);
-	  alt_lock = false;
-#ifdef AUDIO_ENABLE
-	  stop_all_notes();
-	  PLAY_SONG(lockoff);
-#endif   
 	} else if ( layer_state != _COLE ) {
 	    false_def = false;
 	    layer_off(layer_lock);
@@ -371,18 +268,10 @@ if (keyboard_report->mods & MOD_BIT(KC_RCTL)) {
 	  stop_all_notes();
 	  PLAY_SONG(lockoff);
 #endif   
-	  } 
-
+	   
        } else {
 	       allkon = true;
-        if (keyboard_report->mods & MOD_BIT(KC_LALT)) {
-	  alt_lock = true;
-//    register_code(KC_LALT);
-#ifdef AUDIO_ENABLE
-	  stop_all_notes();
-	  PLAY_SONG(lockon);
-#endif   
-	} else if ( layer_state != _COLE ) {
+	if ( layer_state != _COLE ) {
 	    layer_lock = biton32(layer_state);
 	    layer_clear();
 	    false_def = true;
@@ -397,14 +286,14 @@ if (keyboard_report->mods & MOD_BIT(KC_RCTL)) {
 	  stop_all_notes();
 	  PLAY_SONG(lockon);
 #endif   
-	    }
+	    }	    
 	   } else {
 	       allkon = false;
 	key_timer = timer_read();
 	register_code(KC_RCTL);
 	register_code(KC_RALT);
 	}
-	} 
+       }	 
       } else {
 	  unregister_code(KC_RCTL);
 	  unregister_code(KC_RALT);
@@ -703,25 +592,11 @@ if (keyboard_report->mods & MOD_BIT(KC_RCTL)) {
 	    }
       return false;
       break;
-// Irregular mod effects
-    case KC_H:
-      return alternate_modifier(KC_LALT, KC_LEFT, record);
-    case KC_N:
-      return alternate_modifier(KC_LALT, KC_DOWN, record);
-    case KC_E:
-      return alternate_modifier(KC_LALT, KC_UP, record);
-    case KC_I:
-      return alternate_modifier(KC_LALT, KC_RIGHT, record);
-    case KC_O:
-      return alternate_modifier(KC_LALT, KC_QUOT, record);
-    case KC_ESC:
-      return alternate_modifier(KC_LALT, KC_GRV, record);
-//    case KC_SCOLON:
-//      return alternate_modifier(KC_LALT, KC_ESC, record);
-    case KC_SLSH:
-      return alternate_modifier(KC_LALT, KC_BSLS, record);
-//    case KC_BSPC:
-//      return alternate_modifier(KC_LALT, KC_ENTER, record);
   }
   return true;
+}
+
+void matrix_scan_user(void) {
+
+
 }

@@ -1,5 +1,6 @@
 SRC += muse.c
 SRC += qmk_midi.c
+#SRC += midich.c
 
 # Build Options
 #   comment out to disable the options.
