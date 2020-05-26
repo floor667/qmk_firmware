@@ -64,7 +64,7 @@ enum planck_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   
 [_COLE] = LAYOUT_planck_grid(
-    KC_Q,  KC_W,  LT(_SYM,KC_F),  LT(_NUM,KC_P), KC_G, KC_UPHO,  KC_J,  LT(_NUM,KC_L),  LT(_SYM,KC_U),  KC_Y, KC_SCOLON, KC_ESC,
+    KC_Q,  KC_W,  KC_F, KC_P, KC_G, KC_UPHO,  KC_J,  KC_L,  KC_U,  KC_Y, KC_SCOLON, KC_ESC,
     KC_A,  KC_R,  KC_S,  KC_T,  KC_D, KC_DNEN,  KC_H,  KC_N,  KC_E,  KC_I, KC_O, KC_NO,
     KC_Z,  LT(_MIDI,KC_X), LSFT_T(KC_C), KC_V,  KC_B, KC_ALLK, KC_K, KC_M,  RSFT_T(KC_COMM), KC_DOT, KC_SLSH, KC_ENTER,
     XXXXXXX, XXXXXXX, LT(_EDIT,KC_TAB), KC_LALT, KC_SPACE, KC_BSPC, KC_NO, KC_RCTL, KC_RALT, XXXXXXX, XXXXXXX, XXXXXXX
@@ -224,11 +224,28 @@ static uint8_t layer_lock;
   if(false_def && biton32(layer_state) != layer_lock) {
     layer_on(layer_lock);
   }
-  if(alt_lock && !(keyboard_report->mods & MOD_BIT(KC_LALT)) ) {
+  if(alt_lock && !(get_mods() & MOD_BIT(KC_LALT)) ) {
     register_code(KC_LALT);
   }
 
   switch(keycode) {
+// layer switch w/shift
+    case KC_P : case KC_L:
+      if (record->event.pressed){
+        key_timer = timer_read();
+        if (get_mods() & MOD_BIT(KC_LSFT) || get_mods() & MOD_BIT(KC_RSFT)){
+        layer_on(_SYM);
+	} else {
+        layer_on(_NUM);
+	}
+      } else {
+	layer_clear();
+        if (timer_elapsed(key_timer) < TAPPING_TERM) {   
+          tap_code(keycode);
+        }
+      }
+      return false;
+	break;
 // One key pgup/home
     case KC_UPHO:
       if (record->event.pressed){
@@ -241,7 +258,7 @@ static uint8_t layer_lock;
 	PLAY_SONG(homeb);
 #endif
       } else {                               
-        if (keyboard_report->mods & MOD_BIT(KC_LALT)) {
+        if (get_mods() & MOD_BIT(KC_LALT)) {
 	  clear_mods();
 	  tap_code(KC_INSERT);
 	  register_code(KC_LALT);
@@ -263,7 +280,7 @@ static uint8_t layer_lock;
 	PLAY_SONG(endb);
 #endif
       } else {                               
-        if (keyboard_report->mods & MOD_BIT(KC_LALT)) {
+        if (get_mods() & MOD_BIT(KC_LALT)) {
 	  clear_mods();
 	  tap_code(KC_DELETE);
 	  register_code(KC_LALT);
@@ -349,7 +366,7 @@ static uint8_t layer_lock;
 // caps sounds and layer locking
     case KC_ALLK:
       if(record->event.pressed) {
-if (keyboard_report->mods & MOD_BIT(KC_RCTL)) {
+if (get_mods() & MOD_BIT(KC_RCTL)) {
 	    tap_code(KC_CLCK);
 #ifdef AUDIO_ENABLE
 	  stop_all_notes();
@@ -375,9 +392,9 @@ if (keyboard_report->mods & MOD_BIT(KC_RCTL)) {
 
        } else {
 	       allkon = true;
-        if (keyboard_report->mods & MOD_BIT(KC_LALT)) {
+        if (get_mods() & MOD_BIT(KC_LALT)) {
 	  alt_lock = true;
-//    register_code(KC_LALT);
+    register_code(KC_LALT);
 #ifdef AUDIO_ENABLE
 	  stop_all_notes();
 	  PLAY_SONG(lockon);

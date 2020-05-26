@@ -31,6 +31,42 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 static uint16_t key_timer;
 
 		switch (keycode) {
+// layer switch w/shift
+    case KC_P : case KC_L:
+      if (record->event.pressed){
+        key_timer = timer_read();
+        if (get_mods() & MOD_BIT(KC_LSFT) || get_mods() & MOD_BIT(KC_RSFT)){
+	clear_mods();
+        register_code(KC_LSFT);
+	}
+        layer_on(NUM);
+      } else {
+	layer_clear();
+        unregister_code(KC_LSFT);
+        if (timer_elapsed(key_timer) < TAPPING_TERM) {   
+          tap_code(keycode);
+        }
+      }
+      return false;
+	break;
+// layer switch w/shift
+    case KC_T :
+      if (record->event.pressed){
+        key_timer = timer_read();
+        if (get_mods() & MOD_BIT(KC_LSFT) || get_mods() & MOD_BIT(KC_RSFT)){
+	clear_mods();
+        register_code(KC_LSFT);
+	}
+        layer_on(NAV);
+      } else {
+	layer_clear();
+        unregister_code(KC_LSFT);
+        if (timer_elapsed(key_timer) < TAPPING_TERM) {   
+          tap_code(keycode);
+        }
+      }
+      return false;
+	break;
 //------DOUBLE PRESS, with added left navigation, thanks to bbaserdem again.
         case DBL_ANG:
             if( record->event.pressed ) {
@@ -194,18 +230,18 @@ static uint16_t key_timer;
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[HOME] = LAYOUT(
-		KC_Q, LT(MSE,KC_W), LT(NUM,KC_F), LT(NAV,KC_P), KC_G, KC_J, LT(NAV,KC_L), LT(NUM,KC_U), LT(MSE,KC_Y), KC_BSPC,
+		KC_Q, KC_W, KC_F, KC_P, LT(MSE,KC_G), LT(MSE,KC_J), KC_L, KC_U, KC_Y, KC_BSPC,
 		MT(MOD_LSFT,KC_A), KC_R, KC_S, KC_T, KC_D, KC_H, KC_N, KC_E, KC_I, MT(MOD_RSFT,KC_O),
-		MT(MOD_LCTL,KC_Z), MT(MOD_LALT,KC_X), KC_C, KC_V, KC_SPC, KC_K, MT(MOD_RCTL,KC_M), MT(MOD_RALT,KC_B)),
+		KC_Z, MT(MOD_LCTL,KC_X), MT(MOD_LALT,KC_C), KC_V, KC_SPC, MT(MOD_RCTL,KC_K), MT(MOD_RALT,KC_M)), KC_B,
 
 	[NAV] = LAYOUT(
 		RESET, KC_NO, LM(NUM,MOD_LSFT), KC_INS, KC_UPHO, KC_QUOT, KC_TAB, KC_GRV, KC_BSLS, KC_ESC,
 		LM(NUM,MOD_LSFT), KC_NO, KC_END, KC_DEL, KC_DNEN, KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, KC_ENT,
-		KC_LCTL, KC_LALT, LM(NUM,MOD_LSFT), KC_LGUI, KC_SCLN, KC_COMM, KC_DOT, KC_SLSH),
+		KC_LCTL, KC_LALT, LM(NUM,MOD_LSFT), KC_LGUI, KC_NO, KC_COMM, KC_DOT, KC_SLSH),
 
 	[NUM] = LAYOUT(
-		SC_GCL, SC_GRE, SC_GON, SC_GTB, SC_GNX, DBL_SQR, KC_7, KC_8, KC_9, KC_0,
-		LM(NAV,MOD_LSFT), KC_NO, SC_VIS, SC_VIW, SC_VIQ, KC_EQUAL, KC_4, KC_5, KC_6, KC_MINS,
+		SC_GCL, SC_GRE, SC_GTB, SC_GNX, SC_GON, DBL_SQR, KC_7, KC_8, KC_9, KC_0,
+		LM(NAV,MOD_LSFT), SC_VIS, SC_VIW, SC_VIQ,  KC_SCLN, KC_EQUAL, KC_4, KC_5, KC_6, KC_MINS,
 		RGB_VAI, RGB_VAD, LM(NAV,MOD_LSFT), KC_LGUI, _______, KC_1, KC_2, KC_3),
 
 	[MSE] = LAYOUT(

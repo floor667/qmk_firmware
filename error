@@ -1,0 +1,27 @@
+QMK Firmware 0.7.157
+Making [1mplanck/rev6[0m with keymap [1mfloorw[0m
+
+arm-none-eabi-gcc (Arch Repository) 9.2.0
+Copyright (C) 2019 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+Linking: .build/planck_rev6_floorw.elf                                                              [31;01m[ERRORS][0m
+ | 
+ | /usr/lib/gcc/arm-none-eabi/9.2.0/../../../../arm-none-eabi/bin/ld: .build/obj_planck_rev6_floorw/common/keyboard.o: in function `keyboard_init':
+ | /home/ossur/qmk_firmware/tmk_core/common/keyboard.c:222: undefined reference to `matrix_init'
+ | /usr/lib/gcc/arm-none-eabi/9.2.0/../../../../arm-none-eabi/bin/ld: .build/obj_planck_rev6_floorw/common/keyboard.o: in function `keyboard_task':
+ | /home/ossur/qmk_firmware/tmk_core/common/keyboard.c:292: undefined reference to `matrix_scan'
+ | /usr/lib/gcc/arm-none-eabi/9.2.0/../../../../arm-none-eabi/bin/ld: /home/ossur/qmk_firmware/tmk_core/common/keyboard.c:297: undefined reference to `matrix_get_row'
+ | /usr/lib/gcc/arm-none-eabi/9.2.0/../../../../arm-none-eabi/bin/ld: /home/ossur/qmk_firmware/tmk_core/common/keyboard.c:305: undefined reference to `matrix_print'
+ | /usr/lib/gcc/arm-none-eabi/9.2.0/../../../../arm-none-eabi/bin/ld: .build/obj_planck_rev6_floorw/common/chibios/suspend.o: in function `suspend_wakeup_condition':
+ | /home/ossur/qmk_firmware/tmk_core/common/chibios/suspend.c:79: undefined reference to `matrix_scan'
+ | /usr/lib/gcc/arm-none-eabi/9.2.0/../../../../arm-none-eabi/bin/ld: /home/ossur/qmk_firmware/tmk_core/common/chibios/suspend.c:82: undefined reference to `matrix_get_row'
+ | /usr/lib/gcc/arm-none-eabi/9.2.0/../../../../arm-none-eabi/bin/ld: .build/obj_planck_rev6_floorw/common/bootmagic.o: in function `scan_keycode':
+ | /home/ossur/qmk_firmware/tmk_core/common/bootmagic.c:141: undefined reference to `matrix_get_row'
+ | /usr/lib/gcc/arm-none-eabi/9.2.0/../../../../arm-none-eabi/bin/ld: .build/obj_planck_rev6_floorw/common/bootmagic.o: in function `bootmagic':
+ | /home/ossur/qmk_firmware/tmk_core/common/bootmagic.c:29: undefined reference to `matrix_scan'
+ | collect2: error: ld returned 1 exit status
+ | 
+[31;01mMake finished with errors
+[0m
