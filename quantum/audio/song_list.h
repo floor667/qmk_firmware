@@ -17,8 +17,19 @@
 
 #ifndef SONG_LIST_H
 #define SONG_LIST_H
+#if __GNUC__ > 5  // don't use for older gcc compilers since check isn't supported.
+#    if __has_include("user_song_list.h")
+#        include "user_song_list.h"
+#    endif  // if file exists
+#endif      // __GNUC__
 
 #define NO_SOUND
+
+/* Ode to Joy
+ * Author: Friedrich Schiller
+ + License: Public Domain
+ */
+#define ODE_TO_JOY Q__NOTE(_E4), Q__NOTE(_E4), Q__NOTE(_F4), Q__NOTE(_G4), Q__NOTE(_G4), Q__NOTE(_F4), Q__NOTE(_E4), Q__NOTE(_D4), Q__NOTE(_C4), Q__NOTE(_C4), Q__NOTE(_D4), Q__NOTE(_E4), QD_NOTE(_E4), E__NOTE(_D4), H__NOTE(_D4),
 
 #define ODE_TO_JOY                                          \
     Q__NOTE(_E4), Q__NOTE(_E4), Q__NOTE(_F4), Q__NOTE(_G4), \

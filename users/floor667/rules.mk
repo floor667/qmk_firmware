@@ -1,2 +1,3 @@
-# TAP_DANCE_ENABLE = yes
-# SRC += floor667.c
+ifdef HID
+  SRC += hidden.c
+endif

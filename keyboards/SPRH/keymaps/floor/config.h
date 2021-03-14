@@ -20,11 +20,11 @@
 
 #define MIDI_ADVANCED
 
-#define MOUSEKEY_DELAY             100
+#define MOUSEKEY_DELAY             110
 #define MOUSEKEY_INTERVAL          40
 #define MOUSEKEY_MAX_SPEED         8
 #define MOUSEKEY_TIME_TO_MAX       18
-#define MOUSEKEY_WHEEL_MAX_SPEED   8
+#define MOUSEKEY_WHEEL_MAX_SPEED   6
 #define MOUSEKEY_WHEEL_TIME_TO_MAX 18
 
 #define TAPPING_TERM 432

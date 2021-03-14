@@ -24,6 +24,7 @@ enum custom_keycodes {
   SC_GRE,
   KC_UPHO,
   KC_DNEN,
+  KC_GUCA
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -32,7 +33,7 @@ static uint16_t key_timer;
 
 		switch (keycode) {
 // layer switch w/shift
-    case KC_P : case KC_L:
+    case KC_A: case KC_O:
       if (record->event.pressed){
         key_timer = timer_read();
         if (get_mods() & MOD_BIT(KC_LSFT) || get_mods() & MOD_BIT(KC_RSFT)){
@@ -41,16 +42,16 @@ static uint16_t key_timer;
 	}
         layer_on(NUM);
       } else {
-	layer_clear();
-        unregister_code(KC_LSFT);
+	layer_off(NUM);
         if (timer_elapsed(key_timer) < TAPPING_TERM) {   
           tap_code(keycode);
         }
+        unregister_code(KC_LSFT);
       }
       return false;
 	break;
 // layer switch w/shift
-    case KC_T :
+    case KC_C:
       if (record->event.pressed){
         key_timer = timer_read();
         if (get_mods() & MOD_BIT(KC_LSFT) || get_mods() & MOD_BIT(KC_RSFT)){
@@ -59,11 +60,11 @@ static uint16_t key_timer;
 	}
         layer_on(NAV);
       } else {
-	layer_clear();
-        unregister_code(KC_LSFT);
+	layer_off(NAV);
         if (timer_elapsed(key_timer) < TAPPING_TERM) {   
           tap_code(keycode);
         }
+        unregister_code(KC_LSFT);
       }
       return false;
 	break;
@@ -224,32 +225,46 @@ static uint16_t key_timer;
       }
     }
     break;
+// guictl
+    case KC_GUCA:
+      if(record->event.pressed) {
+	key_timer = timer_read();
+	register_code(KC_RCTL);
+	register_code(KC_RALT);
+      } else {
+	unregister_code(KC_RCTL);
+	unregister_code(KC_RALT);
+        if (timer_elapsed(key_timer) < TAPPING_TERM) {   
+	  tap_code(KC_LGUI);
+	}
+      }
+      break;
 	}
 	return true;
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[HOME] = LAYOUT(
-		KC_Q, KC_W, KC_F, KC_P, LT(MSE,KC_G), LT(MSE,KC_J), KC_L, KC_U, KC_Y, KC_BSPC,
-		MT(MOD_LSFT,KC_A), KC_R, KC_S, KC_T, KC_D, KC_H, KC_N, KC_E, KC_I, MT(MOD_RSFT,KC_O),
-		KC_Z, MT(MOD_LCTL,KC_X), MT(MOD_LALT,KC_C), KC_V, KC_SPC, MT(MOD_RCTL,KC_K), MT(MOD_RALT,KC_M)), KC_B,
+		KC_Q, KC_W, KC_F, KC_P, KC_G, LT(MSE,KC_J), KC_L, KC_U, KC_Y, KC_BSPC,
+		KC_A, KC_R, KC_S, KC_T, KC_D, KC_H, KC_N, KC_E, KC_I, KC_O,
+		KC_Z, MT(MOD_LSFT,KC_X), KC_C, LT(MSE,KC_V), KC_SPC, MT(MOD_RCTL,KC_K), MT(MOD_RSFT,KC_M), KC_B),
 
 	[NAV] = LAYOUT(
-		RESET, KC_NO, LM(NUM,MOD_LSFT), KC_INS, KC_UPHO, KC_QUOT, KC_TAB, KC_GRV, KC_BSLS, KC_ESC,
-		LM(NUM,MOD_LSFT), KC_NO, KC_END, KC_DEL, KC_DNEN, KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, KC_ENT,
-		KC_LCTL, KC_LALT, LM(NUM,MOD_LSFT), KC_LGUI, KC_NO, KC_COMM, KC_DOT, KC_SLSH),
+		KC_NO, KC_NO, RESET, KC_INS, KC_UPHO, KC_QUOT, KC_TAB, KC_GRV, KC_BSLS, KC_ESC,
+		KC_NO, KC_NO, KC_END, KC_DEL, KC_DNEN, KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, KC_ENT,
+		_______, _______, _______, KC_LGUI, KC_NO, KC_COMM, KC_DOT, KC_SLSH),
 
 	[NUM] = LAYOUT(
 		SC_GCL, SC_GRE, SC_GTB, SC_GNX, SC_GON, DBL_SQR, KC_7, KC_8, KC_9, KC_0,
-		LM(NAV,MOD_LSFT), SC_VIS, SC_VIW, SC_VIQ,  KC_SCLN, KC_EQUAL, KC_4, KC_5, KC_6, KC_MINS,
-		RGB_VAI, RGB_VAD, LM(NAV,MOD_LSFT), KC_LGUI, _______, KC_1, KC_2, KC_3),
+		KC_NO, SC_VIS, SC_VIW, SC_VIQ,  KC_SCLN, KC_EQUAL, KC_4, KC_5, KC_6, KC_MINS,
+		OSM(MOD_LCTL), OSM(MOD_LALT), TG(MSE), KC_GUCA, _______, KC_1, KC_2, KC_3),
 
 	[MSE] = LAYOUT(
-		KC_F9, KC_F10, KC_F11, KC_F12, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_WH_U,
-		KC_F5, KC_F6, KC_F7, KC_F8, KC_F5, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_WH_D,
+		KC_F9, KC_F10, KC_F11, KC_F12, KC_NO, TG(MSE), KC_NO, KC_WH_L, KC_WH_R, KC_WH_U,
+		KC_F5, KC_F6, KC_F7, KC_F8, KC_PSCR, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_WH_D,
 		KC_F1, KC_F2, KC_F3, KC_F4, KC_BTN1, KC_BTN2, KC_BTN3, KC_NO),
 };
-
+	
 void matrix_init_user(void) {
 }
 

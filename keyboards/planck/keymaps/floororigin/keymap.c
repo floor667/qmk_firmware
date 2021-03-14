@@ -66,8 +66,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_COLE] = LAYOUT_planck_grid(
     KC_Q,  KC_W,  KC_F, KC_P, KC_G, KC_ESC,  KC_J,  KC_L,  KC_U,  KC_Y, KC_SCLN, KC_BSPC,
     KC_A,  KC_R,  KC_S,  KC_T,  KC_D, KC_QUOT,  KC_H,  KC_N,  KC_E,  KC_I, KC_O, KC_NO,
-    KC_Z,  LT(_MIDI,KC_X), LSFT_T(KC_C), KC_V,  KC_B, KC_ALLK, KC_K, KC_M,  RSFT_T(KC_COMM), KC_DOT, KC_SLSH, KC_ENTER,
-    XXXXXXX, XXXXXXX, LT(_EDIT,KC_TAB), KC_LALT, KC_SPC, KC_NO, KC_DELETE, KC_RCTL, KC_RALT, XXXXXXX, XXXXXXX, XXXXXXX
+    KC_Z,  LT(_MIDI,KC_X), KC_C, KC_V,  KC_B, KC_ALLK, KC_K, KC_M,  KC_COMM, KC_DOT, KC_SLSH, KC_ENTER,
+    XXXXXXX, XXXXXXX, LT(_EDIT,KC_TAB), KC_LALT, LSFT_T(KC_SPC), KC_NO, RSFT_T(KC_DELETE), KC_RCTL, KC_RALT, XXXXXXX, XXXXXXX, XXXXXXX
 ),
 
 [_NUM] = LAYOUT_planck_grid(
@@ -85,9 +85,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 [_EDIT] = LAYOUT_planck_grid(
-    AU_TOG, CK_TOGG, CK_DOWN, CK_UP,  RESET, _______, KC_WH_L, MO_UL, MO_UR, KC_WH_R, KC_WH_U, _______,
-    _______, _______, _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_WH_D, _______,
-    _______, _______, _______, _______, _______, _______, MO_DC, MO_DL, MO_DR, KC_BTN2, KC_BTN3,  _______,
+    _______, _______, _______, _______,  RESET, KC_VOLU, KC_WH_L, MO_UL, MO_UR, KC_WH_R, KC_WH_U, _______,
+    _______, _______, _______, _______, AU_TOG, KC_VOLD, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_WH_D, _______,
+    _______, _______, _______, _______, KC_MUTE, _______, MO_DC, MO_DL, MO_DR, KC_BTN2, KC_BTN3,  _______,
     _______, _______, _______, _______, _______, KC_NO, KC_BTN1, KC_BTN2, _______, _______, _______, _______
 ),
   
@@ -230,7 +230,7 @@ static uint8_t layer_lock;
 
   switch(keycode) {
 // layer switch w/shift
-    case KC_P : case KC_L:
+    case KC_A : case KC_L:
       if (record->event.pressed){
         key_timer = timer_read();
         if (get_mods() & MOD_BIT(KC_LSFT) || get_mods() & MOD_BIT(KC_RSFT)){
