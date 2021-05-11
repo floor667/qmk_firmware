@@ -25,8 +25,6 @@ enum layer_names {
 enum cu_keycode {
     KC_BTNHO,
     MO_DC,
-    GU_NX,
-    GU_PV
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -49,7 +47,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_K, KC_L, KC_M, GU_PV
     ),
     /* layer select */
-    [_GUI] = LAYOUT(
+    [_SEL] = LAYOUT(
         MO(_SEL), TO(_NAV), TO(_MOU), TO(_GUI), KC_NO,
         KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
         KC_NO, RESET, KC_NO, KC_NO
@@ -91,32 +89,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 	        tap_code(KC_BTN1);
 	    }
 	    return false;
-	    break;
-	case GU_NX:
-	    if(record->event.pressed){
-	        tap_code(KC_LGUI);
-	        tap_code(KC_SPC);
-	    }
-	    break;
-	case GU_PV:
-	    if(record->event.pressed){
-	        tap_code(KC_LGUI);
-	        tap_code(KC_P);
-	    }
-	    break;
-	case GU_TA:
-	    if(record->event.pressed){
-	        tap_code(KC_LGUI);
-	        tap_code(KC_TAB);
-	    }
-	    break;
-	case GU_PT:
-	    if(record->event.pressed){
-	        tap_code(KC_LGUI);
-		register_code(KC_LALT);
-	        tap_code(KC_TAB);
-		unregister_code(KC_LALT);
-	    }
 	    break;
   }
   return true;

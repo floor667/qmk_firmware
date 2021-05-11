@@ -63,7 +63,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                KC_TAB,    KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,    KC_J,    KC_L,    KC_U,    KC_Y,  KC_SCLN,  KC_BSPC, KC_LBRC, KC_BSLS, \
              KC_ESC,     KC_A,    KC_R,    KC_S,    KC_T,    KC_D,    KC_H,    KC_N,    KC_E,    KC_I,    KC_O, KC_QUOT,       KC_ENT,  \
            KC_LSFT,       KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,              KC_RSFT, KC_UP,\
-           MOUS,  MOV, LALT_T(KC_TAB),     KC_MUTE,       LSFT_T(KC_SPC),                    KC_LGUI,       KC_RCTL, KC_RALT,    KC_LOCK, KC_LEFT, KC_DOWN, KC_RIGHT\
+           MOUS,  MOV, LGUI_T(KC_TAB),     KC_MUTE,       LSFT_T(KC_SPC),                    OSM(MOD_RGUI),       KC_RCTL, KC_RALT,    KC_LOCK, KC_LEFT, KC_DOWN, KC_RIGHT\
 				 ),
 				 
     [_QWER] = LAYOUT(/* Base */
@@ -78,8 +78,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                  DBL_GRV,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,    KC_F11, KC_F12,   KC_DEL, \
              _______,    SC_SCTAB, C(KC_W), SC_VIW, SC_VIQ, _______,  DBL_PAR, DBL_SQR, DBL_ANG, _______, KC_UPHO, KC_DEL, _______, KC_INS, \
             _______, SC_GCL, SC_GRE, SC_GNX, SC_GTB, SC_GON, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_DNEN, DBL_QUO,      KC_ENT,  \
-          _______,      _______,  _______,  _______,  _______,  _______,    _______, KC_MINS, KC_EQL,    _______,    _______,    _______, KC_PGUP,\
-            _______,     _______,    _______,  KC_U,        _______,               _______,    _______,       _______,  TG(_MIDI), KC_HOME, KC_PGDN, KC_END\
+          _______,      _______,  _______,  _______,  _______,  _______,    _______, KC_MINS, KC_EQL,    _______,    KC_ESC,    _______, KC_PGUP,\
+            _______,     _______,    _______,  KC_U,        _______,               TG(_NUMB),    _______,       _______,  TG(_MIDI), KC_HOME, KC_PGDN, KC_END\
 				 ),
 
     [_MOUS] = LAYOUT(/* Squeak Squeeek */
@@ -95,7 +95,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
              _______, _______,    _______,   _______,  KC_TILD,    DBL_BRC, DBL_PAR, KC_7, KC_8,  KC_9, KC_0,    KC_BSPC, KC_BRID, KC_BRIU, \
             _______,       _______,    _______,   _______,    _______,   DBL_QUO, KC_EQUAL, KC_4, KC_5, KC_6, KC_MINS,     _______,       KC_ENT,  \
           _______,       _______,    _______,   _______,    _______,    DBL_SQR,  KC_LBRC,  KC_1, KC_2,  KC_3, KC_RBRC, _______, _______,\
-            _______,     _______,    _______,  _______,        _______,     _______,    _______,       _______,  _______, _______,       _______,  _______\
+            _______,     _______,    _______,  _______,        _______,     TG(_NUMB),    KC_DOT,       _______,  _______, _______,       _______,  _______\
 				 ),
 
     [_MIDI] = LAYOUT(/* MIDI */
@@ -123,17 +123,12 @@ static uint16_t key_timer;
     case KC_L:
       if (record->event.pressed){
         key_timer = timer_read();
-        if (get_mods() & MOD_BIT(KC_LSFT) ) {
-		register_code(KC_RSFT);
-	}
         layer_on(_FUNC);
       } else {
 	layer_off(_FUNC);
         if (timer_elapsed(key_timer) < TAPPING_TERM) {   
           tap_code(keycode); 
-          } else {
-	  unregister_code(KC_RSFT);
-	  }
+          }
         }
         return false;
 	break;
@@ -254,7 +249,7 @@ static uint16_t key_timer;
     return false;
     break; 
 // guictlalt
-    case KC_LGUI:
+/*    case KC_LGUI:
       if(record->event.pressed) {
 	key_timer = timer_read();
 	register_code(KC_RCTL);
@@ -267,7 +262,7 @@ static uint16_t key_timer;
 	}
       }
       return false;
-      break;
+      break;*/
 //mouse doubleclick
 	case MO_DC:
       	    if( record->event.pressed ) {

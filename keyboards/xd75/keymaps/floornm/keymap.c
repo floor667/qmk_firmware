@@ -13,8 +13,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "xd75.h"
+#include QMK_KEYBOARD_H
 #include "mousekey.h"
+#include "hidd.c"
 
 // Layer shorthand
 #define _COLE 0
@@ -22,156 +23,58 @@
 #define _SYM 2
 #define _EDIT 3
 
-enum planck_keycodes {
-  SYM = SAFE_RANGE,
-  MO_UL,
+enum _keycodes {
+  MO_UL = SAFE_RANGE,
   MO_UR,
   MO_DL,
   MO_DR,
-  DBL_ANG,
-  DBL_PAR,
-  DBL_SQR,
-  DBL_BRC,
-  DBL_QUO,
-  DBL_DQT,
+  MO_DC,
   SC_VIW,
   SC_VIQ,
-  SC_SCTAB,
-  SC_SCQ
+  MODF,
+  WORD
 };
 
-enum tap_dance {
-  TD_GUIEDIT = 0, 
-  TD_NUMSYM,
-  TD_UPHO,
-  TD_DNEN 
-};
 
-// tapdance..
-void td_numsym_finished (qk_tap_dance_state_t *state, void *user_data) {
-  if (state->count == 1) {
-    if (state->pressed) {
-      layer_on(_NUM);
-    } else {
-      layer_off(_NUM);
-      layer_off(_SYM);
-      layer_off(_EDIT);
-    }
-  } else if (state->count == 2) {
-    if (state->pressed) {
-      layer_on(_SYM);
-    } else {
-      layer_on(_NUM);
-    }
-  } else {
-    layer_on(_SYM);
-  }
-}
+void matrix_init_user(void) {
+  _delay_ms(20); // Gets rid of tick
+  rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING);
+  rgblight_set();
 
-void td_numsym_reset (qk_tap_dance_state_t *state, void *user_data) {
-  if (state->count == 1) {
-    layer_off(_NUM);
-  } else if (state->count == 2) {
-    layer_off(_SYM);
-  } else {
-  }
-}
-
-void td_guiedit_finished (qk_tap_dance_state_t *state, void *user_data) {
-  if (state->count == 1) {
-    if (state->pressed) {
-      layer_on(_EDIT);
-    } else {
-      register_code (KC_LGUI);
-      wait_ms(130);
-      unregister_code (KC_LGUI);
-    }  
-  } else {
-    layer_on(_EDIT);
-  }
-}
-
-void td_guiedit_reset (qk_tap_dance_state_t *state, void *user_data) {
-  if (state->count == 1) {
-    layer_off(_EDIT);
-  } else {
-//    layer_off(_EDIT);
-  }
-}
-
-void td_upho_finished (qk_tap_dance_state_t *state, void *user_data) {
-  if(state->pressed) {
-    register_code(KC_HOME);
-  } else {
-    register_code(KC_PGUP);
-  }
-}
-
-void td_upho_reset (qk_tap_dance_state_t *state, void *user_data) {
-    unregister_code(KC_HOME);
-    unregister_code(KC_PGUP);
-  }
-
-void td_dnen_finished (qk_tap_dance_state_t *state, void *user_data) {
-  if(state->pressed) {
-    register_code(KC_END);
-  } else {
-    register_code(KC_PGDOWN);
-  }
-}
-
-void td_dnen_reset (qk_tap_dance_state_t *state, void *user_data) {
-    unregister_code(KC_END);
-    unregister_code(KC_PGDOWN);
-  }
-
-qk_tap_dance_action_t tap_dance_actions[] = {
- [TD_NUMSYM] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, td_numsym_finished, td_numsym_reset),
- [TD_GUIEDIT] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, td_guiedit_finished, td_guiedit_reset),
- [TD_UPHO]  = ACTION_TAP_DANCE_FN_ADVANCED (NULL, td_upho_finished, td_upho_reset),
- [TD_DNEN]  = ACTION_TAP_DANCE_FN_ADVANCED (NULL, td_dnen_finished, td_dnen_reset)
-};
-
-#define EDIT TG(_EDIT)
-
-#define PHY_DEG UC(0x00b0)
-#define CUR_BIT UC(0x20bf)
-#define CUR_EUR UC(0x20ac)
-#define CUR_BPN UC(0x00a3)
-#define CHA_OM  UC(0x0950)
+};  
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
  [_COLE] = { /* COLEMAK */
-  { MO(_EDIT),  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_MINS, KC_GRV,  KC_EQL,  KC_6,    KC_7,    KC_8,    KC_9,    KC_0, TG(_SYM)  },
-  { KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,    KC_INS, KC_HOME, KC_PGUP, KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCOLON,  KC_BSLS  },
-  { KC_ESC, KC_A,  KC_R,  KC_S,  KC_T,  KC_D,  KC_DEL, KC_END,  KC_PGDN, KC_H,    KC_N,    KC_E,    KC_I,    LALT_T(KC_O), RCTL_T(KC_QUOT)   },
-  { KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_LBRC,  KC_BSLS,   KC_RBRC, KC_K,    KC_M,    KC_COMM, KC_DOT,  LCA_T(KC_SLSH), KC_SFTENT  },
-  { KC_LCTL, KC_LALT, TD(TD_GUIEDIT), TD(TD_NUMSYM), LSFT_T(KC_SPACE), LSFT_T(KC_SPACE),  LSFT_T(KC_SPACE), EDIT, KC_BSPC, KC_BSPC,  KC_BSPC, KC_LEFT, KC_DOWN, KC_UP, KC_RGHT  },
+  { KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_MINS, KC_GRV,  KC_EQL,  KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_BSLS  },
+  { KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,    KC_INS, KC_HOME, KC_PGUP, KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCOLON,  KC_BSPC  },
+  { KC_ESC, KC_A,  KC_R,  KC_S,  KC_T,  KC_D,  KC_DEL, KC_END,  KC_PGDN, KC_H,    KC_N,    KC_E,    KC_I,    KC_O, KC_QUOT  },
+  { KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_LBRC,  KC_BSLS,   KC_RBRC, KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,  RSFT_T(KC_ENT)  },
+  { MO(_EDIT), KC_LCTL, KC_LALT, KC_LGUI, KC_NO, KC_NO, KC_NO,  LSFT_T(KC_SPACE), KC_NO, KC_NO, MODF, KC_LEFT, KC_DOWN, KC_UP, KC_RGHT  },
  },
 
  [_NUM] = { /* FUNCTION */
   { KC_F1,  KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6, KC_PSCR,  KC_SLCK,  KC_PAUS,  KC_F7,    KC_F8,    KC_F9,    KC_F10,    KC_F11,    KC_F12 },
-  { KC_CLCK, _______,  KC_PSCR, KC_SLCK,  KC_PAUS, KC_INS, _______, _______, _______, DBL_PAR, KC_7, KC_8,  KC_9, KC_0, KC_GRV  },
-  { LCTL_T(KC_ESC), LALT_T(PHY_DEG), CUR_BPN, CUR_BIT, CUR_EUR, KC_DEL, _______, _______, _______, DBL_BRC, KC_4, KC_5, KC_6, RALT_T(KC_MINS), RCTL_T(KC_EQUAL)  },
-  { _______, SC_SCTAB, SC_SCQ, _______, SC_VIW, SC_VIQ, _______, _______, _______, DBL_SQR,  KC_1, KC_2,  KC_3, KC_LBRC,  KC_RBRC  },
+  { KC_CAPS, _______,  KC_PSCR, KC_SLCK,  KC_PAUS, KC_INS, _______, _______, _______, _______, KC_7, KC_8,  KC_9, KC_0, KC_GRV  },
+  { CTL_T(KC_ESC), _______, _______, _______, _______, _______, _______, _______, _______,  _______, KC_4, KC_5, KC_6, RALT_T(KC_MINS), RCTL_T(KC_EQUAL)  },
+  { _______, _______, _______, _______, SC_VIW, SC_VIQ, _______, _______, _______,  _______,  KC_1, KC_2,  KC_3, KC_LBRC,  KC_RBRC  },
   { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  },
  },
 
  [_SYM] = { /* FUNCTION */
   { KC_F1,  KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6, KC_PSCR,  KC_SLCK,  KC_PAUS,  KC_F7,    KC_F8,    KC_F9,    KC_F10,    KC_F11,    KC_F12 },
-  { _______, _______, _______, _______, _______, _______, _______, _______, _______, MIDI, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_TILD  },
-  { LCTL_T(KC_CLCK), LALT_T(PHY_DEG), CUR_BPN, CUR_BIT, CUR_EUR, DBL_BRC, _______, _______, _______, KC_INS, KC_DLR, KC_PERC, KC_CIRC, KC_UNDS, KC_PLUS  },
+  { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_TILD  },
+  { CTL_T(KC_ESC), _______, _______, _______, _______, _______,  _______, _______, _______, KC_INS, KC_DLR, KC_PERC, KC_CIRC, KC_UNDS, KC_PLUS  },
   { _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_DEL,  KC_EXLM,  KC_AT, KC_HASH, KC_LCBR,  KC_RCBR  },
   { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  },
  },
 
 [_EDIT] = { /* MOUSE */
-  { _______, _______, _______, _______, _______, _______, KC_PSCR,  KC_SLCK,  KC_PAUS,  _______, _______, _______, _______, _______, RESET },
+  { WORD, _______, _______, _______, _______, _______, KC_PSCR,  KC_SLCK,  KC_PAUS,  _______, _______, _______, _______, _______, RESET },
   { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, MO_UL, MO_UR, _______, KC_WH_U, KC_HOME  },
   { RGB_TOG, RGB_RMOD, RGB_MOD, RGB_SAD, RGB_SAI, _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_WH_D, KC_PGUP  },
   { _______, RGB_HUD, RGB_HUI, RGB_VAD, RGB_VAI, _______, _______, _______, _______, _______, MO_DL,  MO_DR,  KC_BTN2, KC_BTN3, KC_PGDN  },
-  { _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_BTN1, KC_BTN1, _______, _______, _______, _______  },
+  { _______, _______, _______, _______, _______, _______, _______, KC_BTN1, _______, _______, KC_BTN2, _______, _______, _______, _______  },
  }
 
 };
@@ -181,7 +84,83 @@ const uint16_t PROGMEM fn_actions[] = {
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
+
+      //timer
+static uint16_t key_timer;
+static bool ms_lock = false;
+
+  switch(keycode) {
+// layer switch w/shift
+    case KC_A: case KC_O:
+      if (record->event.pressed){
+        key_timer = timer_read();
+        if (get_mods() & MOD_BIT(KC_LSFT) || get_mods() & MOD_BIT(KC_RSFT)){
+        layer_on(_SYM);
+	}
+        layer_on(_NUM);
+      } else {
+	layer_clear();
+        if (timer_elapsed(key_timer) < TAPPING_TERM) {   
+          tap_code(keycode);
+        }
+      }
+      return false;
+	break;
+// Sticky shift
+    case KC_CAPS:
+      if (record->event.pressed){
+        register_code(KC_RSFT);
+      }
+    return false;
+    break;
+// One key left click hold 
+    case KC_BTN1:
+      if(record->event.pressed){
+        key_timer = timer_read();
+	if(!ms_lock) {
+          register_code(KC_BTN1);
+        }
+      } else {
+        if (ms_lock) {
+          ms_lock = false;
+     	  unregister_code(KC_BTN1);
+        } else if (timer_elapsed(key_timer) > TAPPING_TERM) {   
+	  ms_lock = true;
+#ifdef AUDIO_ENABLE
+	  stop_all_notes();
+	  PLAY_SONG(beep);
+#endif   
+       	} else {
+          unregister_code(KC_BTN1);
+        }
+      }
+    return false;
+    break; 
+// guictlalt + lctl
+    case MODF:
+      if(record->event.pressed) {
+	key_timer = timer_read();
+	if (get_mods() & MOD_BIT(KC_LSFT)) {
+	  register_code(KC_RALT);
+	} else { 
+	  register_code(KC_LCTL);
+	}
+      } else {
+	clear_mods();
+          if (timer_elapsed(key_timer) < TAPPING_TERM) {
+	    set_oneshot_mods(MOD_BIT(KC_LGUI));
+	  }
+	}
+      break;
+//mouse doubleclick
+	case MO_DC:
+      	    if( record->event.pressed ) {
+	        tap_code(KC_BTN1);
+	    } else {
+	        tap_code(KC_BTN1);
+	    }
+	    return false;
+	    break;
 //----DIAGONAL MOUSEKEYS thanks to bbaserdem
 #ifdef MOUSEKEY_ENABLE
         case MO_UR:
@@ -233,44 +212,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
 	    break;
 #endif			
-//------DOUBLE PRESS, with added left navigation, thanks to bbaserdem again.
-        case DBL_ANG:
-            if( record->event.pressed ) {
-                SEND_STRING("<>"SS_TAP(X_LEFT));
-            }
-            return false;
-            break;
-        case DBL_PAR:
-            if( record->event.pressed ) {
-                SEND_STRING("()"SS_TAP(X_LEFT));
-            }
-            return false;
-            break;
-        case DBL_SQR:
-            if( record->event.pressed ) {
-                SEND_STRING("[]"SS_TAP(X_LEFT));
-            }
-            return false;
-            break;
-        case DBL_BRC:
-            if( record->event.pressed ) {
-                SEND_STRING("{}"SS_TAP(X_LEFT));
-            }
-            return false;
-            break;
-        case DBL_QUO:
-            if( record->event.pressed ) {
-                SEND_STRING("\'\'"SS_TAP(X_LEFT));
-            }
-            return false;
-            break;
-        case DBL_DQT:
-            if( record->event.pressed ) {
-                SEND_STRING("\"\""SS_TAP(X_LEFT));
-            }
-            return false;
-            break;
-// floor custom
+	case WORD:
+	    if( record->event.pressed ) {
+		SEND_STRING(HIDD);
+	    }
+	    break;
 	case SC_VIW:
 	    if( record->event.pressed ) {
 		register_code(KC_ESCAPE);
@@ -296,35 +242,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 		unregister_code(KC_LSHIFT);
 		register_code(KC_Q);
 		unregister_code(KC_Q);
+		tap_code(KC_A);
 		register_code(KC_ENTER);
 		unregister_code(KC_ENTER);
 	    }
 	    return false;
 	    break;
-	 case SC_SCTAB:
+//doubles on open keys--
+	case KC_LPRN: case KC_LBRC: case KC_LCBR: 
 	    if( record->event.pressed ) {
-		register_code(KC_LCTRL);
-		register_code(KC_A);
-		unregister_code(KC_A);
-		unregister_code(KC_LCTRL);
-		register_code(KC_TAB);
-		unregister_code(KC_TAB);
-	    }
+		key_timer = timer_read();
+	    } else {
+        	if (timer_elapsed(key_timer) > TAPPING_TERM) {   
+                   tap_code(keycode);
+                   tap_code(keycode + 1);
+                   tap_code(KC_LEFT);
+                } else {                               
+	           tap_code(keycode);
+  		}
 	    return false;
-	    break;              
-	 case SC_SCQ:
-	    if( record->event.pressed ) {
-		register_code(KC_LCTRL);
-		register_code(KC_A);
-		unregister_code(KC_A);
-		unregister_code(KC_LCTRL);
-		register_code(KC_BSLASH);
-		unregister_code(KC_BSLASH);
-	    }
-	    return false;
-	    break;              
-	}
+	    break;
+  }
+  }
   return true;
 }
-
 
