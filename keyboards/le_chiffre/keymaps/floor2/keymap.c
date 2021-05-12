@@ -84,8 +84,9 @@ static bool ms_lock = false;
         key_timer = timer_read();
         if (get_mods() & MOD_BIT(KC_LSFT) || get_mods() & MOD_BIT(KC_RSFT)){
         layer_on(_SYM);
-	}
+	} else {
         layer_on(_NUM);
+	}
       } else {
 	layer_clear();
         if (timer_elapsed(key_timer) < TAPPING_TERM) {   
@@ -408,18 +409,20 @@ static bool ms_lock = false;
                    tap_code(KC_LEFT);
                 } else {                               
 	           tap_code(keycode);
-  		}
+		}
 	    }
+	    
 	    return false;
 	    break;
   }
   return true;
-};
+}
 
+  const uint8_t RGBLED_BREATHING_INTERVALS[] PROGMEM = {30, 200, 10, 432, 78, 1142};
 
 // Light LEDs 6 to 9 and 12 to 15 red when caps lock is active. Hard to ignore!
 const rgblight_segment_t PROGMEM capslock_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {1, 1, HSV_RED},       // Light 4 LEDs, starting with LED 6
+    {1, 1, HSV_RED}       // Light 4 LEDs, starting with LED 6
 );
 // Light LEDs 9 & 10 in cyan when keyboard layer 1 is active
 const rgblight_segment_t PROGMEM base_layer[] = RGBLIGHT_LAYER_SEGMENTS(
@@ -431,7 +434,7 @@ const rgblight_segment_t PROGMEM layer2_layer[] = RGBLIGHT_LAYER_SEGMENTS(
 );
 // Light LEDs 13 & 14 in green when keyboard layer 3 is active
 const rgblight_segment_t PROGMEM layer3_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {9, 2, HSV_ROSE}
+    {9, 2, HSV_PINK}
 );
 const rgblight_segment_t PROGMEM layer4_layer[] = RGBLIGHT_LAYER_SEGMENTS(
     {9, 2, HSV_MAGENTA} 
@@ -446,7 +449,7 @@ const rgblight_segment_t* const PROGMEM rgb_layers[] = RGBLIGHT_LAYERS_LIST(
     base_layer,    // Overrides caps lock layer
     capslock_layer,
     layer2_layer,    // overrides other layers
-    layer3_layer     // overrides other layers
+    layer3_layer,     // overrides other layers
     layer4_layer,    // overrides other layers
     layer5_layer     // overrides other layers
 );
