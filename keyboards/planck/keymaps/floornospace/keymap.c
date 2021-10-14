@@ -57,7 +57,11 @@ enum planck_keycodes {
   MAJ_Cs, 
   MAJ_Gs, 
   MAJ_Ds,
-  WORD
+  WORD,
+  WORDT,
+  KC_LSS,
+  KC_LES,
+  MODF
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -65,15 +69,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_COLE] = LAYOUT_planck_grid(
     KC_TAB,  KC_Q,  KC_W,  KC_F, KC_P, KC_G,  KC_J,  KC_L,  KC_U,  KC_Y, KC_SCLN, KC_BSPC,
     KC_ESC,  KC_A,  KC_R,  KC_S,  KC_T,  KC_D,  KC_H,  KC_N,  KC_E,  KC_I, KC_O, KC_ENT,
-    KC_LOCK, KC_Z,  LT(_MIDI,KC_X), KC_C, KC_V,  KC_B,  KC_K, KC_M,  KC_COMM, KC_DOT, KC_UP, KC_SLSH,
-    MO(_EDIT), OSM(MOD_LCTL), OSM(MOD_LALT),  KC_LGUI, KC_NO, LSFT_T(KC_SPC), KC_NO, KC_RSFT, OSM(MOD_RGUI), KC_LEFT, KC_DOWN, KC_RIGHT
+    KC_ALLK, KC_Z,  LT(_MIDI,KC_X), KC_C, KC_V,  KC_B,  KC_K, KC_M, KC_COMM, KC_DOT, KC_UP, KC_SLSH,
+    MO(_EDIT), OSM(MOD_LCTL), OSM(MOD_LALT),  KC_LGUI, KC_NO, KC_LSS, KC_NO, KC_LES, MODF, KC_LEFT, KC_DOWN, KC_RIGHT
 ),
 
 [_NUM] = LAYOUT_planck_grid(
     KC_GRV,  SC_SCQ, SC_VIS, SC_VIW, SC_VIQ, KC_NO,  KC_ESC, KC_7, KC_8,  KC_9, KC_0, _______,
     _______, SC_GCL, SC_GRE, SC_GNX, SC_GTB, SC_GON, KC_EQUAL, KC_4, KC_5, KC_6, KC_MINS, KC_QUOT,
     _______, _______, _______, _______, _______, _______,  KC_LBRC,  KC_1, KC_2,  KC_3, KC_RBRC, KC_BSLS, 
-    _______, _______, _______, _______, _______, _______, _______,  KC_DOT, _______, _______, _______, _______
+    _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______
 ),
 
 [_SYM] = LAYOUT_planck_grid(
@@ -86,14 +90,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_EDIT] = LAYOUT_planck_grid(
     RESET,   KC_NO,   KC_NO,   KC_NO,  _______, KC_VOLU, KC_WH_L, MO_UL, MO_UR, KC_WH_R, KC_WH_U, KC_PGUP,
     AU_TOG, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_VOLD, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_WH_D, KC_PGDN,
-    _______,  WORD, _______, _______, _______, KC_MUTE, MO_DC, MO_DL, MO_DR, KC_BTN2, KC_BTN3,  KC_TAB,
+    _______,  WORD, WORDT, _______, _______, KC_MUTE, MO_DC, MO_DL, MO_DR, KC_BTN2, KC_BTN3,  KC_TAB,
     _______, _______, _______, _______, _______, KC_NO, _______, KC_BTN1, KC_BTN2, _______, _______, _______
 ),
   
 [_MIDI] = LAYOUT_planck_grid(
-      MI_B, MI_Fs, MI_Cs, MI_Gs, MI_Ds, MI_TRNSU, MI_As_2,  MI_B_2,  MI_C_3,  MI_Cs_3, MI_D_3, MI_ALLOFF,
-      MI_B_1,   MI_Fs_1, MI_Cs_1, MI_Gs_1, MI_Ds_1, MI_TRNSD,   MI_F_2,   MI_Fs_2, MI_G_2,    MI_Gs_2,   MI_A_2, KC_ALLK,
-      MAJ_B,   MAJ_Fs, MAJ_Cs, MAJ_Gs, MAJ_Ds, _______,   MI_C_2,   MI_Cs_2, MI_D_2,    MI_Ds_2,   MI_E_2, _______,  
+      MI_TRNSU, MI_B, MI_Fs, MI_Cs, MI_Gs, MI_Ds, MI_As_2,  MI_B_2,  MI_C_3,  MI_Cs_3, MI_D_3, MI_ALLOFF,
+      MI_TRNSD, MI_B_1,   MI_Fs_1, MI_Cs_1, MI_Gs_1, MI_Ds_1,   MI_F_2,   MI_Fs_2, MI_G_2,    MI_Gs_2,   MI_A_2, KC_NO,
+      _______,  MAJ_B,   MAJ_Fs, MAJ_Cs, MAJ_Gs, MAJ_Ds,   MI_C_2,   MI_Cs_2, MI_D_2,    MI_Ds_2,   MI_E_2, _______,  
     _______, _______, XXXXXXX, MI_SUS, MI_VELD, KC_NO, MI_VELU, MI_OCTD, MI_OCTU, _______,_______, _______
 )
   
@@ -152,9 +156,11 @@ void bassoff(uint16_t keycode)
 static bool ms_lock = false;
 static bool false_def = false;
 //static bool shifted_l = false;
-static bool alt_lock = false;
 static bool maj = false;
-static bool allkon = false;
+//static bool allkon = false;
+static bool lsfton = false;
+static bool rsfton = false;
+static bool modshft = false;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
@@ -162,9 +168,100 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 static uint16_t key_timer;
 static uint8_t layer_lock;
 
+  if(false_def && biton32(layer_state) != layer_lock) {
+    layer_on(layer_lock);
+  }
+
   switch(keycode) {
+// guictlalt + lctl
+    case MODF:
+      if(record->event.pressed) {
+	key_timer = timer_read();
+	if (get_mods() & MOD_BIT(KC_LSFT)) {
+	  register_code(KC_RALT);
+	} else { 
+	  register_code(KC_LCTL);
+	}
+      } else {
+	clear_mods();
+	 unregister_code(KC_LCTL);
+          if (timer_elapsed(key_timer) < TAPPING_TERM) {
+	    set_oneshot_mods(MOD_BIT(KC_LGUI));
+	  }
+	}
+      break;
+// layer space shift
+    case KC_LSS:
+      if (record->event.pressed){
+      key_timer = timer_read();
+      lsfton = true;
+      if(modshft) {
+        register_code(KC_NO);
+      } else if(rsfton) {
+        clear_mods();
+        layer_on(_NUM);
+        modshft = true;
+#ifdef AUDIO_ENABLE
+        stop_all_notes();
+	PLAY_SONG(homeb);
+#endif
+      } else {
+        register_code(KC_LSFT);
+      }
+    } else {
+      lsfton = false;
+      if(modshft) {
+        if(!(lsfton || rsfton)) {
+	  layer_clear();
+	  modshft = false;
+        } else {
+	  unregister_code(KC_NO);
+	}
+      } else {
+          unregister_code(KC_LSFT);
+          if (timer_elapsed(key_timer) < TAPPING_TERM) {   
+            tap_code(KC_SPC);
+	  }
+      }
+    }
+    break;
+// layer enter shift
+    case KC_LES:
+      if (record->event.pressed){
+      key_timer = timer_read();
+      rsfton = true;
+      if(modshft) {
+	  register_code(KC_ESC);
+      } else if(lsfton) {
+        clear_mods();
+        layer_on(_SYM);
+        modshft = true;
+#ifdef AUDIO_ENABLE
+        stop_all_notes();
+	PLAY_SONG(endb);
+#endif
+      } else {
+        register_code(KC_RSFT);
+      }
+    } else {
+      rsfton = false;
+      if(modshft) {
+        if(!(lsfton || rsfton)) {
+	  layer_clear();
+	  modshft = false;
+        } else {
+	  unregister_code(KC_ESC);
+	}
+      } else {
+          unregister_code(KC_RSFT);
+          if (timer_elapsed(key_timer) < TAPPING_TERM) {   
+            tap_code(KC_NO);
+	 }
+      }
+    }
+    break;
 //doubles on open keys--
-	case KC_LPRN: case KC_LBRC: case KC_LCBR: 
+/*	case KC_LPRN: case KC_LBRC: case KC_LCBR: 
 	    if( record->event.pressed ) {
 		key_timer = timer_read();
 	    } else {
@@ -177,9 +274,9 @@ static uint8_t layer_lock;
   		}
 	     }
 	    return false;
-	    break;
+	    break;*/
 // layer switch w/shift
-    case KC_A: case KC_O:
+/*    case KC_A: case KC_O:
       if (record->event.pressed){
         key_timer = timer_read();
         if (get_mods() & MOD_BIT(KC_LSFT) || get_mods() & MOD_BIT(KC_RSFT)){
@@ -194,7 +291,7 @@ static uint8_t layer_lock;
         }
       }
       return false;
-	break;
+	break;*/
 // One key pgup/home
     case KC_PGUP:
       if (record->event.pressed){
@@ -202,6 +299,10 @@ static uint8_t layer_lock;
     } else {
       if (timer_elapsed(key_timer) > TAPPING_TERM) {   
 	      tap_code(KC_HOME);
+#ifdef AUDIO_ENABLE
+	  stop_all_notes();
+	  PLAY_SONG(numon);
+#endif   
       } else {                               
 	  tap_code(KC_PGUP);
       }
@@ -215,6 +316,10 @@ static uint8_t layer_lock;
     } else {
       if (timer_elapsed(key_timer) > TAPPING_TERM) {   
         tap_code(KC_END);
+#ifdef AUDIO_ENABLE
+	  stop_all_notes();
+	  PLAY_SONG(numoff);
+#endif   
       } else {                               
 	  tap_code(KC_PGDN);
       }
@@ -247,40 +352,7 @@ static uint8_t layer_lock;
 // caps sounds and layer locking
     case KC_ALLK:
       if(record->event.pressed) {
-if (get_mods() & MOD_BIT(KC_RCTL)) {
-	    tap_code(KC_CLCK);
-#ifdef AUDIO_ENABLE
-	  stop_all_notes();
-	  PLAY_SONG(capsoff);
-#endif   
-	  } else if(allkon) {
-	       allkon = false;
-        if (alt_lock) {
-	  unregister_code(KC_LALT);
-	  alt_lock = false;
-#ifdef AUDIO_ENABLE
-	  stop_all_notes();
-	  PLAY_SONG(lockoff);
-#endif   
-	} else if ( layer_state != _COLE ) {
-	    false_def = false;
-	    layer_off(layer_lock);
-#ifdef AUDIO_ENABLE
-	  stop_all_notes();
-	  PLAY_SONG(lockoff);
-#endif   
-	  } 
-
-       } else {
-	       allkon = true;
-        if (get_mods() & MOD_BIT(KC_LALT)) {
-	  alt_lock = true;
-    register_code(KC_LALT);
-#ifdef AUDIO_ENABLE
-	  stop_all_notes();
-	  PLAY_SONG(lockon);
-#endif   
-	} else if ( layer_state != _COLE ) {
+	  if ( layer_state != _COLE ) {
 	    layer_lock = biton32(layer_state);
 	    layer_clear();
 	    false_def = true;
@@ -296,21 +368,29 @@ if (get_mods() & MOD_BIT(KC_RCTL)) {
 	  PLAY_SONG(lockon);
 #endif   
 	    }
-	   } else {
-	       allkon = false;
-	key_timer = timer_read();
-	register_code(KC_RCTL);
-	register_code(KC_RALT);
-	}
-	} 
-      } else {
-	  unregister_code(KC_RCTL);
-	  unregister_code(KC_RALT);
-          if (timer_elapsed(key_timer) < TAPPING_TERM) {   
-	    tap_code(KC_LGUI);
+	  } else {
+	    register_code(KC_LCAP);
+#ifdef AUDIO_ENABLE
+	  stop_all_notes();
+	  PLAY_SONG(capson);
+#endif   
 	  }
-	}
-     
+      } else {
+	  if ( layer_state != _COLE ) {
+	    false_def = false;
+	    layer_off(layer_lock);
+#ifdef AUDIO_ENABLE
+	  stop_all_notes();
+	  PLAY_SONG(lockoff);
+#endif   
+	  } else {
+	    unregister_code(KC_LCAP);
+#ifdef AUDIO_ENABLE
+	  stop_all_notes();
+	  PLAY_SONG(capsoff);
+#endif   
+	  }
+      }
       return false;
       break;
 //mouse doubleclick
@@ -376,6 +456,11 @@ if (get_mods() & MOD_BIT(KC_RCTL)) {
 	case WORD:
 	    if( record->event.pressed ) {
 		SEND_STRING(HIDD);
+	    }
+	    break;
+	case WORDT:
+	    if( record->event.pressed ) {
+		SEND_STRING(MAIL);
 	    }
 	    break;
 //------DOUBLE PRESS, with added left navigation, thanks to bbaserdem again.

@@ -205,7 +205,7 @@
     E__NOTE(_C4 ),           \
     ED_NOTE(_DS4),	   \
     E__NOTE(_GS4),	   \
-    Q__NOTE(_F4 ),
+    Q__NOTE(_F5 ),
 
 #define CAPS_LOCK_OFF_TWO \
     E__NOTE(_AS4),	     \

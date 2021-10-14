@@ -19,7 +19,6 @@
 #include "hidd.c"
 
 #define _COLE 0
-#define _QWER 1
 #define _FUNC 2
 #define _MOUS 3
 #define _NUMB 4
@@ -52,47 +51,42 @@ enum custom_keycodes {
   SC_GRE,
   KC_UPHO,
   KC_DNEN,
+  KC_LSS,
+  KC_LES,
   MOV,
   MOUS,
-  WORD
+  WORD,
+  WORDT
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_COLE] = LAYOUT(/* Colemak Base */
                  KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,   KC_BSPC, \
                KC_TAB,    KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,    KC_J,    KC_L,    KC_U,    KC_Y,  KC_SCLN,  KC_BSPC, KC_LBRC, KC_BSLS, \
-             KC_ESC,     KC_A,    KC_R,    KC_S,    KC_T,    KC_D,    KC_H,    KC_N,    KC_E,    KC_I,    KC_O, KC_QUOT,       KC_ENT,  \
-           KC_LSFT,       KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,              KC_RSFT, KC_UP,\
-           MOUS,  MOV, LGUI_T(KC_TAB),     KC_MUTE,       LSFT_T(KC_SPC),                    OSM(MOD_RGUI),       KC_RCTL, KC_RALT,    KC_LOCK, KC_LEFT, KC_DOWN, KC_RIGHT\
-				 ),
-				 
-    [_QWER] = LAYOUT(/* Base */
-                 KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,   KC_BSPC, \
-               KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS, \
-             KC_CAPS,     KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,       KC_ENT,  \
-           KC_LSFT,       KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,              KC_RSFT, KC_UP,\
-           MOUS,  KC_LCTL, KC_LALT,     KC_MUTE,       KC_SPC,                    KC_LGUI,       KC_RALT,    KC_LOCK,      KC_MENU, KC_LEFT, KC_DOWN, KC_RIGHT\
+             LCTL_T(KC_ESC),     KC_A,    KC_R,    KC_S,    KC_T,    KC_D,    KC_H,    KC_N,    KC_E,    KC_I,    KC_O, KC_QUOT,       KC_ENT,  \
+           MO(_NUMB),       KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,              KC_LES, KC_UP,\
+           MOUS,  MOV, LGUI_T(KC_TAB),     KC_MUTE,       KC_LSS,                    OSM(MOD_RGUI),       KC_RCTL, KC_RALT,    KC_LOCK, KC_LEFT, KC_DOWN, KC_RIGHT\
 				 ),
 				 
     [_FUNC] = LAYOUT(/* Movement + Shortcuts */
                  DBL_GRV,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,    KC_F11, KC_F12,   KC_DEL, \
-             _______,    SC_SCTAB, C(KC_W), SC_VIW, SC_VIQ, _______,  DBL_PAR, DBL_SQR, DBL_ANG, _______, KC_UPHO, KC_DEL, _______, KC_INS, \
+             _______,    SC_SCTAB, C(KC_W), SC_VIW, SC_VIQ, _______,  DBL_PAR, DBL_SQR, DBL_ANG, DBL_BRC, KC_UPHO, KC_DEL, _______, KC_INS, \
             _______, SC_GCL, SC_GRE, SC_GNX, SC_GTB, SC_GON, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_DNEN, DBL_QUO,      KC_ENT,  \
-          _______,      _______,  _______,  _______,  _______,  _______,    _______, KC_MINS, KC_EQL,    _______,    KC_ESC,    _______, KC_PGUP,\
-            _______,     _______,    _______,  KC_U,        _______,               TG(_NUMB),    _______,       _______,  TG(_MIDI), KC_HOME, KC_PGDN, KC_END\
+          _______,      _______,  _______,  _______,  _______,  _______,    KC_TAB, KC_MINS, KC_EQL,    _______,    KC_ESC,    _______, KC_PGUP,\
+            _______,     _______,    _______,  KC_U,        _______,               _______,    _______,       _______,  TG(_MIDI), KC_HOME, KC_PGDN, KC_END\
 				 ),
 
     [_MOUS] = LAYOUT(/* Squeak Squeeek */
                  KC_GRV,  KC_F13,    KC_F14,    KC_F15,    KC_F16,    KC_F17,    KC_F18,    KC_F19,    KC_F20,    KC_F21,    KC_F22,    KC_F23, KC_F24,   RESET, \
              _______, _______,    _______,   _______,  _______,    KC_MNXT,    _______, MO_UL, MO_UR, KC_WH_L, KC_WH_U, KC_WH_R, KC_BRID, KC_BRIU, \
-            _______,   _______,    _______,  DF(_QWER), DF(_COLE),    KC_MPRV,    KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_WH_D,     _______,       KC_ENT,  \
-          _______,       _______,    _______,   _______,    _______,    KC_MPLY,    MO_DC, MO_DL, MO_DR, KC_BTN2, KC_BTN3,  _______, KC_PGUP,\
+            _______,   _______,    _______,  _______,  _______,    KC_MPRV,    KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_WH_D,     _______,       KC_ENT,  \
+          _______,       _______,    _______,   _______,    _______,    KC_MPLY,    MO_DC, MO_DL, MO_DR, _______, KC_BTN3,  _______, KC_PGUP,\
             _______,     _______,    _______,  _______,        KC_BTN1,               KC_BTN2,    _______,       _______,  _______, KC_HOME, KC_PGDN, KC_END\
 				 ),
 
     [_NUMB] = LAYOUT(
                  WORD,  KC_F13,    KC_F14,    KC_F15,    KC_F16,    KC_F17,    KC_F18,    KC_F19,    KC_F20,    KC_F21,    KC_F22,    KC_F23, KC_F24,   KC_DEL, \
-             _______, _______,    _______,   _______,  KC_TILD,    DBL_BRC, DBL_PAR, KC_7, KC_8,  KC_9, KC_0,    KC_BSPC, KC_BRID, KC_BRIU, \
+            WORDT, _______,    _______,   _______,  KC_TILD,    DBL_BRC, DBL_PAR, KC_7, KC_8,  KC_9, KC_0,    KC_BSPC, KC_BRID, KC_BRIU, \
             _______,       _______,    _______,   _______,    _______,   DBL_QUO, KC_EQUAL, KC_4, KC_5, KC_6, KC_MINS,     _______,       KC_ENT,  \
           _______,       _______,    _______,   _______,    _______,    DBL_SQR,  KC_LBRC,  KC_1, KC_2,  KC_3, KC_RBRC, _______, _______,\
             _______,     _______,    _______,  _______,        _______,     TG(_NUMB),    KC_DOT,       _______,  _______, _______,       _______,  _______\
@@ -111,6 +105,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // mouse lock indicator	
 static bool ms_lock = false;
+static bool lsfton = false;
+static bool rsfton = false;
+static bool modshft = false;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
@@ -119,6 +116,79 @@ static uint16_t key_timer;
 
 
   switch(keycode) {
+// layer space shift
+    case KC_LSS:
+      if (record->event.pressed){
+      key_timer = timer_read();
+      lsfton = true;
+      if(modshft) {
+        register_code(KC_NO);
+      } else if(rsfton) {
+        clear_mods();
+        layer_on(_NUMB);
+        modshft = true;
+#ifdef AUDIO_ENABLE
+        stop_all_notes();
+	PLAY_SONG(homeb);
+#endif
+      } else {
+        register_code(KC_LSFT);
+      }
+    } else {
+      lsfton = false;
+      if(modshft) {
+        if(!(lsfton || rsfton)) {
+	  layer_clear();
+          clear_mods();
+	  modshft = false;
+        } else {
+	  unregister_code(KC_NO);
+	}
+      } else {
+          unregister_code(KC_LSFT);
+          if (timer_elapsed(key_timer) < TAPPING_TERM) {   
+            tap_code(KC_SPC);
+	  }
+      }
+    }
+    break;
+// layer enter shift
+    case KC_LES:
+      if (record->event.pressed){
+      key_timer = timer_read();
+      rsfton = true;
+      if(modshft) {
+	  register_code(KC_ESC);
+      } else if(lsfton) {
+        clear_mods();
+        register_code(KC_LSFT);
+        layer_on(_NUMB);
+        modshft = true;
+#ifdef AUDIO_ENABLE
+        stop_all_notes();
+	PLAY_SONG(endb);
+#endif
+      } else {
+        register_code(KC_RSFT);
+      }
+    } else {
+      rsfton = false;
+      if(modshft) {
+        if(!(lsfton || rsfton)) {
+	  layer_clear();
+          clear_mods();
+	  modshft = false;
+        } else {
+	  unregister_code(KC_ESC);
+	}
+      } else {
+          unregister_code(KC_RSFT);
+          if (timer_elapsed(key_timer) < TAPPING_TERM) {   
+            tap_code(KC_NO);
+	 }
+      }
+    }
+    break;
 // layer switch w/shift
     case KC_L:
       if (record->event.pressed){
@@ -376,6 +446,11 @@ static uint16_t key_timer;
 	case WORD:
 	    if( record->event.pressed ) {
 		SEND_STRING(HIDD);
+	    }
+	    break;
+	case WORDT:
+	    if( record->event.pressed ) {
+		SEND_STRING(MAIL);
 	    }
 	    break;
 // vim and screen shortcuts

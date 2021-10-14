@@ -30,27 +30,27 @@ enum cu_keycode {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* arrow nav */
     [_NAV] = LAYOUT(
-        MO(_SEL), KC_INSERT, KC_HOME, KC_PGUP, KC_DOWN,
-        KC_DELETE, KC_END, KC_PGDN, KC_RIGHT, KC_LEFT,
-        KC_ENT, KC_BSPC, KC_LSFT, KC_UP
+        TO(_SEL), KC_INSERT, KC_HOME, KC_PGUP, KC_UP,
+        KC_DELETE, KC_END, KC_PGDN, KC_LEFT, KC_RIGHT,
+        KC_ENT, KC_LGUI, KC_LSFT, KC_DOWN
     ),
     /* mouse */
     [_MOU] = LAYOUT(
-        MO(_SEL), MO_DC, KC_WH_U, KC_BTN2, KC_MS_D,
-        KC_BTNHO, KC_WH_D, KC_BTN1, KC_MS_R, KC_MS_L,
-        KC_BTN1, KC_WH_L, KC_WH_R, KC_MS_U
+        TO(_SEL), MO_DC, KC_WH_U, KC_BTN2, KC_MS_U,
+        KC_BTNHO, KC_WH_D, KC_BTN1, KC_MS_L, KC_MS_R,
+        KC_BTN1, KC_WH_L, KC_WH_R, KC_MS_D
     ),
     /* gui short */
     [_GUI] = LAYOUT(
-        MO(_SEL), KC_B, KC_C,KC_D, GU_NX,
-        KC_F, KC_G, KC_H, KC_I, KC_J,
-        KC_K, KC_L, KC_M, GU_PV
+        TO(_SEL), G(KC_J), G(KC_L), G(KC_SCLN), G(KC_UP),
+        G(KC_R), G(S(KC_O)), G(KC_P), G(KC_LEFT), G(KC_RIGHT),
+        KC_ENT, G(C(KC_SPACE)), KC_CAPS, G(KC_DOWN)
     ),
     /* layer select */
     [_SEL] = LAYOUT(
-        MO(_SEL), TO(_NAV), TO(_MOU), TO(_GUI), KC_NO,
+        TO(_SEL), TO(_NAV), TO(_MOU), TO(_GUI), KC_NO,
         KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-        KC_NO, RESET, KC_NO, KC_NO
+        KC_NO, RESET, KC_NO, G(C(A(KC_ESC)))
     ),
 };
 

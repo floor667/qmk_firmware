@@ -21,30 +21,35 @@ enum _keycodes {
   MODF,
   NAMS,
   WORD,
-  WORDT
+  WORDT,
+  KC_LSS,
+  KC_LES,
 };
 
+enum _td {
+  CT_MVMT
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_BASE] = LAYOUT(
     KC_Q,  KC_W,  KC_F, KC_P, KC_G, KC_ESC,  KC_J,  KC_L,  KC_U,  KC_Y, KC_BSPC,
     KC_A,  KC_R,  KC_S, KC_T, KC_D,          KC_H,  KC_N,  KC_E,  KC_I, KC_O,
     LT(_MSE,KC_Z),  KC_X,  KC_C, KC_V, KC_B,          KC_K, KC_M,  KC_COMM, KC_DOT, KC_SLSH,
-                        NAMS, LSFT_T(KC_SPC),            KC_RSFT, MODF
+                          TD(CT_MVMT), KC_LSS,            KC_LES, MODF
   ),
 
 [_NUM] = LAYOUT(
     KC_NO, KC_NO, SC_VIW, SC_VIQ, KC_NO, _______, KC_SCLN, KC_7, KC_8,  KC_9, KC_BSPC,
    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,        KC_EQUAL, KC_4, KC_5, KC_6, KC_MINS,
    _______, _______, C(A(KC_C)), C(A(KC_V)), _______,    KC_LBRC,  KC_1, KC_2,  KC_3, KC_RBRC,
-                                KC_CAPS,  _______,            KC_0,  KC_TRNS
+                                KC_CAPS,  _______,            KC_TRNS,  KC_TRNS
   ),
 
 [_SYM] = LAYOUT(
     KC_F9, KC_F10, KC_F11, KC_F12, KC_PSCR, KC_NO, KC_COLON, KC_AMPR, KC_ASTR, S(KC_9), KC_BSPC,
     KC_F5, KC_F6, KC_F7, KC_F8, KC_SLCK,           KC_PLUS, KC_DLR, KC_PERC, KC_CIRC, KC_UNDS,
     KC_F1, KC_F2, KC_F3, KC_F4, KC_PAUS,           S(KC_LBRC),  KC_EXLM,  KC_AT, KC_HASH,  KC_RCBR,
-                        OSM(MOD_LALT), KC_TRNS,           KC_RPRN,  KC_TRNS
+                        OSM(MOD_LALT), KC_TRNS,           KC_TRNS,  KC_TRNS
 ),
 
   [_NAV] = LAYOUT(
@@ -57,14 +62,41 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_MSE] = LAYOUT(
     KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO, KC_NO, KC_WH_L, MO_UL, MO_UR, KC_WH_R, KC_WH_U,
     KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,         KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_WH_D,
-    WORD, WORDT, _______, _______,  RGB_TOG,         MO_DC, MO_DL, MO_DR, KC_BTN2, KC_BTN3,
+    WORD, WORDT, _______, _______,  RGB_TOG,         MO_DC, MO_DL, MO_DR, KC_NO, KC_BTN3,
                                _______, KC_NO,         KC_BTN1, KC_BTN2
 ),
 };
 
-/*static bool lsfton = false;
+void dance_mvmt_finished(qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count == 1) {
+        if (get_mods() & MOD_BIT(KC_LCTL)) {
+	  layer_on(_MSE);
+	  } else if (get_mods() & MOD_BIT(KC_RSFT)) {
+	  register_code(KC_LSFT);
+	  layer_on(_NAV);
+	} else {
+	  layer_on(_NAV);
+        }
+  }
+  if (state->count == 2) {
+    layer_on(_MSE);
+  }
+}
+
+void dance_mvmt_reset(qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count >= 1) {
+  layer_clear();
+  }
+  }
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+    [CT_MVMT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_mvmt_finished, dance_mvmt_reset),
+};
+
+static bool lsfton = false;
 static bool rsfton = false;
-static bool modshft = false;*/
+static bool modshft = false;
+static bool rfrst = false;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
@@ -74,7 +106,7 @@ static bool ms_lock = false;
 
   switch(keycode) {
 // layer switch w/shift
-    case KC_A: case KC_O:
+/*    case KC_A: case KC_O:
       if (record->event.pressed){
         key_timer = timer_read();
         if (get_mods() & MOD_BIT(KC_LSFT) || get_mods() & MOD_BIT(KC_RSFT)){
@@ -82,21 +114,22 @@ static bool ms_lock = false;
 	} else {
         layer_on(_NUM);
 	}
-      } else {
+     <> } else {
 	layer_clear();
         if (timer_elapsed(key_timer) < TAPPING_TERM) {   
           tap_code(keycode);
         }
       }
       return false;
-	break;
+	break; */
 // nav (+ shift) and mouse w/ esc
     case NAMS:
       if (record->event.pressed){
 	key_timer = timer_read();
-        if (get_mods() & MOD_BIT(KC_LCTL)) {
+        if (get_mods() & MOD_BIT(KC_LGUI)) {
+          clear_mods();
 	  layer_on(_MSE);
-	} else if (get_mods() & MOD_BIT(KC_RSFT)) {
+	  } else if (get_mods() & MOD_BIT(KC_RSFT)) {
 	  register_code(KC_LSFT);
 	  layer_on(_NAV);
 	} else {
@@ -110,17 +143,18 @@ static bool ms_lock = false;
       }
       break;
 // layer space shift
-/*    case KC_LSS:
+    case KC_LSS:
       if (record->event.pressed){
       key_timer = timer_read();
       lsfton = true;
       if(modshft) {
 	//register_code(KC_SPC);
-	layer_on(_MSE);
+	register_code(KC_RSFT);
       } else if(rsfton) {
         clear_mods();
         layer_on(_NUM);
         modshft = true;
+        rfrst = true;
 #ifdef AUDIO_ENABLE
         stop_all_notes();
 	PLAY_SONG(homeb);
@@ -135,7 +169,7 @@ static bool ms_lock = false;
 	  layer_clear();
 	  modshft = false;
         } else {
-	  layer_off(_MSE);
+	  
 	}
       } else {
           unregister_code(KC_LSFT);
@@ -151,15 +185,18 @@ static bool ms_lock = false;
       key_timer = timer_read();
       rsfton = true;
       if(modshft) {
-	if(layer_state == _NUM) {
+        key_timer = timer_read();
+	if(rfrst) {
 	  register_code(KC_0);
 	} else {
-	  register_code(KC_RPRN);
+	  register_code(KC_LSFT);
+          register_code(KC_0);
 	}
       } else if(lsfton) {
         clear_mods();
         layer_on(_SYM);
         modshft = true;
+        rfrst = false;
 #ifdef AUDIO_ENABLE
         stop_all_notes();
 	PLAY_SONG(endb);
@@ -174,20 +211,22 @@ static bool ms_lock = false;
 	  layer_clear();
 	  modshft = false;
         } else {
-	if(layer_state == _NUM) {
+	if(rfrst) {
 	  unregister_code(KC_0);
 	} else {
-	  unregister_code(KC_RPRN);
+          unregister_code(KC_0);
+	  unregister_code(KC_LSFT);
+	  
 	}
 	}
       } else {
           unregister_code(KC_RSFT);
           if (timer_elapsed(key_timer) < TAPPING_TERM) {   
-            tap_code(KC_ENT);
+            tap_code(KC_NO);
 	  }
       }
     }
-    break;*/
+    break;
 // Sticky shift
     case KC_CAPS:
       if (record->event.pressed){
@@ -399,7 +438,7 @@ static bool ms_lock = false;
 	    return false;
 	    break;
 //doubles on open keys--
-	case KC_LBRC: case KC_9:
+/*	case KC_LBRC: case KC_9:
 	    if( record->event.pressed ) {
 		key_timer = timer_read();
 	    } else {
@@ -414,7 +453,7 @@ static bool ms_lock = false;
 	    }
 	    
 	    return false;
-	    break;
+	    break;*/
   }
   return true;
 }
@@ -442,7 +481,7 @@ const rgblight_segment_t PROGMEM layer4_layer[] = RGBLIGHT_LAYER_SEGMENTS(
 );
 // Light LEDs 13 & 14 in green when keyboard layer 3 is active
 const rgblight_segment_t PROGMEM layer5_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {9, 1, HSV_GOLDENROD}
+    {9, 1, HSV_BLUE}
 );
 
 // Now define the array of layers. Later layers take precedence
@@ -459,8 +498,8 @@ void keyboard_post_init_user(void) {
     // Enable the LED layers
     rgblight_layers = rgb_layers;
  // rgblight_enable_noeeprom();
-  rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING);
-  rgblight_sethsv_noeeprom(11, 11, 180);
+  rgblight_mode_noeeprom(RGBLIGHT_MODE_RAINBOW_SWIRL);
+  rgblight_sethsv_noeeprom(98, 200, 190);
 }
 
 bool led_update_user(led_t led_state) {
@@ -468,10 +507,10 @@ bool led_update_user(led_t led_state) {
     return true;
 }
 
-layer_state_t default_layer_state_set_user(layer_state_t state) {
+/*layer_state_t default_layer_state_set_user(layer_state_t state) {
     rgblight_set_layer_state(0, layer_state_cmp(state, _BASE));
     return state;
-}
+} */
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     rgblight_set_layer_state(4, layer_state_cmp(state, _NAV));
