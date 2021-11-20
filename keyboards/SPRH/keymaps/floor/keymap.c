@@ -567,7 +567,7 @@ void matrix_scan_user(void) {}
 
 void led_set_user(uint8_t usb_led) {}
 
-void encoder_update_user(uint8_t index, bool clockwise) {
+bool encoder_update_user(uint8_t index, bool clockwise) {
  if (index == 0) {
 	 if (clockwise) {
 	      register_code(KC_VOLU);
@@ -577,4 +577,5 @@ void encoder_update_user(uint8_t index, bool clockwise) {
 	unregister_code(KC_VOLD);
    }
  }
+ return true;
 }
