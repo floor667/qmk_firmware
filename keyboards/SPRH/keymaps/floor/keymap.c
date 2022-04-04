@@ -78,9 +78,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_MOUS] = LAYOUT(/* Squeak Squeeek */
                  KC_GRV,  KC_F13,    KC_F14,    KC_F15,    KC_F16,    KC_F17,    KC_F18,    KC_F19,    KC_F20,    KC_F21,    KC_F22,    KC_F23, KC_F24,   RESET, \
-             _______, _______,    _______,   _______,  _______,    KC_MNXT,    _______, MO_UL, MO_UR, KC_WH_L, KC_WH_U, KC_WH_R, KC_BRID, KC_BRIU, \
-            _______,   _______,    _______,  _______,  _______,    KC_MPRV,    KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_WH_D,     _______,       KC_ENT,  \
-          _______,       _______,    _______,   _______,    _______,    KC_MPLY,    MO_DC, MO_DL, MO_DR, _______, KC_BTN3,  _______, KC_PGUP,\
+             _______, _______,    _______,   _______,  _______,    KC_VOLU,    _______, MO_UL, MO_UR, KC_WH_L, KC_WH_U, KC_WH_R, KC_BRID, KC_BRIU, \
+            _______,   _______,    _______,  _______,  _______,    KC_VOLD,    KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_WH_D,     _______,       KC_ENT,  \
+          _______,       _______,    _______,   _______,    _______,    KC_MUTE,    MO_DC, MO_DL, MO_DR, KC_NO, KC_BTN3,  _______, KC_PGUP,\
             _______,     _______,    _______,  _______,        KC_BTN1,               KC_BTN2,    _______,       _______,  _______, KC_HOME, KC_PGDN, KC_END\
 				 ),
 

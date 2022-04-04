@@ -41,35 +41,35 @@ enum _keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
  [_COLE] = { /* COLEMAK */
-  { KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_MINS, KC_GRV,  KC_EQL,  KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_DEL },
-  { KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,    KC_INS, KC_HOME, KC_PGUP, KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCOLON,  KC_BSPC  },
-  { KC_ESC, KC_A,  KC_R,  KC_S,  KC_T,  KC_D,  KC_DEL, KC_END,  KC_PGDN, KC_H,    KC_N,    KC_E,    KC_I,    KC_O, KC_ENTER  },
-  { KC_CAPS, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_LBRC,  KC_BSLS,   KC_RBRC, KC_K,    KC_M,    KC_COMM, KC_DOT, KC_UP, KC_SLSH  },
-  { MO(_EDIT), KC_LCTL, KC_LALT, KC_LGUI, KC_NO, KC_LSS, KC_NO, TG(_EDIT), KC_NO, KC_LES, KC_LES, MODF, KC_LEFT, KC_DOWN, KC_RGHT  },
+  { KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_INS, KC_DEL,  KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_MINS, KC_EQUAL },
+  { KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,   KC_HOME, KC_PGUP, KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCOLON,  KC_BSPC, KC_BSLS  },
+  { KC_ESC, KC_A,  KC_R,  KC_S,  KC_T,  KC_D,  KC_END,  KC_PGDN, KC_H,    KC_N,    KC_E,    KC_I,    KC_O, KC_QUOT, KC_ENT  },
+  { KC_CAPS, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_LBRC,   KC_RBRC, KC_K,    KC_M,    KC_COMM, KC_DOT, KC_SLSH, KC_UP, KC_GRV  },
+  { MO(_EDIT), KC_RCTL, KC_RALT, KC_RGUI, KC_NO, KC_LSS, KC_NO, KC_NO, KC_LES, KC_LES, OSM(MOD_LGUI), KC_LCTL, KC_LEFT, KC_DOWN, KC_RGHT  },
  },
 
  [_NUM] = { /* FUNCTION */
-  { KC_F1,  KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6, KC_PSCR,  KC_SLCK,  KC_PAUS,  KC_F7,    KC_F8,    KC_F9,    KC_F10,    KC_F11,    KC_F12 },
-  { KC_CAPS, _______,  KC_PSCR, KC_SLCK,  KC_PAUS, KC_INS, _______, _______, _______, KC_GRV, KC_7, KC_8,  KC_9, KC_0, _______  },
-  { CTL_T(KC_ESC), _______, _______, _______, _______, _______, _______, _______, _______,  KC_EQUAL, KC_4, KC_5, KC_6, KC_MINS,  KC_QUOT  },
-  { _______, _______, _______, _______, SC_VIW, SC_VIQ, _______, _______, _______,  KC_LBRC,  KC_1, KC_2,  KC_3, _______,  KC_RBRC  },
+  { KC_F1,  KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6, _______,  KC_F7,    KC_F8,    KC_F9,    KC_F10,    KC_F11,    KC_F12 },
+  { KC_CAPS, _______,  KC_PSCR, KC_SLCK,  KC_PAUS, KC_INS, _______, _______, KC_GRV, KC_7, KC_8,  KC_9, KC_0, _______, _______  },
+  { CTL_T(KC_ESC), _______, _______, _______, _______, _______, _______, _______,  KC_EQUAL, KC_4, KC_5, KC_6, KC_MINS,  KC_DOT, KC_QUOT  },
+  { _______, _______, _______, _______, SC_VIW, SC_VIQ, _______, _______,  KC_LBRC,  KC_1, KC_2,  KC_3,  KC_RBRC,  _______, _______  },
   { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  },
  },
 
  [_SYM] = { /* FUNCTION */
   { KC_F1,  KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6, KC_PSCR,  KC_SLCK,  KC_PAUS,  KC_F7,    KC_F8,    KC_F9,    KC_F10,    KC_F11,    KC_F12 },
-  { _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_TILD, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______  },
-  { CTL_T(KC_ESC), _______, _______, _______, _______, _______,  _______, _______, _______, KC_PLUS, KC_DLR, KC_PERC, KC_CIRC, KC_UNDS, KC_DQT  },
-  { _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_LCBR,  KC_EXLM,  KC_AT, KC_HASH, _______,  KC_RCBR  },
+  { _______, _______, _______, _______, _______, _______, _______, _______, KC_TILD, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______, _______  },
+  { CTL_T(KC_ESC), _______, _______, _______, _______, _______,  _______, _______, KC_PLUS, KC_DLR, KC_PERC, KC_CIRC, KC_UNDS, _______, KC_DQT  },
+  { _______, _______, _______, _______, _______, _______, _______, _______, KC_LCBR,  KC_EXLM,  KC_AT, KC_HASH,  KC_RCBR,  _______,  _______  },
   { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  },
  },
 
 [_EDIT] = { /* MOUSE */
   { WORD, WORDT, _______, _______, _______, _______, KC_PSCR,  KC_SLCK,  KC_PAUS,  _______, _______, _______, _______, _______, RESET },
-  { _______, _______, _______, _______, _______, _______, _______, _______, KC_VOLU, KC_WH_L, MO_UL, MO_UR, KC_WH_R, KC_WH_U, KC_ESC },
-  { RGB_TOG, RGB_RMOD, RGB_MOD, RGB_SAD, RGB_SAI, _______, _______, _______, KC_VOLD, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_WH_D, KC_ENT  },
-  { _______, RGB_HUD, RGB_HUI, RGB_VAD, RGB_VAI, _______, _______, _______, _______, MO_DC, MO_DL,  MO_DR,  KC_BTN2, KC_BTN3, KC_TAB },
-  { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_BTN1, KC_BTN2, _______, _______, _______  },
+  { _______, _______, _______, _______, _______, _______, _______, KC_VOLU, KC_WH_L, MO_UL, MO_UR, KC_WH_R, KC_WH_U, KC_ESC,  _______ },
+  { RGB_TOG, RGB_RMOD, RGB_MOD, RGB_SAD, RGB_SAI, _______, _______, KC_VOLD, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_WH_D, KC_NO, KC_ENT  },
+  { _______, RGB_HUD, RGB_HUI, RGB_VAD, RGB_VAI, _______, _______, _______, MO_DC, MO_DL,  MO_DR,  KC_BTN2, KC_BTN3, KC_TAB, KC_NO },
+  { _______, _______, _______, _______, _______, _______, _______, _______, KC_BTN1, KC_BTN1, KC_BTN2, _______, _______, _______, _______  },
 }
 
 
