@@ -21,7 +21,8 @@
 #define _COLE 0
 #define _NUM 1
 #define _SYM 2
-#define _EDIT 3
+#define _MSE 3
+#define _MOV 4
 
 enum _keycodes {
   MO_UL = SAFE_RANGE,
@@ -31,11 +32,20 @@ enum _keycodes {
   MO_DC,
   SC_VIW,
   SC_VIQ,
+  SC_CTW,
   MODF,
   WORD,
   WORDT,
   KC_LSS,
-  KC_LES
+  KC_LES,
+  KC_LAYR,
+  KC_MLAYR,
+  DBL_PAR,
+  DBL_BRC,
+  DBL_SQR,
+  DBL_QUO,
+  DBL_DQT,
+  DBL_ANG
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -43,35 +53,43 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  [_COLE] = { /* COLEMAK */
   { KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_MINS, KC_GRV,  KC_EQL,  KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_DEL },
   { KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,    KC_INS, KC_HOME, KC_PGUP, KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCOLON,  KC_BSPC  },
-  { KC_ESC, KC_A,  KC_R,  KC_S,  KC_T,  KC_D,  KC_DEL, KC_END,  KC_PGDN, KC_H,    KC_N,    KC_E,    KC_I,    KC_O, KC_ENTER  },
-  { KC_CAPS, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_LBRC,  KC_BSLS,   KC_RBRC, KC_K,    KC_M,    KC_COMM, KC_DOT, KC_UP, KC_SLSH  },
-  { MO(_EDIT), KC_LCTL, KC_LALT, KC_LGUI, KC_NO, KC_LSS, KC_NO, TG(_EDIT), KC_NO, KC_LES, KC_LES, MODF, KC_LEFT, KC_DOWN, KC_RGHT  },
+   { KC_ESC, KC_A,  KC_R,  KC_S,  KC_T,  KC_D,  KC_DEL, KC_END,  KC_PGDN, KC_H,    KC_N,    KC_E,    KC_I,    KC_O, KC_QUOT  },
+  { KC_CAPS, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_LBRC,  KC_BSLS,   KC_RBRC, KC_K,    KC_M,    KC_COMM, KC_DOT, KC_SLSH, KC_ENT},
+  { MO(_MSE), KC_LCTL, KC_LALT, KC_MLAYR,  KC_LAYR, MT(MOD_LSFT,KC_SPC),  MO(_SYM), C(KC_LALT), MO(_SYM), KC_RSFT, KC_LAYR, MODF, KC_LGUI, KC_RCTL, KC_RALT  },
  },
 
  [_NUM] = { /* FUNCTION */
   { KC_F1,  KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6, KC_PSCR,  KC_SLCK,  KC_PAUS,  KC_F7,    KC_F8,    KC_F9,    KC_F10,    KC_F11,    KC_F12 },
-  { KC_CAPS, _______,  KC_PSCR, KC_SLCK,  KC_PAUS, KC_INS, _______, _______, _______, KC_GRV, KC_7, KC_8,  KC_9, KC_0, _______  },
-  { CTL_T(KC_ESC), _______, _______, _______, _______, _______, _______, _______, _______,  KC_EQUAL, KC_4, KC_5, KC_6, KC_MINS,  KC_QUOT  },
-  { _______, _______, _______, _______, SC_VIW, SC_VIQ, _______, _______, _______,  KC_LBRC,  KC_1, KC_2,  KC_3, _______,  KC_RBRC  },
-  { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  },
+  { _______, _______,  _______, SC_VIW,  SC_VIQ, SC_CTW, _______, _______, DBL_PAR, KC_GRV, KC_7, KC_8,  KC_9, KC_0, _______  },
+  { CTL_T(KC_ESC), _______, _______, _______, KC_NO, _______, _______, _______, DBL_SQR,  KC_EQUAL, KC_4, KC_5, KC_6, KC_MINS,  DBL_QUO  },
+  { _______, _______, _______, _______, _______, _______, _______, _______, _______,  KC_LBRC,  KC_1, KC_2,  KC_3,  KC_RBRC, _______  },
+  { _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_DOT, _______,  _______, _______, _______, TG(_SYM)  },
  },
 
  [_SYM] = { /* FUNCTION */
   { KC_F1,  KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6, KC_PSCR,  KC_SLCK,  KC_PAUS,  KC_F7,    KC_F8,    KC_F9,    KC_F10,    KC_F11,    KC_F12 },
-  { _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_TILD, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______  },
-  { CTL_T(KC_ESC), _______, _______, _______, _______, _______,  _______, _______, _______, KC_PLUS, KC_DLR, KC_PERC, KC_CIRC, KC_UNDS, KC_DQT  },
-  { _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_LCBR,  KC_EXLM,  KC_AT, KC_HASH, _______,  KC_RCBR  },
+  { _______, _______, KC_PSCR, KC_SLCK,  KC_PAUS, KC_INS, _______, _______, DBL_PAR, KC_TILD, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______  },
+  { CTL_T(KC_ESC), _______, _______, _______, _______, _______,  _______, _______, DBL_BRC, KC_PLUS, KC_DLR, KC_PERC, KC_CIRC, KC_UNDS, DBL_DQT
+  },
+  { _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_LCBR,  KC_EXLM,  KC_AT, KC_HASH,  KC_RCBR, _______  },
   { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  },
  },
 
-[_EDIT] = { /* MOUSE */
+[_MSE] = { /* MOUSE */
   { WORD, WORDT, _______, _______, _______, _______, KC_PSCR,  KC_SLCK,  KC_PAUS,  _______, _______, _______, _______, _______, RESET },
-  { _______, _______, _______, _______, _______, _______, _______, _______, KC_VOLU, KC_WH_L, MO_UL, MO_UR, KC_WH_R, KC_WH_U, KC_ESC },
-  { RGB_TOG, RGB_RMOD, RGB_MOD, RGB_SAD, RGB_SAI, _______, _______, _______, KC_VOLD, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_WH_D, KC_ENT  },
-  { _______, RGB_HUD, RGB_HUI, RGB_VAD, RGB_VAI, _______, _______, _______, _______, MO_DC, MO_DL,  MO_DR,  KC_BTN2, KC_BTN3, KC_TAB },
-  { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_BTN1, KC_BTN2, _______, _______, _______  },
-}
+  { _______, _______, _______, _______, _______, _______, _______, _______, KC_VOLU, KC_WH_L, MO_UL, MO_UR, KC_WH_R, KC_WH_U, _______ },
+  { RGB_TOG, RGB_RMOD, RGB_MOD, RGB_SAD, RGB_SAI, _______, _______, _______, KC_VOLD, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_WH_D, _______  },
+  { _______, RGB_HUD, RGB_HUI, RGB_VAD, RGB_VAI, _______, _______, _______, _______, MO_DC, MO_DL,  MO_DR,  KC_NO, KC_BTN3, _______ },
+  { _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_BTN1, KC_BTN2,  _______, _______, _______, _______  },
+},
 
+ [_MOV] = { /* movement */
+  { KC_F1,  KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6, KC_PSCR,  KC_SLCK,  KC_PAUS,  KC_F7,    KC_F8,    KC_F9,    KC_F10,    KC_F11,    KC_F12 },
+  { _______, _______, KC_PSCR, KC_SLCK,  KC_PAUS, KC_INS, _______, _______, _______, KC_TILD, KC_END, KC_HOME, KC_NO, KC_PGUP, KC_TAB  },
+  { CTL_T(KC_ESC), _______, _______, _______, KC_NO, _______,  _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_PGDN, KC_ESC  },
+  { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,  KC_VOLD,  KC_VOLU, KC_NO,  KC_NO, KC_ENT  },
+  { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  },
+ }
 
 };
 
@@ -159,6 +177,69 @@ static bool modshft = false;
       }
     }
     break;
+    case KC_LAYR:
+      if (record->event.pressed){
+        if (get_mods() & MOD_BIT(KC_LSFT) || get_mods() & MOD_BIT(KC_RSFT)) {
+          clear_mods();
+          layer_on(_SYM);
+        } else {
+          layer_on(_NUM);
+        }
+      } else {
+        layer_clear();
+      }
+      break;
+    case KC_MLAYR:
+      if (record->event.pressed){
+        if (get_mods() & MOD_BIT(KC_RSFT)) {
+          layer_on(_MOV);
+          register_code(KC_LSFT);
+        } else {
+          layer_on(_MOV);
+        }
+      } else {
+        layer_clear();
+       // clear_mods();
+        unregister_code(KC_LSFT);
+      }
+      break;
+//------DOUBLE PRESS, with added left navigation, thanks to bbaserdem again.
+        case DBL_ANG:
+            if( record->event.pressed ) {
+                SEND_STRING("<>"SS_TAP(X_LEFT));
+            }
+            return false;
+            break;
+        case DBL_PAR:
+            if( record->event.pressed ) {
+                SEND_STRING("()"SS_TAP(X_LEFT));
+            }
+            return false;
+            break;
+        case DBL_SQR:
+            if( record->event.pressed ) {
+                SEND_STRING("[]"SS_TAP(X_LEFT));
+            }
+            return false;
+            break;
+        case DBL_BRC:
+            if( record->event.pressed ) {
+                SEND_STRING("{}"SS_TAP(X_LEFT));
+            }
+            return false;
+            break;
+        case DBL_QUO:
+            if( record->event.pressed ) {
+                SEND_STRING("\'\'"SS_TAP(X_LEFT));
+            }
+            return false;
+            break;
+        case DBL_DQT:
+            if( record->event.pressed ) {
+                SEND_STRING("\"\""SS_TAP(X_LEFT));
+            }
+            return false;
+            break;
 // Sticky shift
     case KC_CAPS:
       if (record->event.pressed){
@@ -306,6 +387,14 @@ static bool modshft = false;
 	    }
 	    return false;
 	    break;
+        case SC_CTW:
+            if( record->event.pressed) {
+                register_code(KC_LCTL);
+                tap_code(KC_W);
+                unregister_code(KC_LCTL);
+            }
+            return false;
+            break;
   }
   return true;
 }

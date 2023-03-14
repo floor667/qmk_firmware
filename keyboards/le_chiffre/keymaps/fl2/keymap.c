@@ -34,7 +34,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_BASE] = LAYOUT(
     KC_Q,  KC_W,  KC_F, KC_P, KC_G, KC_ESC,  KC_J,  KC_L,  KC_U,  KC_Y, KC_BSPC,
     KC_A,  KC_R,  KC_S, KC_T, KC_D,          KC_H,  KC_N,  KC_E,  KC_I, KC_O,
-    LT(_MSE,KC_Z),  KC_X,  KC_C, KC_V, KC_B,          KC_K, KC_M,  KC_COMM, KC_DOT, KC_SLSH,
+    KC_Z,  KC_X,  KC_C, KC_V, KC_B,          KC_K, KC_M,  KC_COMM, KC_DOT, KC_SLSH,
                           TD(CT_MVMT), KC_LSS,            KC_LES, MODF
   ),
 
@@ -120,7 +120,6 @@ static bool ms_lock = false;
           tap_code(keycode);
         }
       }
-      return false;
 	break; */
 // nav (+ shift) and mouse w/ esc
     case NAMS:
@@ -137,7 +136,6 @@ static bool ms_lock = false;
 	}
       } else {
 	layer_clear();
-        unregister_code(KC_LSFT);
         /*if (timer_elapsed(key_timer) < TAPPING_TERM) {   
 	  tap_code(KC_ESC);
 	} */
@@ -155,7 +153,6 @@ static bool ms_lock = false;
         clear_mods();
         layer_on(_NUM);
         modshft = true;
-        rfrst = true;
 #ifdef AUDIO_ENABLE
         stop_all_notes();
 	PLAY_SONG(homeb);
@@ -186,18 +183,17 @@ static bool ms_lock = false;
       key_timer = timer_read();
       rsfton = true;
       if(modshft) {
-        key_timer = timer_read();
-	if(rfrst) {
+	if(layer_state == _NUM) {
 	  register_code(KC_0);
 	} else {
 	  register_code(KC_LSFT);
-          register_code(KC_0);
+          tap_code(KC_0);
+          unregister_code(KC_LSFT);
 	}
       } else if(lsfton) {
         clear_mods();
         layer_on(_SYM);
         modshft = true;
-        rfrst = false;
 #ifdef AUDIO_ENABLE
         stop_all_notes();
 	PLAY_SONG(endb);
@@ -212,11 +208,9 @@ static bool ms_lock = false;
 	  layer_clear();
 	  modshft = false;
         } else {
-	if(rfrst) {
+	if(layer_state == _NUM) {
 	  unregister_code(KC_0);
 	} else {
-          unregister_code(KC_0);
-	  unregister_code(KC_LSFT);
 	  
 	}
 	}
@@ -229,12 +223,12 @@ static bool ms_lock = false;
     }
     break;
 // Sticky shift
-    /*case KC_CAPS:
+    case KC_CAPS:
       if (record->event.pressed){
         register_code(KC_RSFT);
       }
     return false;
-    break;*/
+    break;
 // One key pgup/home
     case KC_PGUP:
       if (record->event.pressed){
@@ -418,6 +412,12 @@ static bool ms_lock = false;
 		register_code(KC_W);
 		unregister_code(KC_W);
 		register_code(KC_ENTER);
+		unregister_code(KC_ENTER);
+	    }
+	    return false;
+	    break;
+	case SC_VIQ:
+	    if( record->event.pressed ) {
 		unregister_code(KC_ENTER);
 	    }
 	    return false;

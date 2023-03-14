@@ -38,21 +38,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_Q,  KC_W,  KC_F, KC_P, KC_G, KC_NO, KC_J,  KC_L,  KC_U,  KC_Y, KC_BSPC, KC_NO,
     KC_A,  KC_R,  KC_S, KC_T, KC_D, KC_NO, KC_H,  KC_N,  KC_E,  KC_I, KC_O, KC_NO,
     KC_Z,  KC_X,  KC_C, KC_V, KC_B, KC_NO, KC_K, KC_M,  KC_COMM, KC_DOT, KC_SLSH, KC_NO,
-    MO(_MSE), KC_RCTL, TD(CT_MVMT), KC_LAYR, MT(MOD_LSFT,KC_SPC), KC_NO, KC_RSFT, KC_LAYR, MODF, KC_LCTL, KC_LALT, KC_NO
+    MO(_MSE), KC_RCTL, TD(CT_MVMT), KC_LAYR, MT(MOD_LSFT,KC_SPC), KC_NO, KC_NO, KC_LAYR, MODF, KC_LCTL, KC_LALT, KC_NO
   ),
 
 [_NUM] = LAYOUT(
     KC_NO, KC_NO, SC_VIW, SC_VIQ, KC_NO, KC_NO, KC_SCLN, KC_7, KC_8,  KC_9, KC_BSPC, KC_NO,
     KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO, KC_EQUAL, KC_4, KC_5, KC_6, KC_MINS, KC_NO,
     _______, _______, C(A(KC_C)), C(A(KC_V)), _______, KC_NO,   KC_LBRC,  KC_1, KC_2,  KC_3, KC_RBRC, KC_NO, 
-    _______, _______, KC_CAPS, _______,  _______, _______, KC_0, KC_TRNS,  KC_TRNS, _______, _______, _______
+    _______, _______, KC_CAPS, _______,  KC_NO, _______, KC_0, KC_TRNS,  KC_TRNS, _______, _______, _______
   ),
 
 [_SYM] = LAYOUT(
     KC_F9, KC_F10, KC_F11, KC_F12, KC_PSCR, KC_NO, KC_COLON, KC_AMPR, KC_ASTR, S(KC_9), KC_BSPC, KC_NO,
     KC_F5, KC_F6, KC_F7, KC_F8, KC_SLCK,  KC_NO,       KC_PLUS, KC_DLR, KC_PERC, KC_CIRC, KC_UNDS, KC_NO,
     KC_F1, KC_F2, KC_F3, KC_F4, KC_PAUS,  KC_NO,         S(KC_LBRC),  KC_EXLM,  KC_AT, KC_HASH,  KC_RCBR, KC_NO,
-    KC_NO, KC_NO, OSM(MOD_LALT), KC_TRNS, _______, KC_NO, S(KC_0), KC_TRNS,  KC_TRNS, KC_NO, KC_NO, KC_NO
+    KC_NO, KC_NO, OSM(MOD_LALT), KC_TRNS, KC_NO, KC_NO, KC_RPAR, KC_TRNS,  KC_TRNS, KC_NO, KC_NO, KC_NO
 ),
 
   [_NAV] = LAYOUT(
@@ -71,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 void dance_mvmt_finished(qk_tap_dance_state_t *state, void *user_data) {
-  if (state->count <= 2) {
+  if (state->count <= 4) {
         if (get_mods() & MOD_BIT(KC_LCTL)) {
 	  layer_on(_MSE);
 	  } else if (get_mods() & MOD_BIT(KC_RSFT)) {
@@ -159,91 +159,6 @@ static bool ms_lock = false;
         layer_clear();
       }
       break;
-// layer space shift
-    case KC_LSS:
-      if (record->event.pressed){
-      key_timer = timer_read();
-      lsfton = true;
-      if(modshft) {
-	//register_code(KC_SPC);
-	register_code(KC_RSFT);
-      } else if(rsfton) {
-        clear_mods();
-        layer_on(_NUM);
-        modshft = true;
-        rfrst = true;
-#ifdef AUDIO_ENABLE
-        stop_all_notes();
-	PLAY_SONG(homeb);
-#endif
-      } else {
-        register_code(KC_LSFT);
-      }
-    } else {
-      lsfton = false;
-      if(modshft) {
-        if(!(lsfton || rsfton)) {
-	  layer_clear();
-	  modshft = false;
-        } else {
-	  
-	}
-      } else {
-          unregister_code(KC_LSFT);
-          if (timer_elapsed(key_timer) < TAPPING_TERM) {   
-            tap_code(KC_SPC);
-	  }
-      }
-    }
-    break;
-// layer enter shift
-    case KC_LES:
-      if (record->event.pressed){
-      key_timer = timer_read();
-      rsfton = true;
-      if(modshft) {
-        key_timer = timer_read();
-	if(rfrst) {
-	  register_code(KC_0);
-	} else {
-	  register_code(KC_LSFT);
-          register_code(KC_0);
-	}
-      } else if(lsfton) {
-        clear_mods();
-        layer_on(_SYM);
-        modshft = true;
-        rfrst = false;
-#ifdef AUDIO_ENABLE
-        stop_all_notes();
-	PLAY_SONG(endb);
-#endif
-      } else {
-        register_code(KC_RSFT);
-      }
-    } else {
-      rsfton = false;
-      if(modshft) {
-        if(!(lsfton || rsfton)) {
-	  layer_clear();
-	  modshft = false;
-        } else {
-	if(rfrst) {
-	  unregister_code(KC_0);
-	} else {
-          unregister_code(KC_0);
-	  unregister_code(KC_LSFT);
-	  
-	}
-	}
-      } else {
-          unregister_code(KC_RSFT);
-          if (timer_elapsed(key_timer) < TAPPING_TERM) {   
-            tap_code(KC_NO);
-	  }
-      }
-    }
-    break;
 // Sticky shift
     case KC_CAPS:
       if (record->event.pressed){
