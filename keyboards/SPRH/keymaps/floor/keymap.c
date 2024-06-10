@@ -25,7 +25,7 @@
 #define _MIDI 5
 
 // Defines the keycodes used by our macros in process_record_user
-enum custom_keycodes { 
+enum custom_keycodes {
   MO_UL = SAFE_RANGE,
   MO_UR,
   MO_DL,
@@ -67,7 +67,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            MO(_NUMB),       KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,              KC_LES, KC_UP,\
            MOUS,  MOV, LGUI_T(KC_TAB),     KC_MUTE,       KC_LSS,                    OSM(MOD_RGUI),       KC_RCTL, KC_RALT,    KC_LOCK, KC_LEFT, KC_DOWN, KC_RIGHT\
 				 ),
-				 
+
     [_FUNC] = LAYOUT(/* Movement + Shortcuts */
                  DBL_GRV,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,    KC_F11, KC_F12,   KC_DEL, \
              _______,    SC_SCTAB, C(KC_W), SC_VIW, SC_VIQ, _______,  DBL_PAR, DBL_SQR, DBL_ANG, DBL_BRC, KC_UPHO, KC_DEL, _______, KC_INS, \
@@ -103,7 +103,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 
-// mouse lock indicator	
+// mouse lock indicator
 static bool ms_lock = false;
 static bool lsfton = false;
 static bool rsfton = false;
@@ -146,7 +146,7 @@ static uint16_t key_timer;
 	}
       } else {
           unregister_code(KC_LSFT);
-          if (timer_elapsed(key_timer) < TAPPING_TERM) {   
+          if (timer_elapsed(key_timer) < TAPPING_TERM) {
             tap_code(KC_SPC);
 	  }
       }
@@ -183,7 +183,7 @@ static uint16_t key_timer;
 	}
       } else {
           unregister_code(KC_RSFT);
-          if (timer_elapsed(key_timer) < TAPPING_TERM) {   
+          if (timer_elapsed(key_timer) < TAPPING_TERM) {
             tap_code(KC_NO);
 	 }
       }
@@ -196,8 +196,8 @@ static uint16_t key_timer;
         layer_on(_FUNC);
       } else {
 	layer_off(_FUNC);
-        if (timer_elapsed(key_timer) < TAPPING_TERM) {   
-          tap_code(keycode); 
+        if (timer_elapsed(key_timer) < TAPPING_TERM) {
+          tap_code(keycode);
           }
         }
         return false;
@@ -237,8 +237,8 @@ static uint16_t key_timer;
         layer_on(_NUMB);
       } else {
 	layer_off(_NUMB);
-        if (timer_elapsed(key_timer) < TAPPING_TERM) {   
-          tap_code(keycode); 
+        if (timer_elapsed(key_timer) < TAPPING_TERM) {
+          tap_code(keycode);
         }
 	unregister_code(KC_LSFT);
       }
@@ -249,9 +249,9 @@ static uint16_t key_timer;
       if (record->event.pressed){
       key_timer = timer_read();
     } else {
-      if (timer_elapsed(key_timer) > TAPPING_TERM) {   
+      if (timer_elapsed(key_timer) > TAPPING_TERM) {
         tap_code(KC_HOME);
-      } else {                               
+      } else {
         if (get_mods() & MOD_BIT(KC_LALT)) {
 	  clear_mods();
 	  tap_code(KC_INSERT);
@@ -267,9 +267,9 @@ static uint16_t key_timer;
       if (record->event.pressed){
       key_timer = timer_read();
     } else {
-      if (timer_elapsed(key_timer) > TAPPING_TERM) {   
+      if (timer_elapsed(key_timer) > TAPPING_TERM) {
         tap_code(KC_END);
-      } else {                               
+      } else {
         if (get_mods() & MOD_BIT(KC_LALT)) {
 	  clear_mods();
 	  tap_code(KC_DELETE);
@@ -285,9 +285,9 @@ static uint16_t key_timer;
       if (record->event.pressed){
       key_timer = timer_read();
     } else {
-      if (timer_elapsed(key_timer) > TAPPING_TERM) {   
+      if (timer_elapsed(key_timer) > TAPPING_TERM) {
         tap_code(KC_RBRC);
-      } else {                               
+      } else {
         if (get_mods() & MOD_BIT(KC_LALT)) {
 	  unregister_code(KC_LALT);
                 SEND_STRING("[]"SS_TAP(X_LEFT));
@@ -299,7 +299,7 @@ static uint16_t key_timer;
     }
     return false;
     break;
-// One key left click hold 
+// One key left click hold
     case KC_BTN1:
       if(record->event.pressed){
         key_timer = timer_read();
@@ -310,14 +310,14 @@ static uint16_t key_timer;
         if (ms_lock) {
           ms_lock = false;
      	  unregister_code(KC_BTN1);
-        } else if (timer_elapsed(key_timer) > TAPPING_TERM) {   
+        } else if (timer_elapsed(key_timer) > TAPPING_TERM) {
 	  ms_lock = true;
        	} else {
           unregister_code(KC_BTN1);
         }
       }
     return false;
-    break; 
+    break;
 // guictlalt
 /*    case KC_LGUI:
       if(record->event.pressed) {
@@ -327,7 +327,7 @@ static uint16_t key_timer;
       } else {
 	unregister_code(KC_RCTL);
 	unregister_code(KC_RALT);
-        if (timer_elapsed(key_timer) < TAPPING_TERM) {   
+        if (timer_elapsed(key_timer) < TAPPING_TERM) {
 	  tap_code(KC_LGUI);
 	}
       }
@@ -392,7 +392,7 @@ static uint16_t key_timer;
 	            }
             return false;
 	    break;
-#endif			
+#endif
 //------DOUBLE PRESS, with added left navigation, thanks to bbaserdem again.
         case DBL_ANG:
             if( record->event.pressed ) {
@@ -495,7 +495,7 @@ static uint16_t key_timer;
 		unregister_code(KC_TAB);
 	    }
 	    return false;
-	    break;              
+	    break;
 	 case SC_SCN:
 	    if( record->event.pressed ) {
 		register_code(KC_LCTRL);
@@ -506,7 +506,7 @@ static uint16_t key_timer;
 		unregister_code(KC_C);
 	    }
 	    return false;
-	    break;              
+	    break;
 	 case SC_SCQ:
 	    if( record->event.pressed ) {
 		register_code(KC_LCTRL);
@@ -517,21 +517,21 @@ static uint16_t key_timer;
 		unregister_code(KC_BSLASH);
 	    }
 	    return false;
-	    break;              
+	    break;
 	  case SC_GNX:
 	    if( record->event.pressed ) {
 	        tap_code(KC_LGUI);
 	        tap_code(KC_SPC);
 		}
 	    return false;
-	    break;              
+	    break;
 	  case SC_GTB:
 	    if( record->event.pressed ) {
 	        tap_code(KC_LGUI);
 		tap_code(KC_TAB);
 		}
 	    return false;
-	    break;              
+	    break;
 	  case SC_GON:
 	    if( record->event.pressed ) {
 	        tap_code(KC_LGUI);
@@ -540,7 +540,7 @@ static uint16_t key_timer;
 		unregister_code(KC_LSFT);
 		}
 	    return false;
-	    break;              
+	    break;
 	  case SC_GRE:
 	    if( record->event.pressed ) {
 	        tap_code(KC_LGUI);
@@ -549,14 +549,14 @@ static uint16_t key_timer;
 		unregister_code(KC_LSFT);
 		}
 	    return false;
-	    break;              
+	    break;
 	  case SC_GCL:
 	    if( record->event.pressed ) {
 	        tap_code(KC_LGUI);
 		tap_code(KC_MINS);
 		}
 	    return false;
-	    break;              
+	    break;
     }
     return true;
 }
@@ -572,7 +572,7 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 	 if (clockwise) {
 	      register_code(KC_VOLU);
 	      unregister_code(KC_VOLU);
- }  else { 
+ }  else {
 	register_code (KC_VOLD);
 	unregister_code(KC_VOLD);
    }

@@ -27,19 +27,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_BASE] = LAYOUT_ortho_3x10(
     KC_Q,  KC_W,  KC_F, KC_P, KC_G, KC_J,  KC_L,  KC_U,  KC_Y, KC_BSPC,
-    KC_A,  KC_R,  LT(_NUM,KC_S),  MT(MOD_LSFT,KC_T), KC_D, KC_H,    MT(MOD_RSFT,KC_N),  LT(_NUM,KC_E),  KC_I, KC_O,
-    LT(_MSE,KC_Z),  MT(MOD_LALT,KC_X), NAMS, KC_V, KC_B, KC_SPC, KC_M, KC_COMM, MT(MOD_LCTL,KC_DOT), MT(MOD_RALT,KC_SLSH)
+    KC_A,  KC_R,  KC_S,  KC_T, KC_D, KC_H,    KC_N, KC_E,  KC_I, KC_O,
+    LT(_NAV,KC_ESC), KC_NO, KC_SPC, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, MT(MOD_LCTL,KC_DOT), KC_NO
   ),
 
   [_NUM] = LAYOUT_ortho_3x10(
     KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8,  KC_9, KC_0,
     KC_Z, KC_X,  KC_C,  KC_V,  KC_B, KC_K, KC_M, KC_COMM, KC_DOT, KC_SLSH,
-    KC_F11, KC_F12, KC_LSFT, _______,  _______, KC_LBRC,  KC_1, KC_2,  KC_3, KC_RBRC
+    LT(_MSE,KC_DASH), KC_NO, KC_TRNS, KC_NO,  KC_NO, KC_NO,  KC_NO, KC_NO,  KC_EQUAL, KC_NO
   ),
 
   [_NAV] = LAYOUT_ortho_3x10(
     RESET,  _______,  SC_VIW,  SC_VIQ,  LCA(KC_ESC), KC_GRV,  KC_PGDN,  KC_PGUP,  KC_NO,   KC_ESC,
-    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT,   KC_ENT,
+    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT,  KC_ENT,
     OSM(MOD_LCTL), OSM(MOD_LALT),  _______,  LM(_NUM,MOD_LSFT), OSM(MOD_LSFT),   KC_QUOT,    KC_VOLD,  KC_VOLU,   KC_BSLS,   KC_TAB
   ),
 

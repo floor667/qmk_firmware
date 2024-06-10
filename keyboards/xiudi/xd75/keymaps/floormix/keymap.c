@@ -34,42 +34,36 @@ enum _keycodes {
   MODF,
   WORD,
   WORDT,
-  KC_LSS,
-  KC_LES
+  KC_DNEN,
+  KC_UPHO,
+  MOV,
+  MOUS
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
  [_COLE] = { /* COLEMAK */
-  { KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_INS, KC_DEL,  KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_MINS, KC_EQUAL },
-  { KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,   KC_HOME, KC_PGUP, KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCOLON,  KC_BSPC, KC_BSLS  },
-  { KC_ESC, KC_A,  KC_R,  KC_S,  KC_T,  KC_D,  KC_END,  KC_PGDN, KC_H,    KC_N,    KC_E,    KC_I,    KC_O, KC_QUOT, KC_ENT  },
-  { KC_CAPS, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_LBRC,   KC_RBRC, KC_K,    KC_M,    KC_COMM, KC_DOT, KC_SLSH, KC_UP, KC_GRV  },
-  { MO(_EDIT), KC_RCTL, KC_RALT, KC_RGUI, KC_NO, KC_LSS, KC_NO, KC_NO, KC_LES, KC_LES, OSM(MOD_LGUI), KC_LCTL, KC_LEFT, KC_DOWN, KC_RGHT  },
+  { KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_0, KC_MINS,  KC_EQUAL,    KC_F7,    KC_F8,    KC_F9,    KC_F10, KC_F11, KC_F12, },
+  { KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,   KC_7,  KC_8, KC_9, KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCOLON,  KC_BSPC, KC_BSLS  },
+  { KC_A,  KC_R,  KC_S,  KC_T,  KC_D,   KC_4,    KC_5,  KC_6, KC_H,    KC_N,    KC_E,    KC_I,    KC_O, KC_QUOT, KC_ENT  },
+  { KC_CAPS, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  KC_1,   KC_2   KC_3, KC_K,    KC_M,    KC_COMM, KC_DOT, KC_SLSH, KC_UP, KC_GRV  },
+  { MOUS, KC_RCTL, MOV, KC_NO, KC_NO, KC_NO, S(KC_SPC), KC_NO, KC_NO, KC_NO, MODF, KC_LALT, KC_LEFT, KC_DOWN, KC_RGHT  },
  },
 
- [_NUM] = { /* FUNCTION */
-  { KC_F1,  KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6, _______,  KC_F7,    KC_F8,    KC_F9,    KC_F10,    KC_F11,    KC_F12 },
-  { KC_CAPS, _______,  KC_PSCR, KC_SLCK,  KC_PAUS, KC_INS, _______, _______, KC_GRV, KC_7, KC_8,  KC_9, KC_0, _______, _______  },
-  { CTL_T(KC_ESC), _______, _______, _______, _______, _______, _______, _______,  KC_EQUAL, KC_4, KC_5, KC_6, KC_MINS,  KC_DOT, KC_QUOT  },
-  { _______, _______, _______, _______, SC_VIW, SC_VIQ, _______, _______,  KC_LBRC,  KC_1, KC_2,  KC_3,  KC_RBRC,  _______, _______  },
+ [_MOV] = { /* FUNCTION */
+  { KC_F1,  KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6, _______,  KC_F7,    KC_F8,    KC_F9,    KC_F10,    KC_INS,    KC_F12 },
+  { _______, _______,  SC_VIW, SC_VIQ,   _______, _______, _______, DBL_PAR, KC_NO, KC_NO, KC_NO,  KC_UPHO,  KC_DEL, DBL_GRV  },
+  { _______, _______, _______, _______, _______, _______, _______, DBL_SQR,  KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_DNEN, DBL_QUO, _______ },
+  { _______, _______, _______, _______, KC_NO, KC_NO, _______, DBL_ANG,  KC_LBRC,  KC_VOLD, KC_VOLU,  KC_NO,  KC_RBRC,  _______, KC_CAPS },
   { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  },
  },
 
- [_SYM] = { /* FUNCTION */
-  { KC_F1,  KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6, KC_PSCR,  KC_SLCK,  KC_PAUS,  KC_F7,    KC_F8,    KC_F9,    KC_F10,    KC_F11,    KC_F12 },
-  { _______, _______, _______, _______, _______, _______, _______, _______, KC_TILD, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______, _______  },
-  { CTL_T(KC_ESC), _______, _______, _______, _______, _______,  _______, _______, KC_PLUS, KC_DLR, KC_PERC, KC_CIRC, KC_UNDS, _______, KC_DQT  },
-  { _______, _______, _______, _______, _______, _______, _______, _______, KC_LCBR,  KC_EXLM,  KC_AT, KC_HASH,  KC_RCBR,  _______,  _______  },
-  { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  },
- },
-
-[_EDIT] = { /* MOUSE */
-  { WORD, WORDT, _______, _______, _______, _______, KC_PSCR,  KC_SLCK,  KC_PAUS,  _______, _______, _______, _______, _______, RESET },
+[_MOUS] = { /* MOUSE */
+  { WORD, WORDT, _______, _______, _______, KC_PSCR,  KC_SLCK,  KC_PAUS, _______, _______, _______, _______, _______, _______, RESET },
   { _______, _______, _______, _______, _______, _______, _______, KC_VOLU, KC_WH_L, MO_UL, MO_UR, KC_WH_R, KC_WH_U, KC_ESC,  _______ },
   { RGB_TOG, RGB_RMOD, RGB_MOD, RGB_SAD, RGB_SAI, _______, _______, KC_VOLD, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_WH_D, KC_NO, KC_ENT  },
   { _______, RGB_HUD, RGB_HUI, RGB_VAD, RGB_VAI, _______, _______, _______, MO_DC, MO_DL,  MO_DR,  KC_BTN2, KC_BTN3, KC_TAB, KC_NO },
-  { _______, _______, _______, _______, _______, _______, _______, _______, KC_BTN1, KC_BTN1, KC_BTN2, _______, _______, _______, _______  },
+  { _______, _______, _______, _______, _______, _______, KC_BTN1, _______, _______,  _______, KC_BTN2, _______, _______, _______, _______  },
 }
 
 
@@ -84,81 +78,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       //timer
 static uint16_t key_timer;
 static bool ms_lock = false;
-static bool lsfton = false;
-static bool rsfton = false;
-static bool modshft = false;
 
   switch(keycode) {
-// layer space shift
-    case KC_LSS:
-      if (record->event.pressed){
-      key_timer = timer_read();
-      lsfton = true;
-      if(modshft) {
-        register_code(KC_NO);
-      } else if(rsfton) {
-        clear_mods();
-        layer_on(_NUM);
-        modshft = true;
-#ifdef AUDIO_ENABLE
-        stop_all_notes();
-	PLAY_SONG(homeb);
-#endif
-      } else {
-        register_code(KC_LSFT);
-      }
-    } else {
-      lsfton = false;
-      if(modshft) {
-        if(!(lsfton || rsfton)) {
-	  layer_clear();
-	  modshft = false;
-        } else {
-	  unregister_code(KC_NO);
-	}
-      } else {
-          unregister_code(KC_LSFT);
-          if (timer_elapsed(key_timer) < TAPPING_TERM) {   
-            tap_code(KC_SPC);
-	  }
-      }
-    }
-    break;
-// layer enter shift
-    case KC_LES:
-      if (record->event.pressed){
-      key_timer = timer_read();
-      rsfton = true;
-      if(modshft) {
-	  register_code(KC_NO);
-      } else if(lsfton) {
-        clear_mods();
-        layer_on(_SYM);
-        modshft = true;
-#ifdef AUDIO_ENABLE
-        stop_all_notes();
-	PLAY_SONG(endb);
-#endif
-      } else {
-        register_code(KC_RSFT);
-      }
-    } else {
-      rsfton = false;
-      if(modshft) {
-        if(!(lsfton || rsfton)) {
-	  layer_clear();
-	  modshft = false;
-        } else {
-	  unregister_code(KC_NO);
-	}
-      } else {
-          unregister_code(KC_RSFT);
-          if (timer_elapsed(key_timer) < TAPPING_TERM) {   
-            tap_code(KC_NO);
-	 }
-      }
-    }
-    break;
 // Sticky shift
     case KC_CAPS:
       if (record->event.pressed){
@@ -166,7 +87,96 @@ static bool modshft = false;
       }
     return false;
     break;
-// One key left click hold 
+
+// layer switch w/shift
+    case KC_L:
+      if (record->event.pressed){
+        key_timer = timer_read();
+        layer_on(_MOV);
+      } else {
+	layer_off(_MOV);
+        if (timer_elapsed(key_timer) < TAPPING_TERM) {
+          tap_code(keycode);
+          }
+        }
+        return false;
+	break;
+    case MOV:
+      if (record->event.pressed){
+        if (get_mods() & MOD_BIT(KC_RSFT) ) {
+		register_code(KC_LSFT);
+	}
+        layer_on(_MOV);
+      } else {
+	layer_off(_r_on(_MOV);
+	unregister_code(KC_LSFT);
+      }
+	break;
+    case MOUS:
+      if (record->event.pressed){
+        if (get_mods() & MOD_BIT(KC_RSFT) ) {
+		register_code(KC_LSFT);
+	}
+        layer_on(_MOUS);
+      } else {
+	layer_off(_MOUS);
+	unregister_code(KC_LSFT);
+      }
+	break;
+// One key pgup/home
+    case KC_UPHO:
+      if (record->event.pressed){
+      key_timer = timer_read();
+    } else {
+      if (timer_elapsed(key_timer) > TAPPING_TERM) {
+        tap_code(KC_HOME);
+      } else {
+        if (get_mods() & MOD_BIT(KC_LALT)) {
+	  clear_mods();
+	  tap_code(KC_INSERT);
+	  register_code(KC_LALT);
+	} else {
+	  tap_code(KC_PGUP);
+	}
+      }
+    }
+    break;
+// One key pgdn/end
+    case KC_DNEN:
+      if (record->event.pressed){
+      key_timer = timer_read();
+    } else {
+      if (timer_elapsed(key_timer) > TAPPING_TERM) {
+        tap_code(KC_END);
+      } else {
+        if (get_mods() & MOD_BIT(KC_LALT)) {
+	  clear_mods();
+	  tap_code(KC_DELETE);
+	  register_code(KC_LALT);
+	} else {
+	  tap_code(KC_PGDN);
+	}
+      }
+    }
+    break;
+// guictlalt + lcl
+    case MODF:
+      if(record->event.pressed) {
+	key_timer = timer_read();
+	if (get_mods() & MOD_BIT(KC_LSFT)) {
+	  register_code(KC_RALT);
+	} else {
+	  register_code(KC_LCTL);
+	}
+      } else {
+	 unregister_code(KC_RALT);
+	 unregister_code(KC_LCTL);
+          if (timer_elapsed(key_timer) < TAPPING_TERM) {
+	    set_oneshot_mods(MOD_BIT(KC_LGUI));
+	  }
+	}
+      break;
+// One key left click hold
     case KC_BTN1:
       if(record->event.pressed){
         key_timer = timer_read();
@@ -177,34 +187,14 @@ static bool modshft = false;
         if (ms_lock) {
           ms_lock = false;
      	  unregister_code(KC_BTN1);
-        } else if (timer_elapsed(key_timer) > TAPPING_TERM) {   
+        } else if (timer_elapsed(key_timer) > TAPPING_TERM) {
 	  ms_lock = true;
-#ifdef AUDIO_ENABLE
-	  stop_all_notes();
-	  PLAY_SONG(beep);
-#endif   
        	} else {
           unregister_code(KC_BTN1);
         }
       }
     return false;
-    break; 
-// guictlalt + lctl
-    case MODF:
-      if(record->event.pressed) {
-	key_timer = timer_read();
-	if (get_mods() & MOD_BIT(KC_LSFT)) {
-	  register_code(KC_RALT);
-	} else { 
-	  register_code(KC_LCTL);
-	}
-      } else {
-	clear_mods();
-          if (timer_elapsed(key_timer) < TAPPING_TERM) {
-	    set_oneshot_mods(MOD_BIT(KC_LGUI));
-	  }
-	}
-      break;
+    break;
 //mouse doubleclick
 	case MO_DC:
       	    if( record->event.pressed ) {
@@ -264,7 +254,42 @@ static bool modshft = false;
 	            }
             return false;
 	    break;
-#endif			
+#endif
+//------DOUBLE PRESS, with added left navigation, thanks to bbaserdem again.
+        case DBL_ANG:
+            if( record->event.pressed ) {
+                SEND_STRING("<>"SS_TAP(X_LEFT));
+            }
+            return false;
+            break;
+        case DBL_PAR:
+            if( record->event.pressed ) {
+                SEND_STRING("()"SS_TAP(X_LEFT));
+            }
+            return false;
+            break;
+        case DBL_SQR:
+            if( record->event.pressed ) {
+                SEND_STRING("[]");
+		unregister_code(KC_LSFT);
+		tap_code(KC_LEFT);
+            }
+            return false;
+            break;
+        case DBL_QUO:
+            if( record->event.pressed ) {
+                SEND_STRING("\'\'"SS_TAP(X_LEFT));
+            }
+            return false;
+            break;
+        case DBL_GRV:
+            if( record->event.pressed ) {
+                tap_code(KC_GRV);
+                tap_code(KC_GRV);
+                tap_code(KC_LEFT);
+            }
+            return false;
+            break;
 	case WORD:
 	    if( record->event.pressed ) {
 		SEND_STRING(HIDD);
@@ -275,6 +300,7 @@ static bool modshft = false;
 		SEND_STRING(MAIL);
 	    }
 	    break;
+// vim and screen shortcuts
 	case SC_VIW:
 	    if( record->event.pressed ) {
 		register_code(KC_ESCAPE);
